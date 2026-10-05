@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RootNamespace>CanliDuvarKagidi.Players</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CanliDuvarKagidi.Core\CanliDuvarKagidi.Core.csproj" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4258.31" />
+  </ItemGroup>
+
+  <!-- .NET WebView2 derlemeleri kok klasore kopyalanmaz: Shell'in yerel WinRT Microsoft.Web.WebView2.Core.dll'i
+       ile ad cakisir. Shell bunlari wv2\ alt klasorune koyar ve calisma aninda oradan yukler. -->
+  <Target Name="ExcludeDuplicateWebView2FromCopyLocal" AfterTargets="ResolveReferences">
+    <ItemGroup>
+      <ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)"
+        Condition="'%(Filename)' == 'Microsoft.Web.WebView2.Core' OR '%(Filename)' == 'Microsoft.Web.WebView2.Wpf' OR '%(Filename)' == 'Microsoft.Web.WebView2.WinForms'" />
+    </ItemGroup>
+  </Target>
+
+</Project>

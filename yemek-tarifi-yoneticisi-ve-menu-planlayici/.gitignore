@@ -1,0 +1,40 @@
+# Dart / Flutter
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+coverage/
+*.iml
+
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Android
+android/.gradle/
+android/local.properties
+android/**/GeneratedPluginRegistrant.java
+android/key.properties
+*.jks
+*.keystore
+
+# iOS / macOS
+ios/.symlinks/
+ios/Pods/
+ios/Flutter/.last_build_id
+ios/Flutter/ephemeral/
+
+# Windows
+windows/flutter/ephemeral/
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+*.log
+
+# Ortam
+.env
+.env.*

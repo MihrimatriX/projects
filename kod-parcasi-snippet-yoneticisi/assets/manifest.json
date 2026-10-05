@@ -1,0 +1,25 @@
+{
+  "id": "kod-parcasi-snippet-yoneticisi",
+  "name": "Kod Parçası Snippet Yöneticisi",
+  "version": "1.1.0",
+  "description": "Kod parçalarını yerelde saklayan, Alt+Shift+S arama paletiyle her yerden kopyalanabilen snippet yöneticisi. Etiket, klasör, yer tutucu ve JSON içe/dışa aktarma destekler.",
+  "platform": "windows",
+  "runtime": "electron",
+  "entry": "electron/main.ts",
+  "runScript": "run.ps1",
+  "icons": {
+    "svg": "assets/icon.svg",
+    "png": "assets/icon.png",
+    "ico": "assets/app.ico"
+  },
+  "hotkey": "Alt+Shift+S",
+  "tags": [
+    "snippet",
+    "kod",
+    "pano",
+    "arama-paleti",
+    "electron",
+    "yerel"
+  ],
+  "category": "Geliştirici Araçları"
+}

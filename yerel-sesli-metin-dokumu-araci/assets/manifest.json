@@ -1,0 +1,16 @@
+{
+  "id": "yerel-sesli-metin-dokumu-araci",
+  "name": "Yerel Sesli Metin Dökümü Aracı",
+  "version": "1.0.0",
+  "description": "Ses dosyalarını faster-whisper ile tamamen bilgisayarınızda Türkçe metne çeviren araç; zaman damgalı transkript, dalga formu oynatıcı ve TXT/SRT/VTT dışa aktarma sunar.",
+  "category": "Medya ve Ekran",
+  "platform": "windows",
+  "runtime": "python3",
+  "entry": "main.py",
+  "runScript": "run.ps1",
+  "icons": {
+    "png": "assets/icon.png",
+    "ico": "assets/icon.ico"
+  },
+  "tags": ["transkripsiyon", "whisper", "ses-metin", "altyazi", "yerel", "pyside6"]
+}

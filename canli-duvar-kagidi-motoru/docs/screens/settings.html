@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ayarlar — Canlı Duvar Kağıdı Motoru</title>
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+</head>
+<body data-page="settings">
+  <div class="win-shell">
+    <div data-shell="titlebar"></div>
+    <div class="app-body">
+      <div data-shell="sidebar"></div>
+      <main class="main-content">
+        <div class="page-header">
+          <h1>Ayarlar</h1>
+          <p>MVP sınırları içinde — güvenilir URL, bellek ve dayanıklılık</p>
+        </div>
+        <div class="settings-grid">
+          <div class="card">
+            <div class="card-header">Katalog kaynağı</div>
+            <div class="card-body">
+              <div class="field">
+                <label class="label" for="catalog-url">JSON katalog URL</label>
+                <input class="input" id="catalog-url" type="url" value="https://cdn.ornek.dev/katalog/v1/manifest.json" />
+              </div>
+              <button class="btn btn-primary" type="button" id="test-catalog">Bağlantıyı test et</button>
+              <p id="catalog-result" class="inline-feedback"></p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">Bellek &amp; performans</div>
+            <div class="card-body">
+              <div class="toggle-row">
+                <div><div class="toggle-label">Web içeriklerde donanım hızlandırma</div></div>
+                <button class="toggle on" type="button" aria-pressed="true"></button>
+              </div>
+              <div class="toggle-row">
+                <div>
+                  <div class="toggle-label">Monitör başına tek WebView2</div>
+                  <div class="toggle-desc">Bellek sınırı — uygulandı</div>
+                </div>
+                <button class="toggle on" type="button" disabled aria-pressed="true" aria-disabled="true"></button>
+              </div>
+              <div class="toggle-row">
+                <div><div class="toggle-label">Arka planda düşük FPS</div></div>
+                <button class="toggle" type="button" aria-pressed="false"></button>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">Dayanıklılık</div>
+            <div class="card-body">
+              <div class="toggle-row">
+                <div>
+                  <div class="toggle-label">Explorer reconnect servisi</div>
+                  <div class="toggle-desc">Shell yeniden başlatma</div>
+                </div>
+                <button class="toggle on" type="button" aria-pressed="true"></button>
+              </div>
+              <div class="toggle-row">
+                <div><div class="toggle-label">Tam ekran uygulamada otomatik duraklat</div></div>
+                <button class="toggle on" type="button" aria-pressed="true"></button>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">MVP dışı (backlog)</div>
+            <div class="card-body muted-body">
+              <p style="margin-bottom:8px"><span class="pill pill-warn">Sonraki faz</span></p>
+              Bulut CDN, hesap/favoriler, shader, workshop, Steam entegrasyonu ve katalog imza doğrulaması bu sürümde kapalı.
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <footer class="statusbar">
+      <span>Sürüm MVP · 2026-06-09</span>
+      <span>WinUI 3 · WebView2</span>
+    </footer>
+  </div>
+  <script src="../js/shell.js"></script>
+  <script src="../js/app.js"></script>
+</body>
+</html>

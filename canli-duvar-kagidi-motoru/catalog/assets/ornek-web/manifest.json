@@ -1,0 +1,8 @@
+{
+  "id": "ornek-web",
+  "title": "Örnek Web Animasyonu",
+  "type": "web",
+  "entry": "index.html",
+  "version": "1.0.0",
+  "description": "HTML/CSS/JS ile basit animasyonlu duvar kağıdı."
+}

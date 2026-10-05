@@ -1,0 +1,38 @@
+name: aliskanlik_takipcisi
+description: "Alışkanlık Takipçisi - Flutter ve Dart ile geliştirilmiş mobil/desktop uygulaması."
+publish_to: 'none'
+version: 0.3.0+2
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^2.5.1
+  go_router: ^18.0.2
+  intl: ^0.20.3
+  shared_preferences: ^2.2.3
+  flutter_local_notifications: ^18.0.1
+  timezone: ^0.10.1
+  share_plus: ^13.3.1
+  home_widget: ^0.7.0
+  google_fonts: ^8.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.3
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  windows:
+    generate: true
+  web:
+    generate: true
+  image_path: assets/branding/icon.png
+
+flutter:
+  uses-material-design: true

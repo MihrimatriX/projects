@@ -1,0 +1,29 @@
+{
+  "name": "ogrenim-pazari-desktop",
+  "productName": "Ogrenim Pazari",
+  "version": "1.1.0",
+  "description": "Ogrenim Pazari - masaustu kabugu",
+  "private": true,
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^42.11.10",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "local.ogrenim-pazari",
+    "productName": "Ogrenim Pazari",
+    "executableName": "OgrenimPazari",
+    "electronLanguages": ["tr", "en-US"],
+    "directories": { "output": "out" },
+    "files": ["main.cjs", "package.json"],
+    "win": { "target": "dir", "icon": "../assets/app.ico" },
+    "npmRebuild": false
+  },
+  "allowScripts": {
+    "electron": true,
+    "electron-winstaller": false
+  }
+}

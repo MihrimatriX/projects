@@ -1,0 +1,4 @@
+# Görsel benzerlik (pHash) ve PDF önizleme — isteğe bağlı
+Pillow>=12.3.0
+ImageHash>=4.3.2
+pypdf>=6.19.0

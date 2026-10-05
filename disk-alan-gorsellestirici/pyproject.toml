@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "disk-alan-gorsellestirici"
+version = "1.1.0"
+description = "Disk Alanı Görselleştirici PySide6 desktop application"
+authors = ["AFU"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11"
+PySide6 = ">=6.11.2"
+send2trash = ">=2.1.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=9.1.1"
+pytest-qt = ">=4.5.0"
+pyinstaller = ">=6.22"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

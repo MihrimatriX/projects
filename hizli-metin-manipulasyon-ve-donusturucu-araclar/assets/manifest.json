@@ -1,0 +1,15 @@
+{
+  "id": "hizli-metin-manipulasyon-ve-donusturucu-araclar",
+  "name": "Metin Dönüştürücü",
+  "version": "1.0.0",
+  "description": "Base64, URL, JWT, hash, JSON, UUID ve Türkçe büyük/küçük harf dahil 29 metin aracı; tüm dönüşümler çevrimdışı ve cihazda yapılır.",
+  "platform": "flutter",
+  "runScript": "run.ps1",
+  "icons": {
+    "svg": "assets/icon.svg",
+    "png": "assets/icon.png",
+    "ico": "assets/app.ico"
+  },
+  "tags": ["metin", "base64", "hash", "json", "dönüştürücü", "çevrimdışı"],
+  "category": "Geliştirici araçları"
+}

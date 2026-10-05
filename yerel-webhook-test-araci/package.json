@@ -1,0 +1,91 @@
+{
+  "name": "yerel-webhook-test-araci",
+  "version": "1.1.0",
+  "description": "Yerel webhook yakalayıcı — mock yanıt, imza doğrulama, SQLite",
+  "private": true,
+  "type": "module",
+  "main": "dist-electron/main.js",
+  "author": "MihrimatriX",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "start": "npm run build && electron .",
+    "test": "vitest run",
+    "preview": "vite preview",
+    "pack": "npm run build && electron-builder --win",
+    "pack:mac": "npm run build && electron-builder --mac",
+    "pack:linux": "npm run build && electron-builder --linux",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.node.json",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@tanstack/react-virtual": "^3.14.13",
+    "better-sqlite3": "^13.0.3",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "electron": "^44.5.1",
+    "electron-builder": "^26.15.3",
+    "rcedit": "^5.0.2",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.2",
+    "vite-plugin-electron": "^1.1.2",
+    "vite-plugin-electron-renderer": "^1.0.0",
+    "vitest": "^5.0.3"
+  },
+  "build": {
+    "appId": "com.hookyerel.app",
+    "productName": "HookYerel",
+    "icon": "assets/icon.png",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "assets/icon.png",
+      "!node_modules/**/*",
+      "node_modules/better-sqlite3/{package.json,LICENSE,lib/**,prebuilds/win32-*.node}"
+    ],
+    "asarUnpack": [
+      "**/node_modules/better-sqlite3/**"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "signAndEditExecutable": false,
+      "icon": "assets/icon.ico"
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.developer-tools"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Development"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "executableName": "HookYerel",
+    "npmRebuild": false
+  },
+  "allowScripts": {
+    "electron": true,
+    "esbuild": true,
+    "better-sqlite3": false,
+    "electron-winstaller": false
+  }
+}

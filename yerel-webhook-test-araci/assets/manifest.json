@@ -1,0 +1,16 @@
+{
+  "id": "yerel-webhook-test-araci",
+  "name": "HookYerel — Yerel Webhook Test Aracı",
+  "version": "1.1.0",
+  "description": "Webhook isteklerini internete açmadan 127.0.0.1 üzerinde yakalayan, mock yanıt veren ve Stripe/GitHub/Shopify imzalarını doğrulayan masaüstü aracı.",
+  "category": "Geliştirici Araçları",
+  "platform": "windows",
+  "runtime": "electron",
+  "entry": "electron/main.ts",
+  "runScript": "run.ps1",
+  "icons": {
+    "png": "assets/icon.png",
+    "ico": "assets/icon.ico"
+  },
+  "tags": ["webhook", "http", "mock", "hmac", "localhost", "electron"]
+}

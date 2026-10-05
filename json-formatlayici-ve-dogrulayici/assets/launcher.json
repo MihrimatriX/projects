@@ -1,0 +1,11 @@
+{
+  "id": "json-formatlayici",
+  "name": "JSON Formatlayıcı",
+  "description": "Yerel JSON laboratuvarı — format, ağaç, JSONPath, şema, diff",
+  "version": "1.4.0",
+  "platform": "web",
+  "runScript": "run.ps1",
+  "url": "http://localhost:3103/lab",
+  "icon": "assets/icon.png",
+  "appIcon": "assets/app.ico"
+}

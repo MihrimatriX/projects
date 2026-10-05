@@ -1,0 +1,20 @@
+{
+  "id": "hizli-dosya-arama-ve-acma-araci",
+  "name": "Hızlı Dosya Arama",
+  "description": "Listary tarzı klavye odaklı dosya launcher — Alt+F ile anında arama ve açma.",
+  "version": "1.0.0",
+  "platform": "windows",
+  "runtime": "dotnet",
+  "entry": "HizliDosyaArama/HizliDosyaArama.csproj",
+  "runScript": "run.ps1",
+  "executable": {
+    "windows": "HizliDosyaArama/bin/Release/net10.0-windows/HizliDosyaArama.exe"
+  },
+  "icons": {
+    "svg": "assets/icon.svg",
+    "png": "assets/icon.png",
+    "ico": "assets/app.ico"
+  },
+  "hotkey": "Alt+F",
+  "tags": ["launcher", "file-search", "spotlight", "listary", "wpf", "windows"]
+}

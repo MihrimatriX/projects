@@ -1,0 +1,357 @@
+<Window x:Class="EkranRenkSecici.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:models="clr-namespace:EkranRenkSecici.Models"
+        Title="Ekran Renk Seçici"
+        Height="720" Width="920"
+        MinHeight="500" MinWidth="700"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource PanelBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <tb:TaskbarIcon x:Name="MyNotifyIcon"
+                        ToolTipText="Ekran Renk Seçici"
+                        LeftClickCommand="{Binding ShowMainWindowCommand}"
+                        NoLeftClickDelay="True"
+                        DoubleClickCommand="{Binding ShowMainWindowCommand}">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu Background="{StaticResource PanelBrush}" Foreground="{StaticResource TextBrush}" BorderBrush="{StaticResource BorderBrush}">
+                    <MenuItem Header="Ekrandan Seç" Command="{Binding StartCaptureCommand}" />
+                    <MenuItem Header="Pencereyi Göster" Command="{Binding ShowMainWindowCommand}" />
+                    <MenuItem Header="Ayarlar" Command="{Binding OpenSettingsCommand}" />
+                    <Separator />
+                    <MenuItem Header="Çıkış" Command="{Binding ExitCommand}" />
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+
+        <!-- Sidebar -->
+        <Border Grid.Row="0" Grid.Column="0"
+                Background="{StaticResource SidebarBrush}"
+                BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,1,0" Padding="20">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+                    <Viewbox Width="24" Height="24" Margin="0,0,10,0">
+                        <Canvas Width="24" Height="24">
+                            <Ellipse Canvas.Left="3" Canvas.Top="3" Width="18" Height="18"
+                                     Stroke="{StaticResource AccentBrush}" StrokeThickness="1.8" Fill="Transparent" />
+                            <Line X1="12" Y1="3" X2="12" Y2="21" Stroke="{StaticResource AccentBrush}" StrokeThickness="1.8" />
+                            <Line X1="3" Y1="12" X2="21" Y2="12" Stroke="{StaticResource AccentBrush}" StrokeThickness="1.8" />
+                        </Canvas>
+                    </Viewbox>
+                    <TextBlock Text="Renk Seçici" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource TextBrush}" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <Button x:Name="CaptureButton" Grid.Row="1" Command="{Binding StartCaptureCommand}" Style="{StaticResource PrimaryButton}"
+                        HorizontalAlignment="Stretch" Margin="0,0,0,10"
+                        AutomationProperties.Name="{Binding HotkeyDisplay, StringFormat=Ekrandan Seç ({0})}">
+                    <!-- StringFormat Content uzerinde calismaz (yalnizca kisayol yaziyordu); TextBlock ile -->
+                    <TextBlock Text="{Binding HotkeyDisplay, StringFormat=Ekrandan Seç ({0})}" />
+                </Button>
+
+                <StackPanel Grid.Row="2" Margin="0,0,0,16">
+                    <Button x:Name="SettingsButton" Content="Ayarlar" Command="{Binding OpenSettingsCommand}"
+                            Style="{StaticResource GhostButton}" HorizontalAlignment="Stretch" Margin="0,0,0,10" />
+                    <TextBox x:Name="ColorInputBox" Text="{Binding ColorInput, UpdateSourceTrigger=PropertyChanged}"
+                             ToolTip="HEX veya rgb() yazıp Enter'a basın (örn. #3B82F6)"
+                             AutomationProperties.Name="Renk kodu gir"
+                             FontFamily="{StaticResource MonoFont}" FontSize="13" Padding="8,6"
+                             Background="#0AFFFFFF" Foreground="{StaticResource TextBrush}" CaretBrush="{StaticResource TextBrush}"
+                             BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Enter" Command="{Binding ApplyColorInputCommand}" />
+                        </TextBox.InputBindings>
+                    </TextBox>
+                    <TextBlock Text="Renk kodu gir: #3B82F6 / rgb(…) + Enter" FontSize="10"
+                               Foreground="{StaticResource MutedBrush}" Margin="2,4,0,0" />
+                </StackPanel>
+
+                <Grid Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Son Yakalananlar" FontSize="12" FontWeight="SemiBold"
+                               Foreground="{StaticResource SubTextBrush}" Margin="0,0,0,10" />
+                    <ListBox x:Name="HistoryList" AutomationProperties.Name="Son yakalananlar"
+                             Grid.Row="1" ItemsSource="{Binding History}" SelectedItem="{Binding SelectedColor}"
+                             Background="Transparent" BorderThickness="0"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="26" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Width="26" Height="26" CornerRadius="13"
+                                            Background="{Binding Brush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Hex}" Margin="10,0,0,0"
+                                               FontFamily="{StaticResource MonoFont}" FontSize="13" FontWeight="SemiBold"
+                                               Foreground="{StaticResource TextBrush}" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="2" Text="{Binding Hsl}" FontFamily="{StaticResource MonoFont}"
+                                               FontSize="10" Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="BorderThickness" Value="0" />
+                                <Setter Property="Padding" Value="8" />
+                                <!-- Ekran okuyucu sinif adi yerine renk kodunu okusun -->
+                                <Setter Property="AutomationProperties.Name" Value="{Binding Hex}" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter TargetName="Bd" Property="Background" Value="{StaticResource CardBrush}" />
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Bd" Property="Background" Value="#0AFFFFFF" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                </Grid>
+
+                <Button x:Name="ClearHistoryButton" Grid.Row="4" Content="Geçmişi temizle" Command="{Binding ClearHistoryCommand}"
+                        Style="{StaticResource TextLinkButton}" />
+            </Grid>
+        </Border>
+
+        <!-- Detail pane -->
+        <Grid Grid.Row="0" Grid.Column="1" Margin="24">
+            <Grid Visibility="{Binding SelectedColor, Converter={StaticResource NullToVisibilityConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="0,0,0,24">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" Height="140" Background="{Binding SelectedColor.Brush}"
+                            CornerRadius="16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="24" Opacity="0.35" ShadowDepth="0" Color="Black" />
+                        </Border.Effect>
+                    </Border>
+                    <StackPanel Grid.Column="1" Margin="24,0,16,0" VerticalAlignment="Center">
+                        <Grid Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="56" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="HEX" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource SubTextBrush}" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{Binding SelectedColor.Hex}" FontFamily="{StaticResource MonoFont}" FontSize="13" Foreground="{StaticResource TextBrush}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                            <Button Grid.Column="2" Content="Kopyala" Style="{StaticResource SmallPrimaryButton}" Command="{Binding CopyFormatCommand}" CommandParameter="{x:Static models:CopyFormat.HEX}" AutomationProperties.Name="HEX kopyala" />
+                        </Grid>
+                        <Grid Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="56" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="RGB" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource SubTextBrush}" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{Binding SelectedColor.Rgb}" FontFamily="{StaticResource MonoFont}" FontSize="13" Foreground="{StaticResource TextBrush}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                            <Button Grid.Column="2" Content="Kopyala" Style="{StaticResource SmallPrimaryButton}" Command="{Binding CopyFormatCommand}" CommandParameter="{x:Static models:CopyFormat.RGB}" AutomationProperties.Name="RGB kopyala" />
+                        </Grid>
+                        <Grid Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="56" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="HSL" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource SubTextBrush}" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{Binding SelectedColor.Hsl}" FontFamily="{StaticResource MonoFont}" FontSize="13" Foreground="{StaticResource TextBrush}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                            <Button Grid.Column="2" Content="Kopyala" Style="{StaticResource SmallPrimaryButton}" Command="{Binding CopyFormatCommand}" CommandParameter="{x:Static models:CopyFormat.HSL}" AutomationProperties.Name="HSL kopyala" />
+                        </Grid>
+                        <Grid Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="56" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="OKLCH" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource SubTextBrush}" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{Binding SelectedColor.Oklch}" FontFamily="{StaticResource MonoFont}" FontSize="13" Foreground="{StaticResource TextBrush}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                            <Button Grid.Column="2" Content="Kopyala" Style="{StaticResource SmallPrimaryButton}" Command="{Binding CopyFormatCommand}" CommandParameter="{x:Static models:CopyFormat.OKLCH}" AutomationProperties.Name="OKLCH kopyala" />
+                        </Grid>
+                        <Grid Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="56" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="CSS" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource SubTextBrush}" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{Binding SelectedColor.CssVariable}" FontFamily="{StaticResource MonoFont}" FontSize="13" Foreground="{StaticResource TextBrush}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                            <Button Grid.Column="2" Content="Kopyala" Style="{StaticResource SmallPrimaryButton}" Command="{Binding CopyFormatCommand}" CommandParameter="{x:Static models:CopyFormat.CSS}" AutomationProperties.Name="CSS kopyala" />
+                        </Grid>
+                    </StackPanel>
+                    <Button x:Name="ExportButton" Grid.Column="2" Content="Dışa Aktar" Command="{Binding OpenExportCommand}"
+                            Style="{StaticResource GhostButton}" VerticalAlignment="Top" Padding="12,8" FontSize="12" />
+                </Grid>
+
+                <Rectangle Grid.Row="1" Height="1" Fill="{StaticResource BorderBrush}" Margin="0,0,0,20" />
+
+                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="WCAG Kontrast Kontrolü" Style="{StaticResource SectionTitle}" />
+                        <Border Style="{StaticResource CardPanel}">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                    <StackPanel Margin="0,0,16,0">
+                                        <TextBlock Text="Ön plan" FontSize="10" Foreground="{StaticResource MutedBrush}" Margin="0,0,0,6" />
+                                        <Border Width="72" Height="44" CornerRadius="6"
+                                                Background="{Binding ContrastForeground.Brush}"
+                                                BorderBrush="{StaticResource SwatchBorderBrush}" BorderThickness="1" />
+                                        <TextBlock Text="{Binding ContrastForeground.Hex}" FontFamily="{StaticResource MonoFont}" FontSize="10"
+                                                   Foreground="{StaticResource SubTextBrush}" Margin="0,4,0,0" HorizontalAlignment="Center" />
+                                    </StackPanel>
+                                    <TextBlock Text="+" Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center" Margin="0,0,16,0" />
+                                    <StackPanel Margin="0,0,16,0">
+                                        <TextBlock Text="Arka plan" FontSize="10" Foreground="{StaticResource MutedBrush}" Margin="0,0,0,6" />
+                                        <Border Width="72" Height="44" CornerRadius="6"
+                                                Background="{Binding ContrastBackground.Brush}"
+                                                BorderBrush="{StaticResource SwatchBorderBrush}" BorderThickness="1" />
+                                        <TextBlock Text="{Binding ContrastBackground.Hex}" FontFamily="{StaticResource MonoFont}" FontSize="10"
+                                                   Foreground="{StaticResource SubTextBrush}" Margin="0,4,0,0" HorizontalAlignment="Center" />
+                                    </StackPanel>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock x:Name="ContrastRatioText" Text="{Binding ContrastRatioText}" FontFamily="{StaticResource MonoFont}"
+                                                   FontSize="22" FontWeight="SemiBold" Foreground="{StaticResource TextBrush}" />
+                                        <TextBlock Text="{Binding ContrastNormalStatus}" FontSize="11" Foreground="{StaticResource SubTextBrush}" Margin="0,4,0,0" />
+                                        <TextBlock Text="{Binding ContrastLargeStatus}" FontSize="11" Foreground="{StaticResource SubTextBrush}" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="Beyaz" Style="{StaticResource ToggleChipButton}"
+                                            Command="{Binding SetContrastBgCommand}" CommandParameter="White" />
+                                    <Button Content="Koyu" Style="{StaticResource ToggleChipButton}"
+                                            Command="{Binding SetContrastBgCommand}" CommandParameter="Dark" />
+                                    <Button Content="Tamamlayıcı" Style="{StaticResource ToggleChipButton}"
+                                            Command="{Binding SetContrastBgCommand}" CommandParameter="Complementary" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <TextBlock Text="Tamamlayıcı Renk" Style="{StaticResource SectionTitle}" />
+                        <Border Style="{StaticResource CardPanel}">
+                            <Button x:Name="ComplementaryButton" Command="{Binding CopySpecificColorCommand}" CommandParameter="{Binding ComplementaryColor}"
+                                    AutomationProperties.Name="{Binding ComplementaryColor.Hex, StringFormat={}{0} kopyala}"
+                                    Background="Transparent" BorderThickness="0" Cursor="Hand" Padding="0" HorizontalAlignment="Left">
+                                <StackPanel>
+                                    <Border Width="80" Height="50" CornerRadius="6" Background="{Binding ComplementaryColor.Brush}"
+                                            BorderBrush="{StaticResource SwatchBorderBrush}" BorderThickness="1" Margin="0,0,0,4" />
+                                    <TextBlock Text="{Binding ComplementaryColor.Hex}" FontFamily="{StaticResource MonoFont}"
+                                               FontSize="11" Foreground="{StaticResource SubTextBrush}" HorizontalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                        </Border>
+
+                        <TextBlock Text="Benzer Renkler (Analogous)" Style="{StaticResource SectionTitle}" />
+                        <Border Style="{StaticResource CardPanel}" Margin="0">
+                            <ItemsControl ItemsSource="{Binding AnalogousPalette}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Command="{Binding DataContext.CopySpecificColorCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                CommandParameter="{Binding}" Background="Transparent" BorderThickness="0"
+                                                AutomationProperties.Name="{Binding Hex, StringFormat={}{0} kopyala}"
+                                                Cursor="Hand" Padding="0" Margin="0,0,12,0">
+                                            <StackPanel>
+                                                <Border Width="80" Height="50" CornerRadius="6" Background="{Binding Brush}"
+                                                        BorderBrush="{StaticResource SwatchBorderBrush}" BorderThickness="1" Margin="0,0,0,4" />
+                                                <TextBlock Text="{Binding Hex}" FontFamily="{StaticResource MonoFont}" FontSize="11"
+                                                           Foreground="{StaticResource SubTextBrush}" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Border>
+
+                        <TextBlock Text="Renk Körlüğü Simülasyonu" Style="{StaticResource SectionTitle}" />
+                        <Border Style="{StaticResource CardPanel}">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                    <Button Content="Orijinal" Style="{StaticResource ToggleChipButton}"
+                                            Command="{Binding SetColorBlindnessCommand}" CommandParameter="None" />
+                                    <Button Content="Protan" Style="{StaticResource ToggleChipButton}"
+                                            Command="{Binding SetColorBlindnessCommand}" CommandParameter="Protan" />
+                                    <Button Content="Deutan" Style="{StaticResource ToggleChipButton}"
+                                            Command="{Binding SetColorBlindnessCommand}" CommandParameter="Deutan" />
+                                    <Button Content="Tritan" Style="{StaticResource ToggleChipButton}"
+                                            Command="{Binding SetColorBlindnessCommand}" CommandParameter="Tritan" />
+                                </StackPanel>
+                                <ItemsControl ItemsSource="{Binding ColorBlindPreview}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Columns="4" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Margin="0,0,8,0">
+                                                <Border Height="36" CornerRadius="4" Background="{Binding Brush}"
+                                                        BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Margin="0,0,0,4" />
+                                                <TextBlock Text="{Binding Hex}" FontFamily="{StaticResource MonoFont}" FontSize="9"
+                                                           Foreground="{StaticResource MutedBrush}" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Visibility="{Binding SelectedColor, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                <Viewbox Width="48" Height="48" Margin="0,0,0,12">
+                    <Canvas Width="24" Height="24">
+                        <Ellipse Canvas.Left="3" Canvas.Top="3" Width="18" Height="18"
+                                 Stroke="{StaticResource MutedBrush}" StrokeThickness="1.2" Fill="Transparent" />
+                        <Path Stroke="{StaticResource MutedBrush}" StrokeThickness="1.2"
+                              Data="M12,7 L12,12 L15,14" />
+                    </Canvas>
+                </Viewbox>
+                <TextBlock Text="Ekrandan bir renk seçin veya geçmişten tıklayın"
+                           FontSize="14" Foreground="{StaticResource MutedBrush}" HorizontalAlignment="Center" Margin="0,0,0,12" />
+                <Button x:Name="EmptyCaptureButton" Content="Ekrandan renk seç" Command="{Binding StartCaptureCommand}" Style="{StaticResource PrimaryButton}" />
+            </StackPanel>
+        </Grid>
+
+        <Border Grid.Row="1" Grid.ColumnSpan="2" Background="{StaticResource SidebarBrush}"
+                BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0" Padding="12,8">
+            <TextBlock x:Name="StatusText" Text="{Binding StatusMessage}" Foreground="{StaticResource MutedBrush}" FontSize="11" />
+        </Border>
+    </Grid>
+</Window>

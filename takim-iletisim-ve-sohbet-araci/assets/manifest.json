@@ -1,0 +1,13 @@
+{
+  "id": "takim-iletisim-ve-sohbet-araci",
+  "name": "Takım İletişim ve Sohbet Aracı",
+  "version": "1.4.0",
+  "description": "Kendi sunucunuzda veya masaüstünde çalışan Slack benzeri anlık takım sohbeti. Kanallar, DM, thread, dosya eki, CI webhook'ları ve KVKK dışa aktarma.",
+  "category": "İletişim ve Okuma",
+  "icon": "icon.png",
+  "entry": {
+    "windows": "run.ps1",
+    "default": "npm run dev"
+  },
+  "tags": ["sohbet", "takım", "realtime", "self-host", "nextjs", "electron"]
+}

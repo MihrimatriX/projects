@@ -1,0 +1,84 @@
+<Window x:Class="EkranGoruntusu.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ayarlar"
+        Height="560" Width="720"
+        MinHeight="480" MinWidth="600"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource ShellBrush}"
+        WindowStyle="None"
+        ResizeMode="CanResize"
+        KeyDown="Window_KeyDown">
+
+    <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Background="{StaticResource BgAppBrush}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="36" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Background="{StaticResource BgToolbarBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1"
+                    MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Grid Margin="12,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Content="Geçmiş" Style="{StaticResource NavLinkStyle}" Click="GoHistory_Click" />
+                        <Button Content="Ayarlar" Tag="Active" Style="{StaticResource NavLinkStyle}" IsEnabled="False" Margin="4,0,0,0" />
+                    </StackPanel>
+                    <TextBlock Text="Ayarlar" FontSize="13" FontWeight="SemiBold" HorizontalAlignment="Center"
+                               VerticalAlignment="Center" Foreground="{StaticResource TextPrimaryBrush}" />
+                    <Button Content="×" Width="36" Height="28" HorizontalAlignment="Right" Style="{StaticResource BtnGhost}"
+                            Padding="0" Click="Close_Click" BorderThickness="0" Background="Transparent"
+                            AutomationProperties.AutomationId="SettingsCloseButton" AutomationProperties.Name="Kapat" />
+                </Grid>
+            </Border>
+
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="24">
+                <StackPanel>
+                    <TextBlock Text="Uygulama ayarları" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,24" />
+
+                    <TextBlock Text="KISAYOL TUŞU" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,12" />
+                    <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Margin="0,0,0,16" />
+                    <TextBlock Text="Global yakalama kısayolu" FontWeight="Medium" Margin="0,0,0,6" />
+                    <ComboBox x:Name="HotkeyBox" Width="220" HorizontalAlignment="Left" Margin="0,0,0,4"
+                              AutomationProperties.AutomationId="HotkeyBox" AutomationProperties.Name="Global yakalama kısayolu" />
+                    <TextBlock Text="Sistem genelinde geçerli; başka bir uygulama kullanıyorsa farklı bir kısayol seçin." FontSize="12"
+                               Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,28" TextWrapping="Wrap" />
+
+                    <TextBlock Text="KAYIT" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,12" />
+                    <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Margin="0,0,0,16" />
+                    <TextBlock Text="Kayıt klasörü" FontWeight="Medium" Margin="0,0,0,6" />
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="SaveFolderBox" IsReadOnly="True" Margin="0,0,8,0"
+                                 AutomationProperties.AutomationId="SaveFolderBox" AutomationProperties.Name="Kayıt klasörü" />
+                        <Button Grid.Column="1" Content="Gözat" Style="{StaticResource BtnGhost}" Click="Browse_Click"
+                                AutomationProperties.AutomationId="BrowseButton" AutomationProperties.Name="Kayıt klasörüne gözat" />
+                    </Grid>
+                    <TextBlock Text="Dosya adı şablonu" FontWeight="Medium" Margin="0,0,0,6" />
+                    <TextBox x:Name="TemplateBox" Margin="0,0,0,4"
+                             AutomationProperties.AutomationId="TemplateBox" AutomationProperties.Name="Dosya adı şablonu" />
+                    <TextBlock Text="Değişkenler: {yyyy}, {MM}, {dd}, {HH}, {mm}, {ss}" FontSize="12"
+                               Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,16" />
+                    <TextBlock Text="Geçmişte tutulacak kayıt sayısı" FontWeight="Medium" Margin="0,0,0,6" />
+                    <ComboBox x:Name="HistoryLimitBox" Width="220" HorizontalAlignment="Left" Margin="0,0,0,4"
+                              AutomationProperties.AutomationId="HistoryLimitBox" AutomationProperties.Name="Geçmişte tutulacak kayıt sayısı" />
+                    <TextBlock Text="Sınırı aşan en eski kayıtların görsel dosyaları da silinir." FontSize="12"
+                               Foreground="{StaticResource TextMutedBrush}" />
+                </StackPanel>
+            </ScrollViewer>
+
+            <Border Grid.Row="2" Background="{StaticResource BgToolbarBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0" Padding="24,16">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Varsayılana dön" Style="{StaticResource BtnGhost}" Click="Reset_Click" Margin="0,0,8,0"
+                            AutomationProperties.AutomationId="ResetButton" />
+                    <Button Content="Kaydet" Style="{StaticResource BtnPrimary}" Click="Save_Click" IsDefault="True"
+                            AutomationProperties.AutomationId="SaveSettingsButton" />
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

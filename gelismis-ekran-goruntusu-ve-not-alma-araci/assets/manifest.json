@@ -1,0 +1,10 @@
+{
+  "id": "gelismis-ekran-goruntusu-ve-not-alma-araci",
+  "name": "Gelişmiş Ekran Görüntüsü",
+  "version": "2.0.0",
+  "description": "Global kısayolla ekran yakalayan, işaretleme/pikselleştirme düzenleyicisi ve çevrimdışı OCR ile aranabilir geçmiş tutan WPF aracı.",
+  "launch": "run.ps1",
+  "platforms": ["windows"],
+  "tags": ["ekran-görüntüsü", "ocr", "not", "wpf", "kısayol"],
+  "category": "Medya ve Ekran"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "hizli-dosya-arama-ve-acma-araci",
+  "name": "Hızlı Dosya Arama",
+  "description": "Alt+F ile açılan, dosya adlarını yerel SQLite indeksinde yazdıkça arayıp Enter ile açan klavye odaklı Windows aracı (tepsi + tek örnek).",
+  "version": "1.0.0",
+  "platform": "windows",
+  "hotkey": "Alt+F",
+  "tags": ["dosya-arama", "launcher", "wpf", "sqlite", "klavye"],
+  "category": "Dosya ve Sistem",
+  "entry": {
+    "project": "HizliDosyaArama/HizliDosyaArama.csproj",
+    "assembly": "HizliDosyaArama",
+    "publish": "../dist/hizli-dosya-arama-ve-acma-araci/HizliDosyaArama.exe"
+  }
+}

@@ -1,0 +1,41 @@
+# dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+
+# local env files
+.env*.local
+.env
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# yerel veritabanlari (dev + e2e)
+prisma/*.db
+prisma/*.db-journal
+
+# npm run dev/build oncesi node_modules/@tldraw/assets'ten kopyalanir
+public/tldraw-assets/
+
+# test
+test-results/
+playwright-report/
+
+# masaustu paketi (publish.ps1)
+desktop/stage/
+desktop/out/

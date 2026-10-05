@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "metadata-temizleyici"
+version = "0.4.1"
+description = "Metadata Temizleyici PySide6 desktop application"
+authors = ["AFU"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11"
+PySide6 = ">=6.7.0"
+Pillow = ">=10.4.0"
+pillow-heif = ">=0.18.0"
+typer = ">=0.12.3"
+rich = ">=13.7.1"
+watchdog = ">=4.0.1"
+pypdf = ">=6.19"
+
+[tool.poetry.scripts]
+metadata-temizleyici = "cli:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

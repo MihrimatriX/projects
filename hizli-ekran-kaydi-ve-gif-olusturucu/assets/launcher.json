@@ -1,0 +1,12 @@
+{
+  "id": "hizli-ekran-kaydi",
+  "name": "Hızlı Ekran Kaydı ve GIF",
+  "description": "Bölge kaydı, trim ve GIF/MP4 dışa aktarım",
+  "version": "1.0.0",
+  "platform": "windows",
+  "executable": "EkranKaydi/EkranKaydi.csproj",
+  "runScript": "run.ps1",
+  "icon": "assets/icon.png",
+  "appIcon": "assets/app.ico",
+  "hotkey": "Ctrl+Alt+R"
+}

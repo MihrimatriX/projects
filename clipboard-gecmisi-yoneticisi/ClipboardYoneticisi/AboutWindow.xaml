@@ -1,0 +1,46 @@
+<Window x:Class="ClipboardYoneticisi.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Hakkında"
+        Height="400" Width="400"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="{StaticResource PrimaryBrush}">
+
+    <StackPanel Margin="28" HorizontalAlignment="Center">
+        <TextBlock Text="📋" FontSize="48" HorizontalAlignment="Center" />
+        <TextBlock Text="Clipboard Geçmişi Yöneticisi"
+                   FontSize="18"
+                   FontWeight="SemiBold"
+                   Foreground="{StaticResource TextBrush}"
+                   HorizontalAlignment="Center"
+                   Margin="0,12,0,4" />
+        <TextBlock x:Name="VersionText"
+                   Foreground="{StaticResource SubTextBrush}"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,16" />
+        <TextBlock Text="Windows için akıllı pano geçmişi yöneticisi.&#x0a;Veriler yalnızca yerel olarak saklanır."
+                   TextAlignment="Center"
+                   TextWrapping="Wrap"
+                   Foreground="{StaticResource SubTextBrush}"
+                   Margin="0,0,0,20" />
+        <Button x:Name="CheckUpdatesButton"
+                Content="Güncellemeleri kontrol et"
+                Click="CheckUpdatesButton_Click"
+                Padding="24,10"
+                Margin="0,0,0,10"
+                Background="{StaticResource SecondaryBrush}"
+                Foreground="{StaticResource TextBrush}"
+                BorderBrush="{StaticResource BorderBrush}"
+                BorderThickness="1"
+                Cursor="Hand"
+                HorizontalAlignment="Center" />
+        <Button x:Name="CloseButton"
+                Content="Tamam"
+                IsCancel="True"
+                Click="CloseButton_Click"
+                Style="{StaticResource PrimaryButton}"
+                Padding="32,10"
+                HorizontalAlignment="Center" />
+    </StackPanel>
+</Window>

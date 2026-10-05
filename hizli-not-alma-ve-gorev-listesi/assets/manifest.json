@@ -1,0 +1,17 @@
+{
+  "id": "hizli-not-alma-ve-gorev-listesi",
+  "name": "Akıllı Liste",
+  "version": "1.1.0",
+  "description": "Görevleri, projeleri, etiketleri ve hızlı notları yerel SQLite veritabanında tutan; tekrar, alt görev ve otomatik dosya yedeği destekleyen Todoist tarzı görev listesi.",
+  "platform": "flutter",
+  "executable": {
+    "windows": "build/windows/x64/runner/Release/hizli_not_alma_ve_gorev_listesi.exe"
+  },
+  "icons": {
+    "512": "assets/icon/app_icon_512.png",
+    "192": "assets/icon/app_icon_192.png"
+  },
+  "runScript": "run.ps1",
+  "tags": ["görev", "yapılacaklar", "not", "sqlite", "çevrimdışı", "flutter"],
+  "category": "Verimlilik"
+}

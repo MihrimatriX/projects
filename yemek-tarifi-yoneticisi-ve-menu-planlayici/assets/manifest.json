@@ -1,0 +1,22 @@
+{
+  "id": "yemek-tarifi-yoneticisi-ve-menu-planlayici",
+  "name": "Yemek Planlayıcı",
+  "version": "1.2.0",
+  "description": "Yerel tarif arşivi, haftalık 7×3 menü planı ve plandan otomatik birleşik alışveriş listesi; porsiyon ölçekleme ve kiler desteği.",
+  "platform": "flutter",
+  "runtime": "flutter3",
+  "entry": "lib/main.dart",
+  "runScript": "run.ps1",
+  "defaultRoute": "/recipes",
+  "icons": {
+    "png": "assets/icons/app_icon.png"
+  },
+  "tags": [
+    "tarif",
+    "menü planı",
+    "alışveriş listesi",
+    "kiler",
+    "yemek"
+  ],
+  "category": "Yaşam ve Öğrenme"
+}

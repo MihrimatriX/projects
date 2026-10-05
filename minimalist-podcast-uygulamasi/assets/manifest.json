@@ -1,0 +1,24 @@
+{
+  "id": "minimalist-podcast-uygulamasi",
+  "name": "Minimalist Podcast",
+  "version": "0.3.0",
+  "description": "Koyu temalı, reklamsız RSS podcast dinleyici: abonelik, OPML içe/dışa aktarma, sıra, uyku zamanlayıcı ve offline indirme. Veriler cihazda yerel SQLite'ta tutulur.",
+  "platform": "flutter",
+  "runtime": "flutter3",
+  "entry": "lib/main.dart",
+  "runScript": "run.ps1",
+  "icons": {
+    "svg": "assets/icon.svg",
+    "png": "assets/icon.png",
+    "ico": "assets/app.ico"
+  },
+  "tags": [
+    "podcast",
+    "rss",
+    "opml",
+    "ses",
+    "oynatıcı",
+    "flutter"
+  ],
+  "category": "Medya ve Ekran"
+}

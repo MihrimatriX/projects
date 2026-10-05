@@ -1,0 +1,39 @@
+# --- .NET derleme ---
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+TestResults/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# --- Visual Studio ---
+.vs/
+
+# --- Dağıtım / paketleme ---
+dist/
+*.msix
+*.msixbundle
+packaging/certs/
+packaging/layout/
+*.pfx
+
+# --- macOS Swift (Xcode) ---
+macos/**/DerivedData/
+macos/**/.build/
+macos/**/xcuserdata/
+*.xcuserstate
+
+# --- IDE / OS ---
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
+
+# --- Ortam / gizli ---
+.env
+.env.*
+!.env.example

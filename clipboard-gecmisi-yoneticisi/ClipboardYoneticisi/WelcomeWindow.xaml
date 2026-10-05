@@ -1,0 +1,41 @@
+<Window x:Class="ClipboardYoneticisi.WelcomeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Hoş geldiniz"
+        Height="420" Width="440"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="{StaticResource PrimaryBrush}">
+
+    <StackPanel Margin="28">
+        <TextBlock Text="Clipboard Geçmişi Yöneticisi'ne hoş geldiniz"
+                   FontSize="17"
+                   FontWeight="SemiBold"
+                   Foreground="{StaticResource TextBrush}"
+                   TextWrapping="Wrap"
+                   Margin="0,0,0,16" />
+
+        <TextBlock Foreground="{StaticResource SubTextBrush}"
+                   TextWrapping="Wrap"
+                   LineHeight="22"
+                   Margin="0,0,0,12">
+            <Run Text="• "/><Run x:Name="ShowHotkeyRun" Text="Ctrl+Alt+V"/><Run Text=" ile geçmiş panelini açın"/><LineBreak/>
+            <Run Text="• Kopyaladığınız içerik otomatik kaydedilir"/><LineBreak/>
+            <Run Text="• Uygulama sistem tepsisinde çalışır"/><LineBreak/>
+            <Run Text="• Veriler "/><Run Text="%LocalAppData%"/><Run Text=" altında saklanır"/>
+        </TextBlock>
+
+        <CheckBox x:Name="StartWithWindowsCheck"
+                  Content="Windows ile birlikte başlat"
+                  Foreground="{StaticResource TextBrush}"
+                  Margin="0,8,0,20" />
+
+        <Button x:Name="StartButton"
+                Content="Başla"
+                IsDefault="True"
+                Click="StartButton_Click"
+                Style="{StaticResource PrimaryButton}"
+                Padding="32,10"
+                HorizontalAlignment="Right" />
+    </StackPanel>
+</Window>

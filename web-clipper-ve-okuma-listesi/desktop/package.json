@@ -1,0 +1,30 @@
+{
+  "name": "kayitli-okuma-desktop",
+  "productName": "Kayitli Okuma",
+  "version": "0.2.0",
+  "description": "Kayitli Okuma (Web Clipper) - masaustu kabugu",
+  "private": true,
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win dir"
+  },
+  "devDependencies": {
+    "electron": "^42.11.10",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "local.kayitli-okuma",
+    "productName": "Kayitli Okuma",
+    "executableName": "KayitliOkuma",
+    "electronLanguages": ["tr", "en-US"],
+    "directories": { "output": "out" },
+    "files": ["main.cjs", "package.json"],
+    "win": { "target": "dir", "icon": "../assets/icon-512.png" },
+    "npmRebuild": false
+  },
+  "allowScripts": {
+    "electron": true,
+    "electron-winstaller": false
+  }
+}

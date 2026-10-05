@@ -1,0 +1,88 @@
+<Window x:Class="SistemYoneticisi.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ayarlar"
+        Height="580" Width="480"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{StaticResource PrimaryBrush}">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Uygulama Ayarları" FontSize="18" FontWeight="SemiBold"
+                   Foreground="{StaticResource TextBrush}" Margin="0,0,0,16" />
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock Text="Metrik Geçmişi" FontWeight="SemiBold" Foreground="{StaticResource AccentBrush}" Margin="0,0,0,8" />
+                <CheckBox x:Name="HistoryEnabledBox" Content="24 saat metrik geçmişini SQLite'a kaydet"
+                          Foreground="{StaticResource TextBrush}" Margin="0,0,0,8" />
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                    <TextBlock Text="Saklama süresi (saat):" VerticalAlignment="Center"
+                               Foreground="{StaticResource SubTextBrush}" Margin="0,0,8,0" />
+                    <TextBox x:Name="RetentionHoursBox" Width="60" />
+                </StackPanel>
+
+                <TextBlock Text="Alarmlar" FontWeight="SemiBold" Foreground="{StaticResource AccentBrush}" Margin="0,0,0,8" />
+                <CheckBox x:Name="AlarmsEnabledBox" Content="CPU/RAM eşik alarmlarını etkinleştir"
+                          Foreground="{StaticResource TextBrush}" Margin="0,0,0,8" />
+                <Grid Margin="0,0,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                        <TextBlock Text="CPU eşiği (%)" Foreground="{StaticResource SubTextBrush}" />
+                        <TextBox x:Name="CpuThresholdBox" Margin="0,4,0,0" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="RAM eşiği (%)" Foreground="{StaticResource SubTextBrush}" />
+                        <TextBox x:Name="RamThresholdBox" Margin="0,4,0,0" />
+                    </StackPanel>
+                </Grid>
+                <StackPanel Margin="0,0,0,16">
+                    <TextBlock Text="Alarm süresi (saniye, eşik üstü)" Foreground="{StaticResource SubTextBrush}" />
+                    <TextBox x:Name="AlarmDurationBox" Margin="0,4,0,0" Width="80" HorizontalAlignment="Left" />
+                </StackPanel>
+
+                <TextBlock Text="Görünüm" FontWeight="SemiBold" Foreground="{StaticResource AccentBrush}" Margin="0,0,0,8" />
+                <CheckBox x:Name="HighContrastBox" Content="Yüksek kontrast modu"
+                          Foreground="{StaticResource TextBrush}" Margin="0,0,0,8" />
+                <CheckBox x:Name="StartMinimizedBox" Content="Başlangıçta simge durumuna küçült"
+                          Foreground="{StaticResource TextBrush}" Margin="0,0,0,8" />
+                <CheckBox x:Name="RunAtLoginBox" Content="Windows açılışında otomatik başlat"
+                          Foreground="{StaticResource TextBrush}" Margin="0,0,0,16" />
+
+                <TextBlock Text="Kısayollar" FontWeight="SemiBold" Foreground="{StaticResource AccentBrush}" Margin="0,0,0,8" />
+                <CheckBox x:Name="GlobalHotkeyEnabledBox" Content="Global kısayol ile pencereyi göster/gizle"
+                          Foreground="{StaticResource TextBrush}" Margin="0,0,0,8" />
+                <StackPanel Margin="0,0,0,16">
+                    <TextBlock Text="Global kısayol (ör. Ctrl+Shift+M)" Foreground="{StaticResource SubTextBrush}" />
+                    <TextBox x:Name="ShowHotkeyBox" Margin="0,4,0,0" />
+                </StackPanel>
+
+                <TextBlock Text="Yedekleme" FontWeight="SemiBold" Foreground="{StaticResource AccentBrush}" Margin="0,0,0,8" />
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Ayarları Dışa Aktar" Click="Export_Click" Padding="12,6" Margin="0,0,8,0"
+                            Background="{StaticResource CardBrush}" Foreground="{StaticResource TextBrush}"
+                            BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Cursor="Hand" />
+                    <Button Content="Ayarları İçe Aktar" Click="Import_Click" Padding="12,6"
+                            Background="{StaticResource CardBrush}" Foreground="{StaticResource TextBrush}"
+                            BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Cursor="Hand" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+            <Button Content="İptal" Click="Cancel_Click" Padding="20,8" Margin="0,0,8,0"
+                    Background="{StaticResource CardBrush}" Foreground="{StaticResource TextBrush}"
+                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Cursor="Hand" />
+            <Button Content="Kaydet" Click="Save_Click" Style="{StaticResource PrimaryButton}" Padding="24,8" />
+        </StackPanel>
+    </Grid>
+</Window>

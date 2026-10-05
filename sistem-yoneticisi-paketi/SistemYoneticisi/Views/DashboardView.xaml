@@ -1,0 +1,210 @@
+<UserControl x:Class="SistemYoneticisi.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:SistemYoneticisi.ViewModels"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:DashboardViewModel}"
+             d:DesignHeight="600" d:DesignWidth="780">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Padding="20,12" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+            <Grid>
+                <TextBlock Text="Sistem özeti" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource TextBrush}" VerticalAlignment="Center" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,12,0">
+                        <Ellipse Width="8" Height="8" Margin="0,0,8,0" VerticalAlignment="Center">
+                            <Ellipse.Style>
+                                <Style TargetType="Ellipse">
+                                    <Setter Property="Fill" Value="{StaticResource SuccessBrush}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsPaused}" Value="True">
+                                            <Setter Property="Fill" Value="{StaticResource MutedTextBrush}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Ellipse.Style>
+                        </Ellipse>
+                        <TextBlock FontSize="12" Foreground="{StaticResource MutedTextBrush}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="Canlı · 1 sn" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsPaused}" Value="True">
+                                            <Setter Property="Text" Value="Duraklatıldı" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                    <Button Content="{Binding PauseButtonText}" Command="{Binding TogglePauseCommand}" Style="{StaticResource GhostButton}" Margin="0,0,8,0" />
+                    <Button Content="Yenile" Command="{Binding RefreshNowCommand}" Style="{StaticResource GhostButton}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="20,16">
+            <StackPanel>
+                <Border Margin="0,0,0,16" Padding="10,12" CornerRadius="8"
+                        Background="#1AF59E0B" BorderBrush="{StaticResource WarningBrush}" BorderThickness="1"
+                        Visibility="{Binding IsAlarmBannerVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid>
+                        <TextBlock VerticalAlignment="Center" Foreground="{StaticResource TextBrush}" FontSize="13" TextWrapping="Wrap">
+                            <Run Text="RAM kullanımı " /><Run Text="{Binding RamPercentage, Mode=OneWay, StringFormat={}{0}%}" />
+                            <Run Text=" — eşik aşıldı" />
+                        </TextBlock>
+                        <Button Content="✕" HorizontalAlignment="Right" Style="{StaticResource GhostButton}"
+                                Command="{Binding DismissAlarmCommand}" Padding="6,2" />
+                    </Grid>
+                </Border>
+
+                <UniformGrid Columns="4" Margin="0,0,0,16">
+                    <Border Style="{StaticResource MetricCardBorder}" Margin="0,0,6,0">
+                        <StackPanel>
+                            <TextBlock Text="CPU" FontSize="12" FontWeight="Medium" Foreground="{StaticResource SubTextBrush}" />
+                            <TextBlock Text="{Binding CpuPercentage, StringFormat={}{0}%}" FontSize="32" FontWeight="SemiBold" Foreground="{StaticResource AccentCpuBrush}" Margin="0,8,0,4" FontFamily="Consolas" />
+                            <TextBlock Text="{Binding CpuSubText}" FontSize="11" Foreground="{StaticResource MutedTextBrush}" FontFamily="Consolas" />
+                        </StackPanel>
+                    </Border>
+                    <Border Margin="3,0">
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource MetricCardBorder}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsRamWarning}" Value="True">
+                                        <Setter Property="BorderBrush" Value="{StaticResource WarningBrush}" />
+                                        <Setter Property="BorderThickness" Value="2" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <StackPanel>
+                            <TextBlock Text="RAM" FontSize="12" FontWeight="Medium" Foreground="{StaticResource SubTextBrush}" />
+                            <TextBlock Text="{Binding RamText}" FontSize="20" FontWeight="SemiBold" Foreground="{StaticResource AccentRamBrush}" Margin="0,8,0,4" FontFamily="Consolas" />
+                            <TextBlock Text="{Binding RamPercentage, StringFormat=%{0} kullanımda}" FontSize="11" Foreground="{StaticResource MutedTextBrush}" FontFamily="Consolas" />
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource MetricCardBorder}" Margin="3,0">
+                        <StackPanel>
+                            <TextBlock Text="{Binding PrimaryDiskLabel}" FontSize="12" FontWeight="Medium" Foreground="{StaticResource SubTextBrush}" />
+                            <TextBlock Text="{Binding PrimaryDiskUsage, StringFormat={}{0}%}" FontSize="32" FontWeight="SemiBold" Foreground="{StaticResource AccentDiskBrush}" Margin="0,8,0,4" FontFamily="Consolas" />
+                            <TextBlock Text="{Binding PrimaryDiskSubText}" FontSize="11" Foreground="{StaticResource MutedTextBrush}" FontFamily="Consolas" />
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource MetricCardBorder}" Margin="6,0,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Ağ" FontSize="12" FontWeight="Medium" Foreground="{StaticResource SubTextBrush}" />
+                            <TextBlock Text="{Binding NetworkText}" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource AccentNetBrush}" Margin="0,8,0,4" TextWrapping="Wrap" />
+                            <TextBlock Text="Canlı hız" FontSize="11" Foreground="{StaticResource MutedTextBrush}" />
+                        </StackPanel>
+                    </Border>
+                </UniformGrid>
+
+                <Grid Margin="0,0,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" Style="{StaticResource MetricCardBorder}" Margin="0,0,6,0" MinHeight="180">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextBrush}" Margin="0,0,0,8">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="CPU geçmişi (30 sn)" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ShowHistoryChart}" Value="True">
+                                                <Setter Property="Text" Value="CPU geçmişi (60 dk)" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <lvc:CartesianChart Grid.Row="1" Series="{Binding CpuSeries}" XAxes="{Binding XAxes}" YAxes="{Binding YAxes}" />
+                        </Grid>
+                    </Border>
+                    <Border Grid.Column="1" Style="{StaticResource MetricCardBorder}" Margin="6,0,0,0" MinHeight="180">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextBrush}" Margin="0,0,0,8">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="RAM geçmişi (30 sn)" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ShowHistoryChart}" Value="True">
+                                                <Setter Property="Text" Value="RAM geçmişi (60 dk)" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <lvc:CartesianChart Grid.Row="1" Series="{Binding RamSeries}" XAxes="{Binding XAxes}" YAxes="{Binding YAxes}" />
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <Grid Margin="0,0,0,8">
+                    <TextBlock Text="En çok kaynak kullanan süreçler" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource TextBrush}" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="60dk geçmiş" Command="{Binding ToggleHistoryChartCommand}" Style="{StaticResource GhostButton}" Margin="0,0,8,0" />
+                        <Button Content="CSV" Command="{Binding ExportHistoryCsvCommand}" Style="{StaticResource GhostButton}" />
+                    </StackPanel>
+                </Grid>
+
+                <Border Background="{StaticResource TableBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="10" Padding="0" Margin="0,0,0,16">
+                    <DataGrid ItemsSource="{Binding TopProcesses}" Style="{StaticResource DarkDataGrid}" HeadersVisibility="Column">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Süreç" Binding="{Binding DisplayName}" Width="*" />
+                            <DataGridTextColumn Header="PID" Binding="{Binding Pid}" Width="80" />
+                            <DataGridTextColumn Header="CPU" Binding="{Binding CpuPercentage, StringFormat={}{0}%}" Width="80" />
+                            <DataGridTextColumn Header="RAM" Binding="{Binding MemoryMb, StringFormat={}{0} MB}" Width="100" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+
+                <TextBlock Text="DİSK SÜRÜCÜLERİ" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource MutedTextBrush}" Margin="0,0,0,8" />
+                <Border Style="{StaticResource MetricCardBorder}">
+                    <ItemsControl ItemsSource="{Binding Disks}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="100" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{Binding DisplayName}" FontWeight="SemiBold" Foreground="{StaticResource TextBrush}" VerticalAlignment="Center" />
+                                    <ProgressBar Grid.Column="1" Value="{Binding UsagePercentage}" Height="12" Margin="8,0" Background="{StaticResource TableBrush}" BorderThickness="0">
+                                        <ProgressBar.Style>
+                                            <Style TargetType="ProgressBar">
+                                                <Setter Property="Foreground" Value="{StaticResource AccentDiskBrush}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsCritical}" Value="True">
+                                                        <Setter Property="Foreground" Value="{StaticResource DangerBrush}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ProgressBar.Style>
+                                    </ProgressBar>
+                                    <TextBlock Grid.Column="2" Text="{Binding SizeSummary}" FontSize="11" Foreground="{StaticResource MutedTextBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

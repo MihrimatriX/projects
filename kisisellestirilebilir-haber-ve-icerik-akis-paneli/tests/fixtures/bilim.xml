@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Yerel Bilim</title>
+  <link href="https://ornek.test/bilim"/>
+  <id>urn:ornek:bilim</id>
+  <updated>2026-10-05T09:00:00Z</updated>
+  <entry>
+    <title>Kuyruklu yıldız gözlemi</title>
+    <link href="https://ornek.test/bilim/kuyruklu-yildiz"/>
+    <id>urn:ornek:bilim:1</id>
+    <updated>2026-10-05T09:00:00Z</updated>
+    <summary>Bu hafta çıplak gözle görülebilecek.</summary>
+  </entry>
+  <entry>
+    <title>Derin deniz canlıları</title>
+    <link href="https://ornek.test/bilim/derin-deniz"/>
+    <id>urn:ornek:bilim:2</id>
+    <updated>2026-10-04T09:00:00Z</updated>
+    <summary>Yeni türler keşfedildi.</summary>
+  </entry>
+</feed>

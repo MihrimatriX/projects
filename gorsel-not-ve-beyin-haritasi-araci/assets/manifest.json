@@ -1,0 +1,16 @@
+{
+  "id": "gorsel-not-ve-beyin-haritasi-araci",
+  "name": "Görsel Not ve Beyin Haritası",
+  "version": "0.1.0",
+  "description": "tldraw tuvali üzerinde pano oluşturup yerel SQLite'a otomatik kaydeden çevrimdışı not ve beyin haritası aracı. PNG ve JSON dışa aktarma ile .tldr içe aktarma destekler.",
+  "category": "Verimlilik",
+  "platform": "windows",
+  "runtime": "nextjs",
+  "runScript": "run.ps1",
+  "icons": {
+    "svg": "assets/icon.svg",
+    "png": "assets/icon.png",
+    "ico": "assets/app.ico"
+  },
+  "tags": ["beyin-haritasi", "tldraw", "not", "tuval", "sqlite", "cevrimdisi"]
+}

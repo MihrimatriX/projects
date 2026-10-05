@@ -1,0 +1,41 @@
+{
+  "name": "takim-sohbet-desktop",
+  "productName": "Takim Sohbet",
+  "version": "1.4.0",
+  "description": "Takim Iletisim ve Sohbet Araci - masaustu kabugu",
+  "private": true,
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win dir"
+  },
+  "devDependencies": {
+    "electron": "^44.5.1",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "local.takim-sohbet",
+    "productName": "Takim Sohbet",
+    "executableName": "TakimSohbet",
+    "electronLanguages": [
+      "tr",
+      "en-US"
+    ],
+    "directories": {
+      "output": "out"
+    },
+    "files": [
+      "main.cjs",
+      "package.json"
+    ],
+    "win": {
+      "target": "dir",
+      "icon": "../assets/icon-256.png"
+    },
+    "npmRebuild": false
+  },
+  "allowScripts": {
+    "electron": true,
+    "electron-winstaller": false
+  }
+}

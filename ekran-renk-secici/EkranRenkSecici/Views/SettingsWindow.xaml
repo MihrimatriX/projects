@@ -1,0 +1,78 @@
+<Window x:Class="EkranRenkSecici.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ayarlar"
+        Height="500" Width="420"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{StaticResource PanelBrush}">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+            <Viewbox Width="18" Height="18" Margin="0,0,8,0">
+                <Canvas Width="24" Height="24">
+                    <Ellipse Canvas.Left="9" Canvas.Top="9" Width="6" Height="6"
+                             Stroke="{StaticResource TextBrush}" StrokeThickness="1.8" Fill="Transparent" />
+                    <Line X1="12" Y1="1" X2="12" Y2="5" Stroke="{StaticResource TextBrush}" StrokeThickness="1.8" />
+                    <Line X1="12" Y1="19" X2="12" Y2="23" Stroke="{StaticResource TextBrush}" StrokeThickness="1.8" />
+                    <Line X1="1" Y1="12" X2="5" Y2="12" Stroke="{StaticResource TextBrush}" StrokeThickness="1.8" />
+                    <Line X1="19" Y1="12" X2="23" Y2="12" Stroke="{StaticResource TextBrush}" StrokeThickness="1.8" />
+                </Canvas>
+            </Viewbox>
+            <TextBlock Text="Ayarlar" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource TextBrush}" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <Border Style="{StaticResource DangerBanner}"
+                    Visibility="{Binding HasHotkeyConflict, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TextBlock Text="Hotkey çakışması: Bu kısayol başka bir uygulama tarafından kullanılıyor olabilir."
+                           Foreground="#FCA5A5" FontSize="12" TextWrapping="Wrap" />
+            </Border>
+
+            <TextBlock Text="Global kısayol" FontSize="12" FontWeight="SemiBold"
+                       Foreground="{StaticResource SubTextBrush}" Margin="0,0,0,8" />
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                <CheckBox x:Name="CtrlCheck" Content="Ctrl" IsChecked="{Binding ModifierControl}" Margin="0,0,12,0" Foreground="{StaticResource TextBrush}" />
+                <CheckBox x:Name="ShiftCheck" Content="Shift" IsChecked="{Binding ModifierShift}" Margin="0,0,12,0" Foreground="{StaticResource TextBrush}" />
+                <CheckBox x:Name="AltCheck" Content="Alt" IsChecked="{Binding ModifierAlt}" Margin="0,0,12,0" Foreground="{StaticResource TextBrush}" />
+                <TextBlock Text="+" VerticalAlignment="Center" Foreground="{StaticResource MutedBrush}" Margin="0,0,8,0" />
+                <ComboBox x:Name="KeyCombo" AutomationProperties.Name="Kısayol tuşu" ItemsSource="{Binding HotkeyKeys}" SelectedItem="{Binding HotkeyKey}" Width="64"
+                          FontFamily="{StaticResource MonoFont}" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <TextBlock Text="Varsayılan kopya formatı" FontSize="12" FontWeight="SemiBold"
+                       Foreground="{StaticResource SubTextBrush}" Margin="0,0,0,8" />
+            <ComboBox x:Name="FormatCombo" AutomationProperties.Name="Varsayılan kopya formatı" ItemsSource="{Binding CopyFormats}" SelectedItem="{Binding DefaultCopyFormat}" Margin="0,0,0,20" />
+
+            <TextBlock Text="Büyüteç zoom seviyesi" FontSize="12" FontWeight="SemiBold"
+                       Foreground="{StaticResource SubTextBrush}" Margin="0,0,0,8" />
+            <Grid Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Slider x:Name="ZoomSlider" AutomationProperties.Name="Büyüteç zoom seviyesi" Grid.Column="0" Minimum="4" Maximum="16" Value="{Binding MagnifierZoom}"
+                        TickFrequency="1" IsSnapToTickEnabled="True" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="1" Text="{Binding MagnifierZoom, StringFormat={}{0}×}"
+                           FontFamily="{StaticResource MonoFont}" FontSize="12"
+                           Foreground="{StaticResource SubTextBrush}" Margin="12,0,0,0" VerticalAlignment="Center" />
+            </Grid>
+
+            <TextBlock Text="Piksel örnekleme (seçim sırasında)" FontSize="12" FontWeight="SemiBold"
+                       Foreground="{StaticResource SubTextBrush}" Margin="0,0,0,8" />
+            <ComboBox x:Name="SampleCombo" AutomationProperties.Name="Piksel örnekleme" ItemsSource="{Binding SampleSizes}" SelectedItem="{Binding SampleSize}" Margin="0,0,0,8" />
+            <TextBlock Text="Seçim overlay'de 1 / 3 / 5 tuşlarıyla değiştirilebilir."
+                       FontSize="11" Foreground="{StaticResource MutedBrush}" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+            <Button x:Name="CancelButton" Content="İptal" IsCancel="True" Command="{Binding CancelCommand}" Style="{StaticResource GhostButton}" Margin="0,0,10,0" />
+            <Button x:Name="SaveButton" Content="Kaydet" IsDefault="True" Command="{Binding SaveCommand}" Style="{StaticResource PrimaryButton}" />
+        </StackPanel>
+    </Grid>
+</Window>

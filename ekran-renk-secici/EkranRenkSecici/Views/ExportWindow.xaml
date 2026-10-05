@@ -1,0 +1,62 @@
+<Window x:Class="EkranRenkSecici.Views.ExportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Token Export"
+        Height="520" Width="640"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{StaticResource PanelBrush}">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Dışa Aktar" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource TextBrush}" />
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Border x:Name="BadgeDot" Width="20" Height="20" CornerRadius="4"
+                        BorderBrush="{StaticResource SwatchBorderBrush}" BorderThickness="1" Margin="0,0,8,0" />
+                <TextBlock x:Name="BadgeHex" FontFamily="{StaticResource MonoFont}" FontSize="13"
+                           Foreground="{StaticResource TextBrush}" VerticalAlignment="Center" />
+            </StackPanel>
+        </Grid>
+
+        <ItemsControl x:Name="PalettePreview" Grid.Row="1" Margin="0,0,0,16">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Width="48" Height="48" CornerRadius="8" Margin="0,0,8,0"
+                            Background="{Binding Brush}" BorderBrush="{StaticResource SwatchBorderBrush}" BorderThickness="1" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,12">
+            <Button x:Name="TabTailwind" Content="Tailwind" Click="Tab_Click" Tag="0" Style="{StaticResource ExportTabButton}" />
+            <Button x:Name="TabFigma" Content="Figma" Click="Tab_Click" Tag="1" Style="{StaticResource ExportTabButton}" />
+            <Button x:Name="TabCss" Content="CSS Variables" Click="Tab_Click" Tag="2" Style="{StaticResource ExportTabButton}" />
+        </StackPanel>
+
+        <TextBox x:Name="ExportText" AutomationProperties.Name="Dışa aktarma çıktısı" Grid.Row="3" IsReadOnly="True" TextWrapping="Wrap"
+                 AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+                 FontFamily="{StaticResource MonoFont}" FontSize="12"
+                 Background="#0AFFFFFF" Foreground="{StaticResource TextBrush}"
+                 BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                 Padding="12" Margin="0,0,0,12" />
+
+        <Button x:Name="CopyButton" Grid.Row="4" Content="Kopyala ve kapat" Click="Copy_Click" Style="{StaticResource PrimaryButton}"
+                HorizontalAlignment="Right" Padding="16,8" FontSize="12" />
+    </Grid>
+</Window>

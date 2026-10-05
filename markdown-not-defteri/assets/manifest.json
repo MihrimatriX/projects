@@ -1,0 +1,21 @@
+{
+  "id": "markdown-not-defteri",
+  "name": "Markdown Not Defteri",
+  "version": "1.0.0",
+  "description": "Yerel .md dosyalarını ve hızlı notları bölünmüş editör ile canlı önizlemede düzenleyen, otomatik kaydeden ve HTML/Markdown olarak dışa aktaran not defteri.",
+  "platform": "flutter",
+  "runtime": "flutter3",
+  "entry": "lib/main.dart",
+  "runScript": "run.ps1",
+  "icons": {
+    "svg": "assets/icon.svg",
+    "png": "assets/icon.png",
+    "ico": "assets/app.ico"
+  },
+  "launch": {
+    "command": "powershell",
+    "args": ["-ExecutionPolicy", "Bypass", "-File", "run.ps1"]
+  },
+  "tags": ["markdown", "not", "editör", "önizleme", "çevrimdışı", "flutter"],
+  "category": "Verimlilik"
+}

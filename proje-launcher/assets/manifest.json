@@ -1,0 +1,10 @@
+{
+  "id": "proje-launcher",
+  "name": "Proje Launcher",
+  "version": "2.0.0",
+  "description": "Monorepodaki tüm uygulamaları ekran görüntülü kartlarla listeleyen, arayıp filtreleyen ve tek tıkla açan WPF galeri (DevProjects.exe).",
+  "launch": "run.ps1",
+  "platforms": ["windows"],
+  "tags": ["launcher", "wpf", "fluent", "galeri", "monorepo"],
+  "category": "Geliştirici araçları"
+}

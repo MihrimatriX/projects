@@ -1,0 +1,16 @@
+{
+  "id": "tekrarlanan-dosya-bulucu",
+  "name": "Tekrarlanan Dosya Bulucu",
+  "version": "1.5.0",
+  "description": "Aynı içerikli dosyaları SHA-256 ile (isteğe bağlı benzer görselleri pHash ile) bulur ve kopyaları güvenle Geri Dönüşüm Kutusu'na taşır.",
+  "platform": "windows",
+  "runtime": "python",
+  "entry": "main.py",
+  "runScript": "run.ps1",
+  "icons": {
+    "svg": "assets/icon.svg",
+    "png": "assets/icon.png"
+  },
+  "category": "Dosya ve Sistem",
+  "tags": ["mukerrer-dosya", "disk-temizligi", "sha256", "phash", "pyside6"]
+}

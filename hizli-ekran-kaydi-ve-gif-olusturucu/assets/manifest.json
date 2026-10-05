@@ -1,0 +1,11 @@
+{
+  "id": "hizli-ekran-kaydi",
+  "name": "Hızlı Ekran Kaydı ve GIF",
+  "version": "1.0.0",
+  "description": "Ekranın seçili bölgesini kaydedip kırpan ve GIF ya da MP4 olarak dışa aktaran WPF uygulaması. Tüm işlem yerelde ffmpeg ile yapılır; Ctrl+Alt+R global kısayolu vardır.",
+  "category": "Medya ve Ekran",
+  "platform": "windows",
+  "runScript": "run.ps1",
+  "hotkey": "Ctrl+Alt+R",
+  "tags": ["ekran-kaydı", "gif", "mp4", "ffmpeg", "wpf", "kırpma"]
+}

@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <RollForward>Major</RollForward>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>KomutPaleti</AssemblyName>
+    <RootNamespace>UygulamaBaslatici</RootNamespace>
+    <ApplicationIcon>..\assets\icon.ico</ApplicationIcon>
+    <Version>1.1.0</Version>
+    <Product>Komut Paleti</Product>
+    <Description>Evrensel uygulama ve dosya başlatıcı — Windows komut paleti</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.*" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.12" />
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.13" />
+    <PackageReference Include="NHotkey.Wpf" Version="4.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="UygulamaBaslatici.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\assets\icon.png" Link="assets\icon.png" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\assets\icon.ico" Link="assets\icon.ico" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\assets\manifest.json" Link="assets\manifest.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

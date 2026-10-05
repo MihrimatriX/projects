@@ -1,0 +1,11 @@
+{
+  "kind": "critique-panel",
+  "score": 4,
+  "axes": {
+    "philosophy": { "score": 4, "notes": "Tech/utility dark WinUI posture matches wallpaper engine category" },
+    "hierarchy": { "score": 4, "notes": "Clear page headers, sidebar nav, catalog grid focal point" },
+    "execution": { "score": 4, "notes": "Consistent tokens, mono metadata, hairline borders" },
+    "specificity": { "score": 5, "notes": "Real MVP scope, WorkerW/WebView2/reconnect from brief" },
+    "restraint": { "score": 4, "notes": "Single green accent, no gradient page wash" }
+  }
+}

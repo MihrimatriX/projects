@@ -1,0 +1,29 @@
+name: renk_secici_ve_palet_uretici
+description: "Harmonik palet üretici — WCAG kontrast, CSS/Tailwind export."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  shared_preferences: ^2.2.3
+  file_picker: ^8.1.2
+  image_picker: ^1.1.2
+  screen_capturer: ^0.2.3
+  image: ^4.2.0
+  web: ^1.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icon-48.png
+    - assets/icon-64.png
+    - assets/icon.png

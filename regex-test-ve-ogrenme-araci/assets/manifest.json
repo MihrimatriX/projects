@@ -1,0 +1,15 @@
+{
+  "id": "regex-test-ve-ogrenme-araci",
+  "name": "Regex Test ve Öğrenme Aracı",
+  "version": "1.2.0",
+  "description": "Düzenli ifadeleri canlı eşleşme vurgusu, yakalama grupları ve replace önizlemesiyle test eden; adım adım debugger, ReDoS uyarısı ve aranabilir Türkçe cheatsheet sunan araç.",
+  "category": "Geliştirici Araçları",
+  "icon": "assets/icon.png",
+  "iconSvg": "assets/icon.svg",
+  "appIcon": "assets/app.ico",
+  "launch": "run.ps1",
+  "entry": "src/app/lab/page.tsx",
+  "home": "src/app/page.tsx",
+  "platforms": ["windows", "web"],
+  "tags": ["regex", "düzenli-ifade", "debugger", "cheatsheet", "geliştirici", "öğrenme"]
+}

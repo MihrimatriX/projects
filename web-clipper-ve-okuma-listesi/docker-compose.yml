@@ -1,0 +1,14 @@
+services:
+  clipper:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "file:/data/dev.db"
+      NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+    volumes:
+      - clipper-data:/data
+    restart: unless-stopped
+
+volumes:
+  clipper-data:

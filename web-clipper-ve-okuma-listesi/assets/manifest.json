@@ -1,0 +1,15 @@
+{
+  "id": "web-clipper-ve-okuma-listesi",
+  "name": "Kayıtlı Okuma — Web Clipper ve Okuma Listesi",
+  "version": "0.1.0",
+  "description": "Sayfaları kaydedip yan panelde okumanızı sağlayan Chrome (MV3) eklentisi; isteğe bağlı Next.js web arayüzü ve masaüstü sürümüyle RSS/Omnivore içe aktarma, vurgu ve notlar sunar.",
+  "category": "İletişim ve Okuma",
+  "platform": "windows",
+  "runtime": "nextjs",
+  "runScript": "run.ps1",
+  "icons": {
+    "svg": "assets/icon.svg",
+    "png": "assets/icon-512.png"
+  },
+  "tags": ["web-clipper", "okuma-listesi", "chrome-eklentisi", "rss", "readability", "sqlite"]
+}

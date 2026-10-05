@@ -1,0 +1,33 @@
+{
+  "id": "egitim-ve-ogrenme-platformu",
+  "name": "Öğrenim Pazarı",
+  "version": "1.0.0",
+  "description": "Kurs kataloğu, ders ilerlemesi ve sunucuda puanlanan quiz içeren yerel eğitim platformu. Demo kursla gelir, veriler SQLite'ta tutulur.",
+  "platform": "web",
+  "runtime": "node20",
+  "entry": "src/app/page.tsx",
+  "runScript": "run.ps1",
+  "icons": {
+    "svg": "assets/icon.svg",
+    "png": "assets/icon.png",
+    "ico": "assets/app.ico"
+  },
+  "launch": {
+    "command": "powershell",
+    "args": [
+      "-ExecutionPolicy",
+      "Bypass",
+      "-File",
+      "run.ps1"
+    ]
+  },
+  "category": "Yaşam ve Öğrenme",
+  "tags": [
+    "eğitim",
+    "kurs",
+    "quiz",
+    "nextjs",
+    "sqlite",
+    "electron"
+  ]
+}

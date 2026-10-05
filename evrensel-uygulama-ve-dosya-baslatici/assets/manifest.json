@@ -1,0 +1,20 @@
+{
+  "id": "komut-paleti",
+  "name": "Komut Paleti",
+  "description": "Alt+Space ile açılan Windows komut paleti: Başlat Menüsü uygulamalarını, dosya/klasör yollarını, PowerShell komutlarını ve web aramasını tek kutudan başlatır.",
+  "version": "1.1.0",
+  "platform": "windows",
+  "hotkey": "Alt+Space",
+  "tags": ["launcher", "komut-paleti", "wpf", "klavye", "sqlite"],
+  "category": "Dosya ve Sistem",
+  "assets": {
+    "icon": "icon.png",
+    "icon48": "icon-48.png",
+    "iconIco": "icon.ico"
+  },
+  "entry": {
+    "project": "UygulamaBaslatici/UygulamaBaslatici.csproj",
+    "assembly": "KomutPaleti",
+    "publish": "../dist/evrensel-uygulama-ve-dosya-baslatici/KomutPaleti.exe"
+  }
+}

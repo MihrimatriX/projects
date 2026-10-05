@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Katalog — Canlı Duvar Kağıdı Motoru</title>
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+</head>
+<body data-page="catalog">
+  <div class="win-shell">
+    <div data-shell="titlebar"></div>
+    <div class="app-body">
+      <div data-shell="sidebar"></div>
+      <main class="main-content">
+        <div class="page-header">
+          <h1>Duvar kağıdı kataloğu</h1>
+          <p>JSON katalog — statik görsel, video ve web içerikleri</p>
+        </div>
+        <div class="toolbar">
+          <input class="input" id="search" type="search" placeholder="Katalogda ara…" aria-label="Katalogda ara" />
+          <div class="filter-tabs" role="tablist" aria-label="İçerik türü">
+            <button class="filter-tab active" type="button" role="tab" aria-selected="true" data-filter="all">Tümü</button>
+            <button class="filter-tab" type="button" role="tab" aria-selected="false" data-filter="video">Video</button>
+            <button class="filter-tab" type="button" role="tab" aria-selected="false" data-filter="image">Görsel</button>
+            <button class="filter-tab" type="button" role="tab" aria-selected="false" data-filter="web">Web</button>
+          </div>
+          <button class="btn" type="button" id="refresh-catalog">Yenile</button>
+        </div>
+        <div class="catalog-layout">
+          <div class="wallpaper-grid" id="wp-grid" aria-live="polite"></div>
+          <aside class="card selection-panel">
+            <div class="card-header">Seçim</div>
+            <div class="card-body">
+              <div id="selection-detail" class="selection-empty">Bir duvar kağıdı seçin</div>
+              <button class="btn btn-primary" type="button" id="apply-btn" disabled style="width:100%;margin-top:12px">Birincil monitöre uygula</button>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+    <footer class="statusbar">
+      <span><span class="status-dot" aria-hidden="true"></span>WorkerW bağlı</span>
+      <span id="catalog-count">katalog.json · 8 öğe</span>
+      <span>WebView2: 2 instance</span>
+    </footer>
+  </div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="../js/shell.js"></script>
+  <script src="../js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+#Requires -Version 5.1
+<#
+.SYNOPSIS
+  Gelismis Ekran Goruntusu ve Not Alma - bagimsiz (self-contained) tek exe uretir.
+  Cikti: <repo>\dist\gelismis-ekran-goruntusu-ve-not-alma-araci\EkranGoruntusu.exe
+#>
+$ErrorActionPreference = 'Stop'
+Set-Location $PSScriptRoot
+
+$project = 'EkranGoruntusu\EkranGoruntusu.csproj'
+$outDir = Join-Path (Split-Path $PSScriptRoot -Parent) ('dist\' + (Split-Path $PSScriptRoot -Leaf))
+
+if (Test-Path $outDir) { Remove-Item $outDir -Recurse -Force }
+
+Write-Host '>>> Derleniyor (Release, win-x64, self-contained, tek dosya)...' -ForegroundColor Cyan
+& dotnet publish $project `
+    -c Release `
+    -r win-x64 `
+    --self-contained true `
+    -p:PublishSingleFile=true `
+    -p:IncludeNativeLibrariesForSelfExtract=true `
+    -p:EnableCompressionInSingleFile=true `
+    -o $outDir --nologo
+if ($LASTEXITCODE -ne 0) { throw 'dotnet publish basarisiz.' }
+
+$exes = @(Get-ChildItem $outDir -Filter '*.exe' -File)
+if ($exes.Count -ne 1) { throw "Cikti klasorunde tam olarak bir exe olmali (bulunan: $($exes.Count))." }
+
+$exe = $exes[0].FullName
+Write-Host "`n>>> Hazir: $exe" -ForegroundColor Green
+Write-Host "    Boyut: $([math]::Round($exes[0].Length / 1MB, 1)) MB"

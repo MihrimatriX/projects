@@ -1,0 +1,19 @@
+{
+  "id": "takvim-ve-zamanlayici",
+  "name": "Takvim ve Zamanlayıcı",
+  "version": "1.1.0",
+  "description": "Türkçe, çevrimdışı takvim: ay/hafta/gün görünümü, tekrarlayan etkinlikler, doğal dil girişi, ICS/JSON aktarımı ve entegre Pomodoro zamanlayıcı.",
+  "icon": "icons/app_icon.png",
+  "entry": {
+    "windows": "run.ps1",
+    "default": "flutter run"
+  },
+  "tags": [
+    "takvim",
+    "pomodoro",
+    "zamanlayıcı",
+    "etkinlik",
+    "çevrimdışı"
+  ],
+  "category": "Verimlilik"
+}

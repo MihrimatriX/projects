@@ -1,0 +1,178 @@
+<UserControl x:Class="DosyaSifreleme.Views.LoginView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:DosyaSifreleme.ViewModels"
+             Background="{StaticResource BgLockedBrush}">
+    <Grid>
+        <Border Width="400"
+                Padding="24"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Background="{StaticResource BgVaultBrush}"
+                BorderBrush="{StaticResource BorderSecureBrush}"
+                BorderThickness="1"
+                CornerRadius="12">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="48" ShadowDepth="0" Opacity="0.5" Color="Black" />
+            </Border.Effect>
+
+            <StackPanel>
+                <Viewbox Width="48" Height="48" Margin="0,0,0,16" HorizontalAlignment="Center">
+                    <Path Fill="{StaticResource ShieldBrush}"
+                          Data="M12,1 L3,5 3,11 C3,16.55 6.84,21.74 12,23 17.16,21.74 21,16.55 21,11 L21,5 Z" />
+                </Viewbox>
+
+                <TextBlock Text="{Binding VaultDisplayName}"
+                           FontSize="20" FontWeight="SemiBold"
+                           Foreground="{StaticResource TextBrush}"
+                           HorizontalAlignment="Center" Margin="0,0,0,4" />
+
+                <TextBlock Text="AES-256-GCM · Argon2id · yerel"
+                           FontFamily="Consolas"
+                           FontSize="13"
+                           Foreground="{StaticResource MutedBrush}"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,24" />
+
+                <StackPanel Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ProgressBar IsIndeterminate="True" Height="4" Margin="0,16,0,12"
+                                 Foreground="{StaticResource AccentBrush}" Background="{StaticResource BorderBrush}" />
+                    <TextBlock Text="Anahtar türetiliyor…"
+                               FontSize="14"
+                               Foreground="{StaticResource SubTextBrush}"
+                               HorizontalAlignment="Center" />
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}">
+                    <TextBlock Text="Kasa Konumu"
+                               FontSize="13" FontWeight="SemiBold"
+                               Foreground="{StaticResource SubTextBrush}"
+                               Margin="0,0,0,8" />
+
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0"
+                                 x:Name="VaultPathInput"
+                                 AutomationProperties.AutomationId="VaultPathInput"
+                                 AutomationProperties.Name="Kasa konumu"
+                                 Style="{StaticResource VaultTextBox}"
+                                 Text="{Binding VaultPath, UpdateSourceTrigger=PropertyChanged}"
+                                 ToolTip="Kasa klasörünün yolu (yazabilir, yapıştırabilir ya da Seç ile seçebilirsiniz)"
+                                 KeyDown="PasswordInput_KeyDown"
+                                 Height="40"
+                                 VerticalContentAlignment="Center" />
+                        <Button Grid.Column="1"
+                                AutomationProperties.AutomationId="SelectFolderButton"
+                                AutomationProperties.Name="Kasa klasörü seç"
+                                Content="Seç"
+                                Command="{Binding SelectFolderCommand}"
+                                Style="{StaticResource GhostButton}"
+                                Height="40"
+                                Margin="8,0,0,0" />
+                    </Grid>
+
+                    <TextBlock Text="Parola"
+                               FontSize="13" FontWeight="SemiBold"
+                               Foreground="{StaticResource SubTextBrush}"
+                               Margin="0,0,0,8" />
+
+                    <Grid Margin="0,0,0,8">
+                        <PasswordBox x:Name="PasswordInput"
+                                     AutomationProperties.AutomationId="PasswordInput"
+                                     AutomationProperties.Name="Parola"
+                                     Style="{StaticResource VaultPasswordBox}"
+                                     Height="40"
+                                     PasswordChanged="PasswordInput_PasswordChanged"
+                                     KeyDown="PasswordInput_KeyDown"
+                                     Visibility="{Binding IsPasswordVisible, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}" />
+                        <TextBox x:Name="PasswordTextInput"
+                                 AutomationProperties.AutomationId="PasswordTextInput"
+                                 AutomationProperties.Name="Parola (görünür)"
+                                 Padding="12,0,40,0"
+                                 Style="{StaticResource VaultTextBox}"
+                                 Height="40"
+                                 TextChanged="PasswordTextInput_TextChanged"
+                                 KeyDown="PasswordInput_KeyDown"
+                                 Visibility="{Binding IsPasswordVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <Button HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Width="32" Height="32"
+                                Margin="0,0,4,0"
+                                Command="{Binding TogglePasswordVisibilityCommand}"
+                                Style="{StaticResource LinkButton}"
+                                Content="👁"
+                                AutomationProperties.AutomationId="TogglePasswordButton"
+                                AutomationProperties.Name="Parolayı göster veya gizle"
+                                ToolTip="Parolayı göster/gizle" />
+                    </Grid>
+
+                    <UniformGrid Columns="4" Margin="0,0,0,6"
+                                 Visibility="{Binding IsCreatingNew, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Border Height="4" Margin="0,0,2,0" CornerRadius="2"
+                                Background="{Binding PasswordStrengthScore, Converter={StaticResource StrengthSegmentBrushConverter}, ConverterParameter=0}" />
+                        <Border Height="4" Margin="0,0,2,0" CornerRadius="2"
+                                Background="{Binding PasswordStrengthScore, Converter={StaticResource StrengthSegmentBrushConverter}, ConverterParameter=1}" />
+                        <Border Height="4" Margin="0,0,2,0" CornerRadius="2"
+                                Background="{Binding PasswordStrengthScore, Converter={StaticResource StrengthSegmentBrushConverter}, ConverterParameter=2}" />
+                        <Border Height="4" CornerRadius="2"
+                                Background="{Binding PasswordStrengthScore, Converter={StaticResource StrengthSegmentBrushConverter}, ConverterParameter=3}" />
+                    </UniformGrid>
+
+                    <TextBlock Text="{Binding PasswordStrengthLabel}"
+                               AutomationProperties.AutomationId="StrengthLabel"
+                               Visibility="{Binding IsCreatingNew, Converter={StaticResource BoolToVisibilityConverter}}"
+                               FontSize="12"
+                               Margin="0,0,0,12"
+                               Foreground="{Binding PasswordStrengthScore, Converter={StaticResource StrengthLabelBrushConverter}}" />
+
+                    <TextBlock Text="{Binding InfoMessage}"
+                               AutomationProperties.AutomationId="InfoText"
+                               FontSize="13"
+                               Foreground="{StaticResource SubTextBrush}"
+                               TextWrapping="Wrap"
+                               TextAlignment="Center"
+                               Margin="0,0,0,12"
+                               Visibility="{Binding InfoMessage, Converter={StaticResource NullToVisibilityConverter}}" />
+
+                    <TextBlock Text="{Binding ErrorMessage}"
+                               AutomationProperties.AutomationId="ErrorText"
+                               FontSize="13"
+                               Foreground="{StaticResource DangerBrush}"
+                               TextWrapping="Wrap"
+                               TextAlignment="Center"
+                               Margin="0,0,0,12"
+                               Visibility="{Binding ErrorMessage, Converter={StaticResource NullToVisibilityConverter}}" />
+
+                    <Button Content="{Binding IsCreatingNew, Converter={StaticResource BoolToTextConverter}, ConverterParameter='Kasayı Oluştur ve Aç|Kasa Aç'}"
+                            AutomationProperties.AutomationId="SubmitButton"
+                            Command="{Binding SubmitCommand}"
+                            Style="{StaticResource PrimaryButton}"
+                            Height="40"
+                            Margin="0,0,0,10" />
+
+                    <Button Content="{Binding IsCreatingNew, Converter={StaticResource BoolToTextConverter}, ConverterParameter='Zaten bir kasanız var mı? Giriş yapın|Yeni Kasa Oluştur'}"
+                            AutomationProperties.AutomationId="ToggleModeButton"
+                            Command="{Binding ToggleModeCommand}"
+                            Style="{StaticResource LinkButton}"
+                            HorizontalAlignment="Center" />
+
+                    <TextBlock FontSize="11"
+                               Foreground="{StaticResource MutedBrush}"
+                               HorizontalAlignment="Center"
+                               Margin="0,20,0,0"
+                               Text="Enter: kasayı aç" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <TextBlock Text="Verileriniz yalnızca cihazınızda işlenir"
+                   FontSize="12"
+                   Foreground="{StaticResource MutedBrush}"
+                   VerticalAlignment="Bottom"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,16" />
+    </Grid>
+</UserControl>

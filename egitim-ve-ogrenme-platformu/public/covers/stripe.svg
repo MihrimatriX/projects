@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" fill="none">
+  <rect width="640" height="360" fill="#635bff"/>
+  <rect x="80" y="90" width="480" height="180" rx="20" fill="white"/>
+  <rect x="120" y="130" width="200" height="16" rx="8" fill="#635bff" opacity="0.3"/>
+  <rect x="120" y="160" width="280" height="12" rx="6" fill="#cbd5e1"/>
+  <rect x="120" y="190" width="120" height="36" rx="8" fill="#635bff"/>
+  <text x="80" y="310" font-family="Segoe UI, system-ui, sans-serif" font-size="36" font-weight="700" fill="white">Stripe Checkout</text>
+</svg>

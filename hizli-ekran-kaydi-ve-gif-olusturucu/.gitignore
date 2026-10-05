@@ -1,0 +1,12 @@
+[Bb]in/
+[Oo]bj/
+.vs/
+*.user
+*.suo
+*.log
+.DS_Store
+.idea/
+data/
+Recordings/
+startup-*.txt
+TestResults/

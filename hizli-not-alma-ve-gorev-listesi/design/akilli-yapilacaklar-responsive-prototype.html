@@ -1,0 +1,1287 @@
+
+<!doctype html>
+<html lang="tr" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Akıllı Yapılacaklar Listesi</title>
+  <style>
+    :root {
+      --bg-app: #fafafa;
+      --bg-sidebar: #ffffff;
+      --bg-hover: #f4f4f5;
+      --bg-selected: #eff6ff;
+      --bg-card: #ffffff;
+      --border: #e4e4e7;
+      --text-primary: #18181b;
+      --text-secondary: #52525b;
+      --text-muted: #a1a1aa;
+      --accent: #2563eb;
+      --accent-soft: #dbeafe;
+      --accent-hover: #1d4ed8;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --warning: #f59e0b;
+      --priority-low: #94a3b8;
+      --project-red: #ef4444;
+      --project-blue: #3b82f6;
+      --project-green: #22c55e;
+      --project-amber: #f59e0b;
+      --sidebar-width: 260px;
+      --bottom-nav-height: 56px;
+      --task-row-height: 44px;
+      --padding-page: 24px 32px;
+      --padding-sidebar: 12px 8px;
+      --radius: 8px;
+      --radius-chip: 12px;
+      --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06);
+      --shadow-sheet: 0 -4px 24px rgba(0, 0, 0, 0.10);
+      --focus-ring: 0 0 0 2px #2563eb;
+      --font-body: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    html[data-theme="dark"] {
+      --bg-app: #09090b;
+      --bg-sidebar: #18181b;
+      --bg-hover: #27272a;
+      --bg-selected: #1e3a5f;
+      --bg-card: #18181b;
+      --border: #3f3f46;
+      --text-primary: #fafafa;
+      --text-secondary: #d4d4d8;
+      --text-muted: #a1a1aa;
+      --accent-soft: rgba(37, 99, 235, 0.20);
+      --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.25);
+      --shadow-sheet: 0 -4px 24px rgba(0, 0, 0, 0.34);
+    }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg-app);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      transition: background 200ms var(--ease-out), color 200ms var(--ease-out);
+    }
+    button, input, textarea { font: inherit; color: inherit; }
+    button { border: 0; background: none; cursor: pointer; }
+    button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+    }
+    .app-shell {
+      min-height: 100dvh;
+      display: grid;
+      grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+    }
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100dvh;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      padding: var(--padding-sidebar);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      z-index: 30;
+      transition: transform 250ms var(--ease-out), background 200ms var(--ease-out);
+    }
+    .brand-row {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 8px;
+    }
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      background: var(--text-primary);
+      color: var(--bg-sidebar);
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .brand-text { display: grid; gap: 1px; }
+    .brand-title {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 18px;
+    }
+    .brand-subtitle {
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--text-muted);
+      letter-spacing: 0.01em;
+    }
+    .search-shell { position: relative; padding: 0 4px; }
+    .search-shell svg {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+    .search-input {
+      width: 100%;
+      height: 36px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg-app);
+      padding: 0 10px 0 36px;
+      color: var(--text-primary);
+      font-size: 14px;
+      line-height: 18px;
+      transition: border-color 150ms var(--ease-out), background 150ms var(--ease-out);
+    }
+    .search-input::placeholder { color: var(--text-muted); }
+    .search-input:focus { border-color: var(--accent); }
+    .nav-section { display: grid; gap: 2px; }
+    .section-label {
+      padding: 8px 10px 5px;
+      color: var(--text-muted);
+      font-size: 11px;
+      line-height: 14px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .nav-item, .project-item {
+      min-height: 36px;
+      border-radius: 8px;
+      padding: 0 8px;
+      display: grid;
+      grid-template-columns: 24px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 150ms var(--ease-out), color 150ms var(--ease-out);
+    }
+    .nav-item:hover, .project-item:hover { background: var(--bg-hover); }
+    .nav-item.active, .project-item.active {
+      background: var(--bg-selected);
+      color: var(--text-primary);
+    }
+    .nav-item svg { color: currentColor; opacity: 0.82; }
+    .count {
+      min-width: 22px;
+      text-align: right;
+      color: var(--text-muted);
+      font-size: 12px;
+      line-height: 16px;
+      font-variant-numeric: tabular-nums;
+    }
+    .project-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      justify-self: center;
+      background: var(--project-blue);
+    }
+    .project-dot.green { background: var(--project-green); }
+    .project-dot.amber { background: var(--project-amber); }
+    .project-dot.red { background: var(--project-red); }
+    .sidebar-spacer { flex: 1; }
+    .theme-toggle {
+      min-height: 44px;
+      border-radius: 8px;
+      padding: 0 8px;
+      display: grid;
+      grid-template-columns: 24px minmax(0, 1fr) 40px;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+      text-align: left;
+    }
+    .theme-toggle:hover { background: var(--bg-hover); }
+    .switch {
+      width: 34px;
+      height: 20px;
+      border-radius: 999px;
+      background: var(--border);
+      padding: 2px;
+      justify-self: end;
+      transition: background 200ms var(--ease-out);
+    }
+    .switch::before {
+      content: "";
+      display: block;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
+      transition: transform 200ms var(--ease-out);
+    }
+    html[data-theme="dark"] .switch { background: var(--accent); }
+    html[data-theme="dark"] .switch::before { transform: translateX(14px); }
+    .content-grid {
+      min-width: 0;
+      height: 100dvh;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 380px;
+      overflow: hidden;
+    }
+    .main-pane {
+      min-width: 0;
+      height: 100dvh;
+      overflow: auto;
+      padding: var(--padding-page);
+    }
+    .mobile-header {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 52px;
+      margin: -8px 0 12px;
+    }
+    .icon-button {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: var(--text-secondary);
+    }
+    .icon-button:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .page-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 20px;
+      margin: 8px 0 20px;
+    }
+    .eyebrow {
+      margin: 0 0 4px;
+      color: var(--text-muted);
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 28px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .head-meta {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .meta-pill {
+      min-height: 28px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 5px 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: 12px;
+      line-height: 16px;
+      font-variant-numeric: tabular-nums;
+    }
+    .quick-add-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-card);
+      margin-bottom: 18px;
+      overflow: hidden;
+      transition: border-color 150ms var(--ease-out), box-shadow 150ms var(--ease-out), transform 150ms var(--ease-out);
+    }
+    .quick-add-card:focus-within {
+      border-color: color-mix(in srgb, var(--accent) 42%, var(--border));
+      box-shadow: 0 1px 0 color-mix(in srgb, var(--accent) 12%, transparent), var(--shadow-card);
+    }
+    .quick-add-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 8px 8px 14px;
+      border-bottom: 1px solid transparent;
+    }
+    .quick-add-row:focus-within {
+      border-bottom-color: var(--accent);
+      box-shadow: inset 0 -1px 0 var(--accent);
+    }
+    .quick-add-input {
+      min-height: 36px;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--text-primary);
+      font-size: 15px;
+      line-height: 20px;
+      width: 100%;
+    }
+    .quick-add-input::placeholder { color: var(--text-muted); }
+    .primary-button {
+      min-height: 36px;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #fff;
+      padding: 0 12px;
+      font-size: 13px;
+      line-height: 18px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      transition: background 150ms var(--ease-out), transform 150ms var(--ease-out);
+    }
+    .primary-button:hover { background: var(--accent-hover); }
+    .primary-button:active { transform: translateY(1px); }
+    .parse-preview {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      padding: 0 14px;
+      transform: translateY(-2px);
+      transition: max-height 180ms var(--ease-out), opacity 150ms var(--ease-out), padding 180ms var(--ease-out), transform 180ms var(--ease-out);
+    }
+    .parse-preview.visible {
+      max-height: 48px;
+      opacity: 1;
+      padding: 0 14px 10px;
+      transform: translateY(0);
+    }
+    .chip {
+      min-height: 22px;
+      border-radius: var(--radius-chip);
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      background: var(--accent-soft);
+      color: var(--accent-hover);
+      font-size: 11px;
+      line-height: 14px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+    html[data-theme="dark"] .chip { color: #bfdbfe; }
+    .task-groups {
+      display: grid;
+      gap: 20px;
+      padding-bottom: 36px;
+    }
+    .group-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 6px;
+      padding: 0 2px;
+    }
+    .group-title {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .task-list { display: grid; gap: 2px; }
+    .task-row {
+      position: relative;
+      min-height: var(--task-row-height);
+      border-radius: 6px;
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 2px;
+      padding: 2px 8px 2px 0;
+      color: var(--text-primary);
+      outline: 0;
+      transition: background 150ms var(--ease-out), color 150ms var(--ease-out), opacity 200ms var(--ease-out), transform 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
+    }
+    .task-row:hover { background: var(--bg-hover); transform: translateX(2px); }
+    .task-row:focus-visible { box-shadow: var(--focus-ring); }
+    .task-row.selected {
+      background: var(--bg-selected);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent);
+    }
+    .task-row.completed { color: var(--text-muted); }
+    .task-row.removing { opacity: 0; transform: translateX(16px); }
+    .task-row.just-added { animation: taskEnter 260ms var(--ease-out); }
+    .task-row.state-changed { animation: rowConfirm 220ms var(--ease-out); }
+    .task-row.high::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 8px;
+      width: 3px;
+      border-radius: 2px;
+      background: var(--warning);
+    }
+    .check-button {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+    }
+    .task-check {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      transition: border-color 150ms var(--ease-out), background 150ms var(--ease-out), transform 150ms var(--ease-out);
+    }
+    .check-button:hover .task-check { border-color: var(--accent); }
+    .task-row.completed .task-check {
+      border-color: var(--accent);
+      background: var(--accent);
+      transform: scale(1);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+    }
+    .task-check svg {
+      opacity: 0;
+      transform: scale(0.9);
+      color: #fff;
+      transition: opacity 150ms var(--ease-out), transform 150ms var(--ease-out);
+    }
+    .task-row.completed .task-check svg { opacity: 1; transform: scale(1); }
+    .task-row.state-changed .task-check { animation: checkCommit 150ms var(--ease-out); }
+    .task-main { min-width: 0; padding: 6px 0; }
+    .task-title {
+      margin: 0;
+      font-size: 15px;
+      line-height: 20px;
+      font-weight: 400;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .task-row.completed .task-title {
+      text-decoration: line-through;
+      text-decoration-thickness: 1px;
+    }
+    .task-meta {
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      color: var(--text-muted);
+      font-size: 12px;
+      line-height: 16px;
+    }
+    .task-side {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      min-width: 72px;
+      color: var(--text-muted);
+      font-size: 12px;
+      line-height: 16px;
+      font-variant-numeric: tabular-nums;
+    }
+    .due.overdue { color: var(--danger); font-weight: 500; }
+    .due.today { color: var(--text-secondary); }
+    .repeat {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--text-muted);
+    }
+    .empty-state {
+      display: none;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      padding: 30px;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+    .empty-state.visible { display: block; }
+    .empty-state strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text-primary);
+      font-size: 15px;
+      line-height: 20px;
+      font-weight: 600;
+    }
+    .detail-panel {
+      height: 100dvh;
+      min-width: 0;
+      background: var(--bg-card);
+      border-left: 1px solid var(--border);
+      overflow: auto;
+      padding: 22px;
+      transition: transform 250ms var(--ease-out), background 200ms var(--ease-out);
+    }
+    .detail-panel::before {
+      content: "";
+      display: none;
+      width: 36px;
+      height: 4px;
+      border-radius: 999px;
+      background: var(--border);
+      margin: -8px auto 14px;
+    }
+    .detail-panel > * { animation: panelContentIn 220ms var(--ease-out); }
+    .detail-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .detail-kicker {
+      margin: 0 0 6px;
+      color: var(--text-muted);
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .detail-title-input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      resize: none;
+      background: transparent;
+      color: var(--text-primary);
+      font-size: 18px;
+      line-height: 24px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      min-height: 54px;
+    }
+    .detail-block {
+      border-top: 1px solid var(--border);
+      padding: 16px 0;
+      display: grid;
+      gap: 10px;
+    }
+    .detail-label {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 11px;
+      line-height: 14px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .field-grid {
+      display: grid;
+      grid-template-columns: 96px minmax(0, 1fr);
+      gap: 8px 12px;
+      align-items: center;
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 18px;
+    }
+    .field-grid dt {
+      color: var(--text-muted);
+      font-size: 12px;
+      line-height: 16px;
+    }
+    .field-grid dd { margin: 0; }
+    .subtask-list { display: grid; gap: 4px; }
+    .subtask {
+      min-height: 34px;
+      border-radius: 6px;
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      align-items: center;
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 18px;
+    }
+    .subtask:hover { background: var(--bg-hover); }
+    .subtask input {
+      width: 16px;
+      height: 16px;
+      margin: 0;
+      accent-color: var(--accent);
+      justify-self: center;
+    }
+    .note-area {
+      width: 100%;
+      min-height: 106px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg-app);
+      color: var(--text-secondary);
+      padding: 10px 11px;
+      resize: vertical;
+      font-size: 14px;
+      line-height: 20px;
+    }
+    .detail-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .secondary-button, .danger-button {
+      min-height: 36px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0 12px;
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: 13px;
+      line-height: 18px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      transition: background 150ms var(--ease-out), color 150ms var(--ease-out), transform 150ms var(--ease-out);
+    }
+    .secondary-button:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .danger-button { color: var(--danger); }
+    .danger-button:hover { background: color-mix(in srgb, var(--danger) 8%, transparent); }
+    .secondary-button:active, .danger-button:active, .fab:active, .bottom-nav a:active { transform: translateY(1px); }
+    .drawer-scrim {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 12, 0.34);
+      backdrop-filter: blur(2px);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 20;
+      transition: opacity 250ms var(--ease-out);
+    }
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: var(--bottom-nav-height);
+      background: var(--bg-sidebar);
+      border-top: 1px solid var(--border);
+      z-index: 26;
+      grid-template-columns: repeat(5, 1fr);
+    }
+    .bottom-nav a {
+      min-width: 0;
+      display: grid;
+      place-items: center;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 11px;
+      line-height: 14px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      transition: color 150ms var(--ease-out), transform 150ms var(--ease-out);
+    }
+    .bottom-nav a.active { color: var(--accent); }
+    .fab {
+      display: none;
+      position: fixed;
+      right: 16px;
+      bottom: 72px;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 10px 22px rgba(37, 99, 235, 0.28);
+      z-index: 27;
+      place-items: center;
+      transition: background 150ms var(--ease-out), transform 150ms var(--ease-out), box-shadow 150ms var(--ease-out);
+    }
+    .fab:hover { background: var(--accent-hover); box-shadow: 0 12px 26px rgba(37, 99, 235, 0.32); }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    @media (max-width: 899px) {
+      .app-shell { grid-template-columns: 1fr; }
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: var(--sidebar-width);
+        transform: translateX(-102%);
+        box-shadow: 18px 0 44px rgba(0, 0, 0, 0.14);
+      }
+      body.drawer-open .sidebar { transform: translateX(0); }
+      body.drawer-open .drawer-scrim { opacity: 1; pointer-events: auto; }
+      .content-grid { grid-template-columns: 1fr; }
+      .main-pane { padding: 18px 22px 36px; }
+      .mobile-header { display: flex; }
+      .page-head { margin-top: 0; }
+      .detail-panel {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: min(390px, 92vw);
+        z-index: 24;
+        box-shadow: -18px 0 44px rgba(0, 0, 0, 0.16);
+        transform: translateX(104%);
+      }
+      body.detail-open .detail-panel { transform: translateX(0); }
+    }
+    @media (max-width: 599px) {
+      body { font-size: 15px; }
+      .main-pane { padding: 12px 14px calc(var(--bottom-nav-height) + 92px); }
+      .mobile-header {
+        position: sticky;
+        top: 0;
+        background: color-mix(in srgb, var(--bg-app) 94%, transparent);
+        backdrop-filter: blur(12px);
+        margin: -12px -14px 10px;
+        padding: 8px 10px;
+        z-index: 15;
+        border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+      }
+      .page-head { grid-template-columns: 1fr; gap: 10px; }
+      .head-meta { justify-content: flex-start; }
+      .quick-add-row { grid-template-columns: 1fr; padding: 10px 12px; }
+      .primary-button { width: 100%; }
+      .task-row { grid-template-columns: 44px minmax(0, 1fr); padding-right: 6px; }
+      .task-side {
+        grid-column: 2;
+        justify-content: flex-start;
+        min-width: 0;
+        margin-top: -2px;
+        padding-bottom: 6px;
+      }
+      .detail-panel {
+        top: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: min(82vh, 720px);
+        border-left: 0;
+        border-top: 1px solid var(--border);
+        border-radius: 16px 16px 0 0;
+        box-shadow: var(--shadow-sheet);
+        transform: translateY(104%);
+      }
+      body.detail-open .detail-panel { transform: translateY(0); }
+      .detail-panel::before { display: block; }
+      .bottom-nav { display: grid; }
+      .fab { display: grid; }
+      .field-grid { grid-template-columns: 1fr; gap: 2px; }
+    }
+    @keyframes taskEnter {
+      from { opacity: 0; transform: translateY(-6px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes rowConfirm {
+      0% { transform: translateX(0); }
+      45% { transform: translateX(3px); }
+      100% { transform: translateX(0); }
+    }
+    @keyframes checkCommit {
+      0% { transform: scale(0.9); }
+      70% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+    @keyframes panelContentIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="drawer-scrim" data-action="close-drawer"></div>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Ana gezinme">
+      <div class="brand-row">
+        <div class="brand-mark" aria-hidden="true">A</div>
+        <div class="brand-text">
+          <div class="brand-title">Akıllı Liste</div>
+          <div class="brand-subtitle">Yerel ve hızlı</div>
+        </div>
+      </div>
+      <label class="search-shell">
+        <span class="sr-only">Görevlerde ara</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M10.8 18.1a7.3 7.3 0 1 1 0-14.6 7.3 7.3 0 0 1 0 14.6Zm5.2-2.1 4.4 4.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <input class="search-input" id="searchInput" type="search" placeholder="Ara" autocomplete="off" />
+      </label>
+      <nav class="nav-section" aria-label="Görünümler">
+        <a class="nav-item active" href="#bugun" aria-current="page">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 3.8v3M17 3.8v3M5 9.2h14M6.8 5.2h10.4c1 0 1.8.8 1.8 1.8v11.2c0 1-.8 1.8-1.8 1.8H6.8c-1 0-1.8-.8-1.8-1.8V7c0-1 .8-1.8 1.8-1.8Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+          <span>Bugün</span>
+          <span class="count" id="todayCount">0</span>
+        </a>
+        <a class="nav-item" href="#gelen-kutusu">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4.5 13.2 6.8 5h10.4l2.3 8.2v4.5c0 .9-.7 1.6-1.6 1.6H6.1c-.9 0-1.6-.7-1.6-1.6v-4.5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+            <path d="M4.8 13.2h4.1c.4 1.3 1.5 2.1 3.1 2.1s2.7-.8 3.1-2.1h4.1" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+          <span>Gelen Kutusu</span>
+          <span class="count" id="inboxCount">0</span>
+        </a>
+        <a class="nav-item" href="#yaklasan">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 6v6l3.5 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+          <span>Yaklaşan</span>
+          <span class="count">0</span>
+        </a>
+        <a class="nav-item" href="#notlar">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 4h7l3 3v13H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+            <path d="M14 4v4h4M8 12h7M8 15.5h5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+          <span>Hızlı Notlar</span>
+          <span class="count">0</span>
+        </a>
+      </nav>
+      <div class="nav-section">
+        <div class="section-label">Projeler</div>
+        <a class="project-item active" href="#uygulama">
+          <span class="project-dot"></span>
+          <span>Uygulama</span>
+          <span class="count" id="projectAppCount">0</span>
+        </a>
+        <a class="project-item" href="#tasarim">
+          <span class="project-dot green"></span>
+          <span>Tasarım</span>
+          <span class="count" id="projectDesignCount">0</span>
+        </a>
+        <a class="project-item" href="#kalite">
+          <span class="project-dot amber"></span>
+          <span>Kalite</span>
+          <span class="count" id="projectQualityCount">0</span>
+        </a>
+      </div>
+      <div class="sidebar-spacer"></div>
+      <button class="theme-toggle" type="button" id="themeToggle" aria-pressed="false">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 14.8A7.6 7.6 0 0 1 9.2 4a8.2 8.2 0 1 0 10.8 10.8Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+        </svg>
+        <span>Koyu tema</span>
+        <span class="switch" aria-hidden="true"></span>
+      </button>
+    </aside>
+    <main class="content-grid" id="bugun">
+      <section class="main-pane" aria-labelledby="pageTitle">
+        <div class="mobile-header">
+          <button class="icon-button" type="button" data-action="open-drawer" aria-label="Menüyü aç">
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <strong>Akıllı Liste</strong>
+          <button class="icon-button" type="button" data-action="focus-search" aria-label="Aramayı aç">
+            <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10.8 18.1a7.3 7.3 0 1 1 0-14.6 7.3 7.3 0 0 1 0 14.6Zm5.2-2.1 4.4 4.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+        <header class="page-head">
+          <div>
+            <p class="eyebrow" id="dateLabel">Bugün</p>
+            <h1 id="pageTitle">Bugün</h1>
+          </div>
+          <div class="head-meta" aria-live="polite">
+            <span class="meta-pill"><span id="openCount">0</span> açık görev</span>
+            <span class="meta-pill"><span id="overdueCount">0</span> geciken</span>
+          </div>
+        </header>
+        <form class="quick-add-card" id="quickAddForm" autocomplete="off">
+          <div class="quick-add-row">
+            <label class="sr-only" for="quickAddInput">Yeni görev</label>
+            <input class="quick-add-input" id="quickAddInput" type="text" placeholder="+ Görev ekle veya #etiket @bağlam" />
+            <button class="primary-button" type="submit">Ekle</button>
+          </div>
+          <div class="parse-preview" id="parsePreview" aria-live="polite"></div>
+        </form>
+        <div class="task-groups" id="taskGroups"></div>
+        <div class="empty-state" id="emptyState">
+          <strong>Eşleşme bulunamadı</strong>
+          <span>Aramayı temizleyin ya da yeni bir görev ekleyin.</span>
+        </div>
+      </section>
+      <aside class="detail-panel" id="detailPanel" aria-label="Görev detayı"></aside>
+    </main>
+  </div>
+  <nav class="bottom-nav" aria-label="Alt gezinme">
+    <a class="active" href="#bugun">Bugün</a>
+    <a href="#gelen-kutusu">Gelen</a>
+    <a href="#yaklasan">Yaklaşan</a>
+    <a href="#notlar">Notlar</a>
+    <a href="#ayarlar">Ayarlar</a>
+  </nav>
+  <button class="fab" type="button" data-action="focus-quick-add" aria-label="Yeni görev ekle">
+    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+  <div class="sr-only" id="liveRegion" aria-live="polite"></div>
+  <script>
+    const initialTasks = [
+      { id: "t1", title: "Drift şema v2 migration notlarını gözden geçir", project: "Uygulama", context: "@masaüstü", tags: ["sqlite", "v1.1"], due: "Dün", dueType: "overdue", priority: "high", repeat: "", completed: false, inbox: false, notes: "Legacy migration banner metni ve v2 JSON alanları birlikte kontrol edilecek.", subtasks: [{ text: "schemaVersion alanını doğrula", done: true }, { text: "eski kayıt dönüşümünü test et", done: false }, { text: "import onay dialog kopyasını güncelle", done: false }] },
+      { id: "t2", title: "Hızlı ekleme parserı için #etiket ve @bağlam testleri", project: "Kalite", context: "@klavye", tags: ["parser"], due: "Bugün", dueType: "today", priority: "normal", repeat: "", completed: false, inbox: false, notes: "Enter gönderimi, boş input ve sadece etiket girilen durumları kapsa.", subtasks: [{ text: "#etiket chip üretimini kontrol et", done: false }, { text: "@bağlam ayrıştırmayı kontrol et", done: false }] },
+      { id: "t3", title: "Görev detay sheet için alt görev komponentini bağla", project: "Tasarım", context: "@ui", tags: ["sheet"], due: "Bugün", dueType: "today", priority: "normal", repeat: "Haftalık", completed: false, inbox: false, notes: "Desktop sağ slide-over, mobil bottom sheet olarak davranmalı.", subtasks: [{ text: "Desktop genişliğini 380px tut", done: true }, { text: "Mobil yüksekliği 82vh ile sınırla", done: false }] },
+      { id: "t4", title: "Bugün görünümü için boş durum metnini düzenle", project: "Tasarım", context: "@metin", tags: ["boş-durum"], due: "Bugün", dueType: "today", priority: "low", repeat: "", completed: true, inbox: false, notes: "Kutlama dili sade kalmalı; gereksiz görsel kullanılmayacak.", subtasks: [{ text: "Gelen kutusu boş metnini ayır", done: true }, { text: "Bugün boş metnini doğrula", done: true }] },
+      { id: "t5", title: "JSON dışa/içe aktar akışını doğrula", project: "Uygulama", context: "@veri", tags: ["json"], due: "Bugün", dueType: "today", priority: "high", repeat: "", completed: false, inbox: true, notes: "Üzerine yazma onayı kırmızı dialog ile gelmeli; geri alınamaz durum açık yazılmalı.", subtasks: [{ text: "export sürüm 2 şemasını üret", done: false }, { text: "import önizleme sayısını göster", done: false }] }
+    ];
+    const state = { tasks: loadTasks(), selectedId: "t1", search: "", theme: localStorage.getItem("smartTodoTheme") || "light" };
+    const el = {
+      root: document.documentElement,
+      body: document.body,
+      taskGroups: document.getElementById("taskGroups"),
+      detailPanel: document.getElementById("detailPanel"),
+      emptyState: document.getElementById("emptyState"),
+      searchInput: document.getElementById("searchInput"),
+      quickForm: document.getElementById("quickAddForm"),
+      quickInput: document.getElementById("quickAddInput"),
+      parsePreview: document.getElementById("parsePreview"),
+      liveRegion: document.getElementById("liveRegion"),
+      dateLabel: document.getElementById("dateLabel"),
+      todayCount: document.getElementById("todayCount"),
+      inboxCount: document.getElementById("inboxCount"),
+      openCount: document.getElementById("openCount"),
+      overdueCount: document.getElementById("overdueCount"),
+      projectAppCount: document.getElementById("projectAppCount"),
+      projectDesignCount: document.getElementById("projectDesignCount"),
+      projectQualityCount: document.getElementById("projectQualityCount"),
+      themeToggle: document.getElementById("themeToggle")
+    };
+    function loadTasks() {
+      try {
+        const saved = JSON.parse(localStorage.getItem("smartTodoTasks") || "null");
+        return Array.isArray(saved) && saved.length ? saved : initialTasks;
+      } catch (_) {
+        return initialTasks;
+      }
+    }
+    function saveTasks() { localStorage.setItem("smartTodoTasks", JSON.stringify(state.tasks)); }
+    function cueRow(id, className, duration = 260) {
+      const row = document.querySelector(`[data-task-id="${CSS.escape(id)}"].task-row`);
+      if (!row) return;
+      row.classList.add(className);
+      window.setTimeout(() => row.classList.remove(className), duration);
+    }
+    function esc(value) {
+      return String(value || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+    function todayText() {
+      return new Intl.DateTimeFormat("tr-TR", { weekday: "long", day: "numeric", month: "long" }).format(new Date());
+    }
+    function currentTasks() {
+      const query = state.search.trim().toLocaleLowerCase("tr-TR");
+      const todayLike = state.tasks.filter(task => task.dueType === "today" || task.dueType === "overdue");
+      if (!query) return todayLike;
+      return todayLike.filter(task => [task.title, task.project, task.context, task.due, ...(task.tags || [])].join(" ").toLocaleLowerCase("tr-TR").includes(query));
+    }
+    function groupTasks(tasks) {
+      return [
+        { key: "overdue", title: "Geciken", tasks: tasks.filter(task => task.dueType === "overdue" && !task.completed) },
+        { key: "today", title: "Bugün", tasks: tasks.filter(task => task.dueType === "today" && !task.completed) },
+        { key: "done", title: "Tamamlanan", tasks: tasks.filter(task => task.completed) }
+      ].filter(group => group.tasks.length);
+    }
+    function renderTask(task) {
+      const tags = (task.tags || []).map(tag => `<span class="chip">#${esc(tag)}</span>`).join("");
+      const selected = task.id === state.selectedId ? " selected" : "";
+      const completed = task.completed ? " completed" : "";
+      const high = task.priority === "high" ? " high" : "";
+      const dueClass = task.dueType === "overdue" ? "overdue" : "today";
+      return `
+        <article class="task-row${selected}${completed}${high}" data-task-id="${esc(task.id)}" tabindex="0" aria-label="${esc(task.title)}">
+          <button class="check-button" type="button" data-action="toggle-task" data-task-id="${esc(task.id)}" aria-label="${task.completed ? "Görevi aç" : "Görevi tamamla"}">
+            <span class="task-check" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 16 16"><path d="m3.3 8 3 3.1 6.4-6.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+          <div class="task-main">
+            <p class="task-title">${esc(task.title)}</p>
+            <div class="task-meta"><span>${esc(task.project)}</span>${task.context ? `<span>${esc(task.context)}</span>` : ""}${tags}</div>
+          </div>
+          <div class="task-side">${task.repeat ? `<span class="repeat" title="Tekrar: ${esc(task.repeat)}">↻</span>` : ""}<span class="due ${dueClass}">${esc(task.due)}</span></div>
+        </article>
+      `;
+    }
+    function renderGroups() {
+      const tasks = currentTasks();
+      const groups = groupTasks(tasks);
+      el.taskGroups.innerHTML = groups.map(group => `
+        <section class="task-group" aria-labelledby="${group.key}-title">
+          <div class="group-head"><h2 class="group-title" id="${group.key}-title">${group.title}</h2><span class="count">${group.tasks.length}</span></div>
+          <div class="task-list">${group.tasks.map(renderTask).join("")}</div>
+        </section>
+      `).join("");
+      el.emptyState.classList.toggle("visible", tasks.length === 0);
+    }
+    function renderCounts() {
+      const todayLike = state.tasks.filter(task => task.dueType === "today" || task.dueType === "overdue");
+      const open = todayLike.filter(task => !task.completed);
+      const overdue = state.tasks.filter(task => task.dueType === "overdue" && !task.completed);
+      el.todayCount.textContent = String(open.length);
+      el.inboxCount.textContent = String(state.tasks.filter(task => task.inbox && !task.completed).length);
+      el.openCount.textContent = String(open.length);
+      el.overdueCount.textContent = String(overdue.length);
+      el.projectAppCount.textContent = String(state.tasks.filter(task => task.project === "Uygulama" && !task.completed).length);
+      el.projectDesignCount.textContent = String(state.tasks.filter(task => task.project === "Tasarım" && !task.completed).length);
+      el.projectQualityCount.textContent = String(state.tasks.filter(task => task.project === "Kalite" && !task.completed).length);
+    }
+    function selectedTask() {
+      return state.tasks.find(task => task.id === state.selectedId) || currentTasks()[0] || state.tasks[0];
+    }
+    function renderDetail() {
+      const task = selectedTask();
+      if (!task) {
+        el.detailPanel.innerHTML = `<div class="empty-state visible"><strong>Görev seçilmedi</strong><span>Detayları görmek için listeden bir görev seçin.</span></div>`;
+        return;
+      }
+      state.selectedId = task.id;
+      const subtasks = (task.subtasks || []).map((subtask, index) => `
+        <label class="subtask">
+          <input type="checkbox" data-action="toggle-subtask" data-task-id="${esc(task.id)}" data-subtask-index="${index}" ${subtask.done ? "checked" : ""} />
+          <span>${esc(subtask.text)}</span>
+        </label>
+      `).join("");
+      el.detailPanel.innerHTML = `
+        <div class="detail-head">
+          <div>
+            <p class="detail-kicker">${esc(task.project)} · ${esc(task.due)}</p>
+            <textarea class="detail-title-input" id="detailTitle" data-task-id="${esc(task.id)}" rows="2">${esc(task.title)}</textarea>
+          </div>
+          <button class="icon-button" type="button" data-action="close-detail" aria-label="Detayı kapat">
+            <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <dl class="detail-block field-grid">
+          <dt>Tarih</dt><dd>${esc(task.due)}</dd>
+          <dt>Öncelik</dt><dd>${task.priority === "high" ? "Yüksek" : task.priority === "low" ? "Düşük" : "Normal"}</dd>
+          <dt>Tekrar</dt><dd>${task.repeat ? esc(task.repeat) : "Yok"}</dd>
+          <dt>Bağlam</dt><dd>${task.context ? esc(task.context) : "Yok"}</dd>
+        </dl>
+        <section class="detail-block">
+          <p class="detail-label">Alt görevler</p>
+          <div class="subtask-list">${subtasks || "<span class=\"task-meta\">Alt görev yok</span>"}</div>
+        </section>
+        <section class="detail-block">
+          <label class="detail-label" for="detailNote">Not</label>
+          <textarea class="note-area" id="detailNote" data-task-id="${esc(task.id)}">${esc(task.notes)}</textarea>
+        </section>
+        <div class="detail-actions">
+          <button class="secondary-button" type="button" data-action="save-detail" data-task-id="${esc(task.id)}">Kaydet</button>
+          <button class="danger-button" type="button" data-action="delete-task" data-task-id="${esc(task.id)}">Sil</button>
+        </div>
+      `;
+    }
+    function renderTheme() {
+      el.root.dataset.theme = state.theme;
+      el.themeToggle.setAttribute("aria-pressed", state.theme === "dark" ? "true" : "false");
+      localStorage.setItem("smartTodoTheme", state.theme);
+    }
+    function render() {
+      el.dateLabel.textContent = todayText();
+      renderTheme();
+      renderGroups();
+      renderCounts();
+      renderDetail();
+      saveTasks();
+    }
+    function parseQuickAdd(value) {
+      const tags = [...value.matchAll(/#([\p{L}\p{N}_-]+)/gu)].map(match => match[1]);
+      const contexts = [...value.matchAll(/@([\p{L}\p{N}_-]+)/gu)].map(match => `@${match[1]}`);
+      const title = value.replace(/#[\p{L}\p{N}_-]+/gu, "").replace(/@[\p{L}\p{N}_-]+/gu, "").replace(/\s+/g, " ").trim();
+      return { title, tags, context: contexts[0] || "" };
+    }
+    function updateParsePreview() {
+      const parsed = parseQuickAdd(el.quickInput.value);
+      const chips = [...parsed.tags.map(tag => `#${esc(tag)}`), parsed.context ? esc(parsed.context) : ""].filter(Boolean);
+      el.parsePreview.innerHTML = chips.map(chip => `<span class="chip">${chip}</span>`).join("");
+      el.parsePreview.classList.toggle("visible", chips.length > 0);
+    }
+    function addTask(value) {
+      const parsed = parseQuickAdd(value);
+      if (!parsed.title) return;
+      const tagSet = parsed.tags.map(tag => tag.toLocaleLowerCase("tr-TR"));
+      const task = {
+        id: `t${Date.now()}`,
+        title: parsed.title,
+        project: tagSet.includes("tasarım") || tagSet.includes("tasarim") ? "Tasarım" : "Uygulama",
+        context: parsed.context,
+        tags: parsed.tags,
+        due: "Bugün",
+        dueType: "today",
+        priority: tagSet.includes("önemli") || tagSet.includes("onemli") ? "high" : "normal",
+        repeat: "",
+        completed: false,
+        inbox: parsed.tags.length === 0,
+        notes: "",
+        subtasks: []
+      };
+      state.tasks.unshift(task);
+      state.selectedId = task.id;
+      el.quickInput.value = "";
+      updateParsePreview();
+      el.liveRegion.textContent = "Görev eklendi.";
+      el.body.classList.add("detail-open");
+      render();
+      cueRow(task.id, "just-added", 300);
+    }
+    function toggleTask(id) {
+      const task = state.tasks.find(item => item.id === id);
+      if (!task) return;
+      task.completed = !task.completed;
+      el.liveRegion.textContent = task.completed ? "Görev tamamlandı." : "Görev yeniden açıldı.";
+      render();
+      cueRow(id, "state-changed", 240);
+    }
+    function saveDetail(id) {
+      const task = state.tasks.find(item => item.id === id);
+      if (!task) return;
+      const titleInput = document.getElementById("detailTitle");
+      const noteInput = document.getElementById("detailNote");
+      task.title = titleInput.value.trim() || task.title;
+      task.notes = noteInput.value;
+      el.liveRegion.textContent = "Görev güncellendi.";
+      render();
+    }
+    function deleteTask(id) {
+      const row = document.querySelector(`[data-task-id="${CSS.escape(id)}"].task-row`);
+      if (row) row.classList.add("removing");
+      window.setTimeout(() => {
+        state.tasks = state.tasks.filter(task => task.id !== id);
+        state.selectedId = currentTasks()[0]?.id || state.tasks[0]?.id || "";
+        el.body.classList.remove("detail-open");
+        el.liveRegion.textContent = "Görev silindi.";
+        render();
+      }, 200);
+    }
+    function moveSelection(delta) {
+      const tasks = currentTasks();
+      if (!tasks.length) return;
+      const currentIndex = Math.max(0, tasks.findIndex(task => task.id === state.selectedId));
+      const nextIndex = Math.min(tasks.length - 1, Math.max(0, currentIndex + delta));
+      state.selectedId = tasks[nextIndex].id;
+      el.body.classList.add("detail-open");
+      render();
+      document.querySelector(`[data-task-id="${CSS.escape(state.selectedId)}"].task-row`)?.focus();
+    }
+    document.addEventListener("click", event => {
+      const actionTarget = event.target.closest("[data-action]");
+      const row = event.target.closest(".task-row");
+      if (actionTarget) {
+        const action = actionTarget.dataset.action;
+        const taskId = actionTarget.dataset.taskId;
+        if (action === "open-drawer") el.body.classList.add("drawer-open");
+        if (action === "close-drawer") el.body.classList.remove("drawer-open");
+        if (action === "focus-search") {
+          el.body.classList.add("drawer-open");
+          window.setTimeout(() => el.searchInput.focus(), 250);
+        }
+        if (action === "focus-quick-add") el.quickInput.focus();
+        if (action === "toggle-task") {
+          event.stopPropagation();
+          toggleTask(taskId);
+        }
+        if (action === "close-detail") el.body.classList.remove("detail-open");
+        if (action === "save-detail") saveDetail(taskId);
+        if (action === "delete-task") deleteTask(taskId);
+        return;
+      }
+      if (row) {
+        state.selectedId = row.dataset.taskId;
+        el.body.classList.add("detail-open");
+        render();
+      }
+    });
+    document.addEventListener("change", event => {
+      const target = event.target;
+      if (target.matches("[data-action='toggle-subtask']")) {
+        const task = state.tasks.find(item => item.id === target.dataset.taskId);
+        const subtask = task?.subtasks?.[Number(target.dataset.subtaskIndex)];
+        if (subtask) {
+          subtask.done = target.checked;
+          saveTasks();
+        }
+      }
+    });
+    document.addEventListener("keydown", event => {
+      const editable = event.target.matches("input, textarea") || event.target.isContentEditable;
+      if (event.key === "Escape") {
+        el.body.classList.remove("detail-open", "drawer-open");
+        return;
+      }
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "f") {
+        event.preventDefault();
+        el.searchInput.focus();
+        return;
+      }
+      if (editable) return;
+      if (event.key === "j") {
+        event.preventDefault();
+        moveSelection(1);
+      }
+      if (event.key === "k") {
+        event.preventDefault();
+        moveSelection(-1);
+      }
+      if (event.key === "x" && state.selectedId) {
+        event.preventDefault();
+        toggleTask(state.selectedId);
+      }
+      if (event.key === "n") {
+        event.preventDefault();
+        el.quickInput.focus();
+      }
+    });
+    el.quickForm.addEventListener("submit", event => {
+      event.preventDefault();
+      addTask(el.quickInput.value);
+    });
+    el.quickInput.addEventListener("input", updateParsePreview);
+    el.searchInput.addEventListener("input", event => {
+      state.search = event.target.value;
+      render();
+    });
+    el.themeToggle.addEventListener("click", () => {
+      state.theme = state.theme === "dark" ? "light" : "dark";
+      renderTheme();
+    });
+    el.root.dataset.theme = state.theme;
+    render();
+  </script>
+</body>
+</html>

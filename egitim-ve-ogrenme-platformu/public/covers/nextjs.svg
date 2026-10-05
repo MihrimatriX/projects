@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" fill="none">
+  <rect width="640" height="360" fill="#18181b"/>
+  <circle cx="500" cy="100" r="120" fill="#ffffff" opacity="0.08"/>
+  <text x="72" y="210" font-family="Segoe UI, system-ui, sans-serif" font-size="56" font-weight="800" fill="white">Next.js</text>
+  <rect x="72" y="230" width="180" height="8" rx="4" fill="#6366f1"/>
+  <path d="M480 260 L560 180 L640 260 Z" fill="#6366f1" opacity="0.85"/>
+</svg>

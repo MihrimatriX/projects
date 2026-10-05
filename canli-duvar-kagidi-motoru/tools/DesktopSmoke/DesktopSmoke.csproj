@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <RollForward>Major</RollForward>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CanliDuvarKagidi.Core\CanliDuvarKagidi.Core.csproj" />
+    <ProjectReference Include="..\..\src\CanliDuvarKagidi.Players\CanliDuvarKagidi.Players.csproj" />
+  </ItemGroup>
+</Project>

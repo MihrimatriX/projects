@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Canlı Duvar Kağıdı Motoru — Prototip</title>
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/components.css" />
+</head>
+<body>
+  <div class="launcher">
+    <div class="launcher-hero">
+      <div>
+        <h1>Canlı Duvar Kağıdı Motoru</h1>
+        <p class="lead">Windows 10/11 masaüstü uygulaması — WorkerW enjeksiyonu, çoklu monitör, JSON katalog. Bu prototip ana ekranları ve sistem tepsisi menüsünü gösterir.</p>
+        <div class="stack-badge">C# · WinUI 3 · WebView2 · WorkerW</div>
+      </div>
+      <a class="btn btn-primary" href="screens/catalog.html">Katalogu aç →</a>
+    </div>
+
+    <div class="mvp-strip">
+      <div class="mvp-chip"><strong>Dahil</strong> statik · video · web</div>
+      <div class="mvp-chip"><strong>Dahil</strong> çoklu monitör · tepsi</div>
+      <div class="mvp-chip"><strong>Dahil</strong> fullscreen pause · reconnect</div>
+      <div class="mvp-chip mvp-chip--muted"><strong>Hariç</strong> shader · workshop · Steam</div>
+    </div>
+
+    <h2 class="launcher-section-label">Ekranlar</h2>
+    <div class="screen-cards">
+      <a class="screen-card" href="screens/catalog.html">
+        <h2>Katalog</h2>
+        <p>JSON katalogdan duvar kağıdı seçimi — filtre, arama, birincil monitöre uygulama.</p>
+        <span class="pill pill-ok tag">Etkileşimli</span>
+      </a>
+      <a class="screen-card" href="screens/player.html">
+        <h2>Oynatıcı</h2>
+        <p>Aktif duvar kağıdı önizlemesi, oynat/duraklat, tam ekran pause ve WorkerW durumu.</p>
+        <span class="pill pill-video tag">Video</span>
+      </a>
+      <a class="screen-card" href="screens/monitors.html">
+        <h2>Monitörler</h2>
+        <p>Her monitör için ayrı duvar kağıdı ataması — monitör başına tek WebView2.</p>
+        <span class="pill pill-ok tag">2 monitör</span>
+      </a>
+      <a class="screen-card" href="screens/settings.html">
+        <h2>Ayarlar</h2>
+        <p>Katalog URL testi, bellek sınırları, Explorer reconnect ve MVP backlog notları.</p>
+        <span class="pill pill-web tag">Yapılandırma</span>
+      </a>
+      <a class="screen-card" href="screens/tray.html">
+        <h2>Sistem tepsisi</h2>
+        <p>Görev çubuğu bağlam menüsü — duraklat, reconnect, çıkış.</p>
+        <span class="pill pill-warn tag">Arka plan</span>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

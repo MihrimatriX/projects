@@ -1,0 +1,10 @@
+{
+  "name": "Odaklanma",
+  "slug": "zaman-takip-ve-pomodoro-araci",
+  "version": "1.0.0",
+  "icons": {
+    "svg": "app_icon.svg",
+    "png512": "app_icon.png",
+    "windowsIco": "../../windows/runner/resources/app_icon.ico"
+  }
+}

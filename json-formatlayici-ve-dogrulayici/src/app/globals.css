@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@import "./design.css";
+
+html {
+  --font-ui: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-ui);
+}
+
+.cm-editor.cm-focused {
+  outline: none;
+}

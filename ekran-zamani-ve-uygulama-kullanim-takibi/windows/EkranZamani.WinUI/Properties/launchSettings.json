@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "EkranZamani.WinUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "EkranZamani.WinUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

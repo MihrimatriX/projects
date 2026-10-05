@@ -1,0 +1,33 @@
+<Window x:Class="SistemYoneticisi.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Hakkında"
+        Height="380" Width="420"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{StaticResource PrimaryBrush}">
+
+    <StackPanel Margin="28" HorizontalAlignment="Center">
+        <TextBlock Text="💻" FontSize="48" HorizontalAlignment="Center" />
+        <TextBlock Text="Sistem Yöneticisi Paketi"
+                   FontSize="18"
+                   FontWeight="SemiBold"
+                   Foreground="{StaticResource TextBrush}"
+                   HorizontalAlignment="Center"
+                   Margin="0,12,0,4" />
+        <TextBlock x:Name="VersionText"
+                   Foreground="{StaticResource SubTextBrush}"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,16" />
+        <TextBlock Text="CPU, RAM, disk, ağ ve süreçleri yerel olarak izleyen Windows sistem monitörü.&#x0a;Veriler cihazınızdan dışarı gönderilmez."
+                   TextAlignment="Center"
+                   TextWrapping="Wrap"
+                   Foreground="{StaticResource SubTextBrush}"
+                   Margin="0,0,0,20" />
+        <Button Content="Tamam"
+                Click="CloseButton_Click"
+                Style="{StaticResource PrimaryButton}"
+                Padding="32,10"
+                HorizontalAlignment="Center" />
+    </StackPanel>
+</Window>

@@ -1,0 +1,41 @@
+# --- Bağımlılıklar ---
+node_modules/
+
+# --- Vite / TypeScript / Electron derleme ---
+dist/
+dist-electron/
+release/
+*.tsbuildinfo
+
+# build/ → electron-builder ikonları repoda kalır
+
+# --- native modül (better-sqlite3 yeniden derlenir) ---
+# node_modules/better-sqlite3/build/ → node_modules zaten ignore
+
+# --- Test ---
+coverage/
+.eslintcache
+
+# --- IDE / OS ---
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- Ortam / gizli ---
+.env
+.env.*
+!.env.example
+
+# Yerel mail/credential dosyaları (geliştirme)
+*.local.json
+dev-mailbox/
+
+# --- Playwright ---
+test-results/
+playwright-report/

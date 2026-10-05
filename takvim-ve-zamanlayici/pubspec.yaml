@@ -1,0 +1,30 @@
+name: takvim_ve_zamanlayici
+description: "Takvim ve Zamanlayıcı - Flutter ile geliştirilmiş takvim ve Pomodoro uygulaması."
+publish_to: 'none'
+version: 1.1.0+2
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^2.5.1
+  go_router: ^18.0.2
+  intl: ^0.20.3
+  shared_preferences: ^2.2.3
+  share_plus: ^12.0.0
+  flutter_local_notifications: ^18.0.1
+  timezone: ^0.10.1
+  file_picker: ^8.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icons/app_icon.png
+    - assets/manifest.json

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tepsi — Canlı Duvar Kağıdı Motoru</title>
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+</head>
+<body data-page="tray" class="tray-demo">
+  <div class="tray-demo-wrap">
+    <p class="tray-context">Sistem tepsisi bağlam menüsü — görev çubuğu simgesine sağ tık</p>
+    <div class="tray-popup" role="menu" aria-label="Canlı Duvar Kağıdı Motoru">
+      <div class="tray-header">Canlı Duvar Kağıdı Motoru</div>
+      <button class="tray-item" type="button" role="menuitem" data-action="pause">⏸ Tümünü duraklat</button>
+      <button class="tray-item" type="button" role="menuitem" data-action="resume">▶ Devam et</button>
+      <div class="tray-divider" role="separator"></div>
+      <button class="tray-item" type="button" role="menuitem" data-action="reconnect">↻ Explorer'ı yeniden bağla</button>
+      <div class="tray-divider" role="separator"></div>
+      <a class="tray-item" role="menuitem" href="catalog.html">Katalogu aç</a>
+      <a class="tray-item" role="menuitem" href="settings.html">Ayarlar</a>
+      <div class="tray-divider" role="separator"></div>
+      <button class="tray-item tray-item--danger" type="button" role="menuitem" data-action="quit">Çıkış</button>
+    </div>
+    <p id="tray-feedback" class="inline-feedback" role="status" aria-live="polite"></p>
+    <a class="btn btn-ghost tray-back" href="../index.html">← Prototip ana sayfa</a>
+  </div>
+  <script src="../js/app.js"></script>
+</body>
+</html>

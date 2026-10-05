@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Oynatıcı — Canlı Duvar Kağıdı Motoru</title>
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+</head>
+<body data-page="player">
+  <div class="win-shell">
+    <div data-shell="titlebar"></div>
+    <div class="app-body">
+      <div data-shell="sidebar"></div>
+      <main class="main-content">
+        <div class="page-header">
+          <h1>Aktif oynatıcı</h1>
+          <p id="player-status">Aurora Loop · Monitör 1 · oynatılıyor</p>
+        </div>
+        <div class="player-panel">
+          <div>
+            <div class="preview-stage" aria-label="Duvar kağıdı önizlemesi">
+              <div class="preview-gradient preview-gradient--aurora"></div>
+              <div class="overlay">
+                <span class="pill pill-video">Video · döngü</span>
+              </div>
+            </div>
+            <div class="playback-bar">
+              <button class="play-btn" type="button" id="play-toggle" aria-label="Duraklat">⏸</button>
+              <div class="progress-track" id="progress" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="35" tabindex="0">
+                <div class="progress-fill"></div>
+              </div>
+              <span id="time" class="time-label">0:43 / 2:04</span>
+            </div>
+          </div>
+          <aside class="player-aside">
+            <div class="card">
+              <div class="card-header">Kaynak</div>
+              <div class="card-body mono-break">katalog://yerel/aurora-loop.mp4</div>
+            </div>
+            <div class="card">
+              <div class="card-header">WorkerW katmanı</div>
+              <div class="card-body">
+                <div class="toggle-row">
+                  <div>
+                    <div class="toggle-label">Tam ekran duraklat</div>
+                    <div class="toggle-desc">Oyun / sunum algılandığında</div>
+                  </div>
+                  <button class="toggle on" type="button" aria-label="Tam ekran duraklat" aria-pressed="true"></button>
+                </div>
+                <div class="toggle-row">
+                  <div>
+                    <div class="toggle-label">Explorer reconnect</div>
+                    <div class="toggle-desc">Shell yeniden başlatıldığında</div>
+                  </div>
+                  <button class="toggle on" type="button" aria-label="Explorer reconnect" aria-pressed="true"></button>
+                </div>
+              </div>
+            </div>
+            <button class="btn" type="button" id="pause-all" style="width:100%">Tümünü duraklat</button>
+          </aside>
+        </div>
+      </main>
+    </div>
+    <footer class="statusbar">
+      <span><span class="status-dot" aria-hidden="true"></span>Oynatılıyor</span>
+      <span>GPU: donanım decode</span>
+      <span>Bellek: 186 MB</span>
+    </footer>
+  </div>
+  <script src="../js/shell.js"></script>
+  <script src="../js/app.js"></script>
+</body>
+</html>

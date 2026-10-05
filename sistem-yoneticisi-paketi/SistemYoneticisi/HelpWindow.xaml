@@ -1,0 +1,108 @@
+<Window x:Class="SistemYoneticisi.HelpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Yardım"
+        Height="520" Width="520"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResize"
+        MinHeight="400" MinWidth="420"
+        Background="{StaticResource PrimaryBrush}">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Text="Kullanım Kılavuzu"
+                   FontSize="18"
+                   FontWeight="SemiBold"
+                   Foreground="{StaticResource TextBrush}"
+                   Margin="0,0,0,16" />
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock Text="Gösterge Paneli"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource AccentBrush}"
+                           Margin="0,0,0,6" />
+                <TextBlock TextWrapping="Wrap"
+                           Foreground="{StaticResource SubTextBrush}"
+                           Margin="0,0,0,14"
+                           Text="CPU, RAM, ağ hızı ve disk doluluk oranlarını saniyede bir günceller. Duraklat düğmesiyle grafik yenilemeyi durdurabilirsiniz." />
+
+                <TextBlock Text="Çalışan Süreçler"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource AccentBrush}"
+                           Margin="0,0,0,6" />
+                <TextBlock TextWrapping="Wrap"
+                           Foreground="{StaticResource SubTextBrush}"
+                           Margin="0,0,0,14"
+                           Text="Süreçleri CPU, bellek veya ada göre sıralayın. Sonlandırma işlemi onay ister; sistem süreçleri korunur." />
+
+                <TextBlock Text="Sistem Servisleri"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource AccentBrush}"
+                           Margin="0,0,0,6" />
+                <TextBlock TextWrapping="Wrap"
+                           Foreground="{StaticResource SubTextBrush}"
+                           Margin="0,0,0,14"
+                           Text="Windows servislerini başlatın, durdurun veya yeniden başlatın. Bu işlemler yönetici yetkisi gerektirebilir — uygulamayı sağ tık → Yönetici olarak çalıştır ile açın." />
+
+                <TextBlock Text="Başlangıç Yönetimi"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource AccentBrush}"
+                           Margin="0,0,0,6" />
+                <TextBlock TextWrapping="Wrap"
+                           Foreground="{StaticResource SubTextBrush}"
+                           Margin="0,0,0,14"
+                           Text="Kayıt defteri Run anahtarları ve başlangıç klasörlerinden otomatik açılan uygulamaları listeler." />
+
+                <TextBlock Text="Ağ Bağlantıları"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource AccentBrush}"
+                           Margin="0,0,0,6" />
+                <TextBlock TextWrapping="Wrap"
+                           Foreground="{StaticResource SubTextBrush}"
+                           Margin="0,0,0,14"
+                           Text="TCP/UDP bağlantılarını süreç adı ve PID ile listeler. Yalnızca ESTABLISHED filtresi kullanılabilir." />
+
+                <TextBlock Text="Ayarlar"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource AccentBrush}"
+                           Margin="0,0,0,6" />
+                <TextBlock TextWrapping="Wrap"
+                           Foreground="{StaticResource SubTextBrush}"
+                           Margin="0,0,0,14"
+                           Text="24 saat SQLite geçmişi, CPU/RAM alarm eşikleri, yüksek kontrast ve başlangıçta gizleme seçenekleri." />
+
+                <TextBlock Text="Kısayollar"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource AccentBrush}"
+                           Margin="0,0,0,6" />
+                <TextBlock TextWrapping="Wrap"
+                           Foreground="{StaticResource SubTextBrush}"
+                           Margin="0,0,0,14"
+                           Text="1 — Gösterge Paneli&#x0a;2 — Çalışan Süreçler&#x0a;3 — Sistem Servisleri&#x0a;4 — Başlangıç Yönetimi&#x0a;5 — Ağ Bağlantıları&#x0a;Ctrl+, — Ayarlar" />
+
+                <TextBlock Text="Sistem Tepsisi"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource AccentBrush}"
+                           Margin="0,0,0,6" />
+                <TextBlock TextWrapping="Wrap"
+                           Foreground="{StaticResource SubTextBrush}"
+                           Text="Pencereyi kapatınca uygulama tepside kalır. Simgeye çift tıklayarak geri açın. CPU ve RAM değerleri araç ipucunda görünür." />
+            </StackPanel>
+        </ScrollViewer>
+
+        <Button Grid.Row="2"
+                Content="Tamam"
+                Click="CloseButton_Click"
+                Style="{StaticResource PrimaryButton}"
+                Padding="32,10"
+                HorizontalAlignment="Center"
+                Margin="0,16,0,0" />
+    </Grid>
+</Window>
