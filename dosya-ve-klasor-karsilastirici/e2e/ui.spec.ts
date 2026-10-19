@@ -4,7 +4,7 @@ import os from "os";
 import path from "path";
 import { launch, mockDialogs, revealed, write } from "./helpers";
 
-// Arayüz envanteri: docs/arayuz-testi.md. Her test kendi geçici profilini kullanır.
+// Her test kendi geçici profilini kullanır.
 
 test("karşılama, hata, yardım, ayarlar (tüm bölümler), git diff, gözat", async () => {
   const ctx = await launch();

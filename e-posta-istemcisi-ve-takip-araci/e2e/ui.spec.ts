@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import { importDemo, launch, mockDialogs } from "./helpers";
 
-// Arayüz envanteri: docs/arayuz-testi.md. Her test kendi geçici veri klasörünü kullanır.
+// Her test kendi geçici veri klasörünü kullanır.
 
 const status = (page: Page) => page.locator(".status-bar");
 const reader = (page: Page) => page.locator(".reader-subject");

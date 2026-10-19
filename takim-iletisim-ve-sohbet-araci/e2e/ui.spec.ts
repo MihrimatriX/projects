@@ -1,4 +1,4 @@
-// Arayüz envanteri: her ekran ve kontrol gerçek tarayıcıda (docs/arayuz-testi.md tablosu bu dosyayı izler)
+// Arayüz envanteri: her ekran ve kontrol gerçek tarayıcıda
 import { expect, test } from "@playwright/test";
 import fs from "fs";
 import {

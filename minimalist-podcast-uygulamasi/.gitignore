@@ -47,3 +47,5 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+/web/drift_worker.js.*
+/web/.wasm-setup-stamp

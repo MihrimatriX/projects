@@ -3,8 +3,6 @@ import fs from "fs";
 import path from "path";
 import { launch, mockDialogs, today } from "./helpers";
 
-// Arayüz envanteri: docs/arayuz-testi.md.
-
 const SEED = [
   { id: "s1", title: "Selamlama", code: "console.log('merhaba {{year}}')", language: "javascript", tags: ["js"], folder: "Web" },
   { id: "s2", title: "Liste üreteci", code: "[x * 2 for x in xs]", language: "python", tags: ["py"], folder: "Betik", lastUsedAt: today() },

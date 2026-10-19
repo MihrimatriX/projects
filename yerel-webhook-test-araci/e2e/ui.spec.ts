@@ -4,7 +4,7 @@ import net from "net";
 import path from "path";
 import { launch, mockSaveDialog } from "./helpers";
 
-// Arayüz envanteri: docs/arayuz-testi.md. Her test kendi geçici veri klasörünü kullanır.
+// Her test kendi geçici veri klasörünü kullanır.
 
 test("sunucu, endpoint'ler, ayarlar, kısayollar ve dışa aktarma", async () => {
   const ctx = await launch();

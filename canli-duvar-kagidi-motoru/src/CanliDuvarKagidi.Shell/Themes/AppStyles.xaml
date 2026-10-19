@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Brand palette — docs/css/tokens.css (oklch yeşil accent) -->
+    <!-- Brand palette (oklch yeşil accent) -->
     <Color x:Key="BrandPrimaryColor">#45B86A</Color>
     <Color x:Key="BrandSecondaryColor">#3DA35D</Color>
     <Color x:Key="BrandSurfaceColor">#12151A</Color>
