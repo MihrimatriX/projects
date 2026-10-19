@@ -1,0 +1,50 @@
+<Window x:Class="ClipboardYoneticisi.HelpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Klavye kısayolları"
+        Height="560" Width="420"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="{StaticResource PrimaryBrush}">
+
+    <ScrollViewer Padding="24" VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <TextBlock Text="Klavye kısayolları"
+                       FontSize="17"
+                       FontWeight="SemiBold"
+                       Foreground="{StaticResource TextBrush}"
+                       Margin="0,0,0,16" />
+
+            <TextBlock Foreground="{StaticResource SubTextBrush}" LineHeight="26" TextWrapping="Wrap">
+                <Run x:Name="ShowHotkeyRun" Text="Ctrl+Alt+V" /> — Paneli aç<LineBreak/>
+                <Run x:Name="StackHotkeyRun" Text="Ctrl+Alt+Shift+V" /> — Stack'ten yapıştır<LineBreak/>
+                Enter — Seçili öğeyi panoya al<LineBreak/>
+                Esc — Paneli kapat<LineBreak/>
+                Ctrl+A — Tümünü seç (listedeyken)<LineBreak/>
+                Ctrl/Shift+tık — Çoklu seçim<LineBreak/>
+                ↓ — Arama kutusundan listeye geç<LineBreak/>
+                Ctrl+F — Aramaya odaklan<LineBreak/>
+                Delete — Seçili öğe(ler)i sil<LineBreak/>
+                Ctrl+P — Seçili öğeyi sabitle / sabitlemeyi kaldır<LineBreak/>
+                Ctrl+Z — Son silmeyi geri al<LineBreak/>
+                F1 — Bu pencere<LineBreak/>
+                Sağ tık — Dönüşüm menüsü / stack'e ekle
+            </TextBlock>
+
+            <TextBlock Text="İpucu: Ayarlardan kısayol tuşlarını ve otomatik yapıştırmayı özelleştirebilirsiniz."
+                       Foreground="{StaticResource SubTextBrush}"
+                       TextWrapping="Wrap"
+                       Margin="0,20,0,0" />
+
+            <Button x:Name="CloseButton"
+                    Content="Kapat"
+                    IsCancel="True"
+                    IsDefault="True"
+                    Click="CloseButton_Click"
+                    Style="{StaticResource PrimaryButton}"
+                    Padding="24,10"
+                    HorizontalAlignment="Right"
+                    Margin="0,20,0,0" />
+        </StackPanel>
+    </ScrollViewer>
+</Window>

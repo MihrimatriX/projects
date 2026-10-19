@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kayıtlı Okuma — Yedekleme</title>
+  <link rel="stylesheet" href="app.css" />
+  <style>
+    main { max-width: 480px; margin: 32px auto; padding: 0 20px; }
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+    .card h2 { font-size: 15px; margin-bottom: 8px; }
+    .card p { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5; }
+    .btn { padding: 10px 16px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; font-size: 14px; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
+    #msg { font-size: 13px; margin-top: 12px; color: var(--success); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1 style="font-size:22px;margin-bottom:8px">Veri yönetimi</h1>
+    <p style="color:var(--text-muted);margin-bottom:24px;font-size:14px">
+      Tüm veriler eklenti içinde saklanır — harici sunucu gerekmez.
+    </p>
+
+    <section class="card">
+      <h2>Dışa aktar</h2>
+      <p>Okuma listenizi JSON dosyası olarak indirin.</p>
+      <button type="button" class="btn btn-primary" id="export-btn">JSON indir</button>
+    </section>
+
+    <section class="card">
+      <h2>İçe aktar</h2>
+      <p>JSON yedekten veya Omnivore export dosyasından geri yükleyin.</p>
+      <input type="file" id="import-file" accept=".json,application/json" />
+    </section>
+
+    <section class="card">
+      <h2>Tümünü sil</h2>
+      <p>Tüm makaleler kalıcı olarak silinir.</p>
+      <button type="button" class="btn btn-danger" id="delete-all">Tüm verileri sil</button>
+    </section>
+
+    <p id="msg"></p>
+  </main>
+  <script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "Sistem Yöneticisi Paketi",
+  "id": "sistem-yoneticisi-paketi",
+  "version": "1.3.0",
+  "platform": "windows",
+  "entry": "run.ps1",
+  "icon": "assets/icon.png",
+  "description": "Telemetrisiz yerel sistem monitörü: CPU, RAM, disk ve ağ izleme ile süreç, servis, başlangıç öğesi ve bağlantı yönetimi. Kritik süreç ve servisler korunur; başlangıç kaldırmaları geri alınabilir.",
+  "category": "Dosya ve Sistem",
+  "tags": ["sistem-monitörü", "süreç", "servis", "başlangıç", "ağ", "wpf"]
+}

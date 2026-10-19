@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "tekrarlanan-dosya-bulucu"
+version = "1.5.0"
+description = "Hash tabanlı mükerrer dosya bulucu — PySide6"
+authors = ["AFU"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11"
+PySide6 = ">=6.11.2"
+send2trash = ">=2.1.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=9.1.1"
+pytest-qt = ">=4.5.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

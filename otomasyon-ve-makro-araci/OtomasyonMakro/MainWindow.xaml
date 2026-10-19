@@ -1,0 +1,346 @@
+<Window x:Class="OtomasyonMakro.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:OtomasyonMakro.ViewModels"
+        xmlns:helpers="clr-namespace:OtomasyonMakro.Helpers"
+        Title="Otomasyon ve Makro Yöneticisi"
+        Height="700" Width="1100"
+        MinHeight="600" MinWidth="960"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource PrimaryBrush}">
+
+    <Window.DataContext>
+        <vm:MainViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <helpers:NullToVisibilityConverter x:Key="NullToVis" />
+        <helpers:BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <helpers:InverseBooleanConverter x:Key="InvBool" />
+        <helpers:PauseLabelConverter x:Key="PauseLabel" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Kayıt çubuğu (design: record-bar) -->
+        <Border Grid.Row="0" Background="{StaticResource RecordingBrush}"
+                BorderBrush="#59EF4444" BorderThickness="0,0,0,1" Padding="16,8"
+                Visibility="{Binding IsRecording, Converter={StaticResource BoolToVis}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Ellipse Width="10" Height="10" Fill="{StaticResource DangerBrush}" Margin="0,0,10,0" />
+                    <TextBlock Text="{Binding StatusText}" FontSize="14" FontWeight="SemiBold" Margin="0,0,12,0" />
+                    <TextBlock Text="{Binding RecordTimeText}" FontFamily="{StaticResource MonoFont}"
+                               FontSize="13" Foreground="{StaticResource AccentBrush}" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button Content="{Binding IsRecordPaused, Converter={StaticResource PauseLabel}}"
+                            Command="{Binding ToggleRecordPauseCommand}" Style="{StaticResource BtnBase}" Margin="0,0,8,0" />
+                    <Button Content="Durdur ve kaydet" Command="{Binding StopRecordCommand}" Style="{StaticResource BtnDanger}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Toolbar -->
+        <Border Grid.Row="1" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="16,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Command="{Binding StartRecordCommand}"
+                            Visibility="{Binding IsRecording, Converter={StaticResource BoolToVis}, ConverterParameter=Inverse}"
+                            Style="{StaticResource BtnAccent}" Height="36" Margin="0,0,12,0"
+                            Content="Kayda başla" />
+                    <Button Command="{Binding StopRecordCommand}"
+                            Visibility="{Binding IsRecording, Converter={StaticResource BoolToVis}}"
+                            Style="{StaticResource BtnGhostDanger}" Height="36" Margin="0,0,12,0"
+                            Content="Kaydı durdur" />
+
+                    <CheckBox IsChecked="{Binding SafeModeEnabled, Mode=TwoWay}" VerticalAlignment="Center"
+                              Foreground="{StaticResource SubTextBrush}" FontSize="12" Content="Güvenli mod" Margin="0,0,8,0" />
+
+                    <Button Content="+" Command="{Binding AddProfileCommand}" Style="{StaticResource BtnBase}" Width="32" Height="32" Padding="0" Margin="4,0,0,0" ToolTip="Yeni makro" />
+                    <Button Content="İçe aktar" Command="{Binding ImportMacroCommand}" Style="{StaticResource BtnBase}" Margin="4,0,0,0" FontSize="12" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button Command="{Binding PlayMacroCommand}" Style="{StaticResource BtnSafe}" Height="40" Margin="0,0,8,0"
+                            Visibility="{Binding IsPlaying, Converter={StaticResource BoolToVis}, ConverterParameter=Inverse}"
+                            IsEnabled="{Binding IsRecording, Converter={StaticResource InvBool}}"
+                            Content="Çalıştır" />
+                    <Button Command="{Binding StopPlaybackCommand}" Style="{StaticResource BtnGhostDanger}" Height="40" Margin="0,0,8,0"
+                            Visibility="{Binding IsPlaying, Converter={StaticResource BoolToVis}}"
+                            Content="Durdur" />
+                    <Button Command="{Binding StepForwardCommand}" Style="{StaticResource BtnBase}"
+                            IsEnabled="{Binding IsRecording, Converter={StaticResource InvBool}}"
+                            Content="Tek adım" ToolTip="Shift+F5" />
+                    <Button Command="{Binding OpenHotkeysCommand}" Style="{StaticResource BtnBase}" Margin="8,0,0,0"
+                            Content="Hotkey'ler" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- 3 sütun layout -->
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="280" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="300" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Sol: makro listesi -->
+            <Border Grid.Column="0" Background="{StaticResource PanelBrush}"
+                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,1,0" Padding="16">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Style="{StaticResource PanelLabel}" Text="MAKROLAR" Margin="0,0,0,10" />
+
+                    <ListBox Grid.Row="1" ItemsSource="{Binding Profiles}" SelectedItem="{Binding SelectedProfile}"
+                             Background="Transparent" BorderThickness="0"
+                             ItemContainerStyle="{StaticResource MacroListItem}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="Medium"
+                                           Foreground="{StaticResource TextBrush}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <Border Grid.Row="2" Margin="0,12,0,0" Padding="10,8" CornerRadius="8"
+                            Background="{StaticResource SafeBgBrush}">
+                        <TextBlock Text="{Binding SelectedProfile.SafeModeHint, FallbackValue='Güvenli mod: yalnızca odaklı pencerede çalışır'}"
+                                   FontSize="12" Foreground="{StaticResource SuccessBrush}" TextWrapping="Wrap" />
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- Orta: adım zaman çizelgesi -->
+            <Grid Grid.Column="1" Visibility="{Binding SelectedProfile, Converter={StaticResource NullToVis}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Margin="20,16,20,12">
+                    <TextBlock Text="{Binding SelectedProfile.Name}" FontSize="16" FontWeight="SemiBold" />
+                    <TextBlock FontSize="12" Foreground="{StaticResource MutedBrush}">
+                        <Run Text="{Binding StepCount, Mode=OneWay}" />
+                        <Run Text=" adım" />
+                    </TextBlock>
+                </StackPanel>
+
+                <ListBox Grid.Row="1" Margin="20,0" ItemsSource="{Binding SelectedProfile.Steps}"
+                         SelectedItem="{Binding SelectedStep}" Background="Transparent" BorderThickness="0"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Margin" Value="0,0,0,6" />
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <ContentPresenter />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border x:Name="StepBd" Background="{StaticResource StepBrush}"
+                                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                                    CornerRadius="8" Padding="10,8" MinHeight="52">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="28" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" Text="●" FontSize="10" VerticalAlignment="Center"
+                                               Foreground="{StaticResource SubTextBrush}" />
+
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding StepTitle}" FontSize="14" FontWeight="Medium" />
+                                            <Border Margin="6,0,0,0" Padding="4,1" CornerRadius="4"
+                                                    Background="{StaticResource DangerBgBrush}"
+                                                    Visibility="{Binding IsRisky, Converter={StaticResource BoolToVis}}">
+                                                <TextBlock Text="RİSKLİ" FontSize="9" FontWeight="Bold"
+                                                           Foreground="{StaticResource DangerBrush}" />
+                                            </Border>
+                                        </StackPanel>
+                                        <TextBlock Text="{Binding StepDetail}" FontFamily="{StaticResource MonoFont}"
+                                                   FontSize="12" Foreground="{StaticResource MutedBrush}"
+                                                   TextTrimming="CharacterEllipsis" Margin="0,2,0,0" />
+                                    </StackPanel>
+
+                                    <TextBlock Grid.Column="2" Text="{Binding DelayLabel}" VerticalAlignment="Center"
+                                               FontFamily="{StaticResource MonoFont}" FontSize="11"
+                                               Foreground="{StaticResource MutedBrush}" Margin="8,0" />
+
+                                    <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Button Content="▲" Command="{Binding DataContext.MoveStepUpCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                CommandParameter="{Binding}" Style="{StaticResource BtnBase}" Padding="4,2" FontSize="10" />
+                                        <Button Content="▼" Command="{Binding DataContext.MoveStepDownCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                CommandParameter="{Binding}" Style="{StaticResource BtnBase}" Padding="4,2" FontSize="10" Margin="2,0,0,0" />
+                                        <Button Content="×" Command="{Binding DataContext.DeleteStepCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                CommandParameter="{Binding}" Style="{StaticResource BtnGhostDanger}" Padding="4,2" FontSize="10" Margin="2,0,0,0" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                    <Setter TargetName="StepBd" Property="Background" Value="{StaticResource HoverBrush}" />
+                                    <Setter TargetName="StepBd" Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsRisky}" Value="True">
+                                    <Setter TargetName="StepBd" Property="BorderBrush" Value="{StaticResource DangerBrush}" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <WrapPanel Grid.Row="2" Margin="20,8,20,12">
+                    <Button Content="+ Tık" Command="{Binding AddNewStepCommand}" CommandParameter="MOUSE" Style="{StaticResource BtnBase}" FontSize="11" Margin="0,0,4,4" />
+                    <Button Content="+ Metin" Command="{Binding AddNewStepCommand}" CommandParameter="TEXT" Style="{StaticResource BtnBase}" FontSize="11" Margin="0,0,4,4" />
+                    <Button Content="+ Bekle" Command="{Binding AddNewStepCommand}" CommandParameter="DELAY" Style="{StaticResource BtnBase}" FontSize="11" Margin="0,0,4,4" />
+                    <Button Content="+ Tuş" Command="{Binding AddNewStepCommand}" CommandParameter="KEY" Style="{StaticResource BtnBase}" FontSize="11" Margin="0,0,4,4" />
+                    <Button Content="+ UI" Command="{Binding AddNewStepCommand}" CommandParameter="UI" Style="{StaticResource BtnBase}" FontSize="11" Margin="0,0,4,4" />
+                    <Button Content="+ Koşul" Command="{Binding AddNewStepCommand}" CommandParameter="IF" Style="{StaticResource BtnBase}" FontSize="11" Margin="0,0,4,4" />
+                    <Button Content="Öğe seç" Command="{Binding PickUiElementCommand}" Style="{StaticResource BtnBase}" FontSize="11" Margin="0,0,4,4" />
+                </WrapPanel>
+            </Grid>
+
+            <!-- Sağ: adım detayı -->
+            <Border Grid.Column="2" Background="{StaticResource PanelBrush}"
+                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1,0,0,0" Padding="16"
+                    Visibility="{Binding SelectedProfile, Converter={StaticResource NullToVis}}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource PanelLabel}" Text="ADIM DETAYI" Margin="0,0,0,12" />
+
+                        <TextBlock Text="Hedef türü" FontSize="11" Foreground="{StaticResource MutedBrush}" Margin="0,0,0,4" />
+                        <TextBox Text="{Binding SelectedStep.DetailTargetType, Mode=OneWay, TargetNullValue=—}" IsReadOnly="True" Margin="0,0,0,12" />
+
+                        <TextBlock Text="Metin / tuş" FontSize="11" Foreground="{StaticResource MutedBrush}" Margin="0,0,0,4" />
+                        <TextBox Text="{Binding SelectedStep.Text, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8" />
+
+                        <TextBlock Text="UI adı" FontSize="11" Foreground="{StaticResource MutedBrush}" Margin="0,0,0,4" />
+                        <TextBox Text="{Binding SelectedStep.UiElementName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8" />
+                        <TextBlock Text="AutomationId" FontSize="11" Foreground="{StaticResource MutedBrush}" Margin="0,0,0,4" />
+                        <TextBox Text="{Binding SelectedStep.UiAutomationId, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
+
+                        <TextBlock Text="Gecikme (ms)" FontSize="11" Foreground="{StaticResource MutedBrush}" Margin="0,0,0,4" />
+                        <TextBox Text="{Binding SelectedStep.DelayMs, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
+
+                        <Border Padding="10" CornerRadius="8" Background="{StaticResource DangerBgBrush}"
+                                BorderBrush="#40EF4444" BorderThickness="1" Margin="0,0,0,12"
+                                Visibility="{Binding SelectedStepIsRisky, Converter={StaticResource BoolToVis}}">
+                            <TextBlock Text="Bu adım klavye girdisi gönderir. Oynatmadan önce hedef pencereyi doğrulayın."
+                                       FontSize="12" Foreground="{StaticResource DangerBrush}" TextWrapping="Wrap" />
+                        </Border>
+
+                        <TextBlock Style="{StaticResource PanelLabel}" Text="MAKRO AYARLARI" Margin="0,8,0,12" />
+                        <TextBlock Text="Ad" FontSize="11" Foreground="{StaticResource MutedBrush}" Margin="0,0,0,4" />
+                        <TextBox Text="{Binding SelectedProfile.Name, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8" />
+                        <TextBlock Text="Hotkey" FontSize="11" Foreground="{StaticResource MutedBrush}" Margin="0,0,0,4" />
+                        <TextBox Text="{Binding SelectedProfile.Hotkey, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8" />
+                        <TextBlock Text="Hedef süreç (* = odaklı pencere)" FontSize="11" Foreground="{StaticResource MutedBrush}" Margin="0,0,0,4" />
+                        <TextBox Text="{Binding SelectedProfile.TargetProcessName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8" />
+
+                        <TextBlock Text="Tekrar sayısı (0 = ESC'ye kadar)" FontSize="11" Foreground="{StaticResource MutedBrush}" Margin="0,0,0,4" />
+                        <TextBox Text="{Binding SelectedProfile.RepeatCount, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8" />
+
+                        <CheckBox Content="Zamanlayıcı" IsChecked="{Binding SelectedProfile.ScheduleEnabled}" Margin="0,4,0,4" />
+                        <TextBox Text="{Binding SelectedProfile.ScheduleTime, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,4" />
+                        <TextBox Text="{Binding SelectedProfile.ScheduleDays, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <Button Content="Kaydet" Command="{Binding SaveProfileCommand}" Style="{StaticResource BtnAccent}" Margin="0,0,8,0" />
+                            <Button Content="Dışa aktar" Command="{Binding ExportMacroCommand}" Style="{StaticResource BtnBase}" Margin="0,0,8,0" />
+                            <Button Content="Çoğalt" Command="{Binding DuplicateProfileCommand}" Style="{StaticResource BtnBase}" Margin="0,0,8,0"
+                                    ToolTip="Makronun kopyasını oluştur (kısayolsuz)" />
+                            <Button Content="Sil" Command="{Binding DeleteProfileCommand}" CommandParameter="{Binding SelectedProfile}"
+                                    Style="{StaticResource BtnGhostDanger}" />
+                        </StackPanel>
+
+                        <TextBlock Style="{StaticResource PanelLabel}" Text="BU MAKRO" Margin="0,12,0,8" />
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Çalıştır" FontSize="13" />
+                            <TextBlock Grid.Column="1" Text="F5" FontFamily="{StaticResource MonoFont}" />
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Kayıt" FontSize="13" />
+                            <TextBlock Grid.Column="1" Text="Ctrl+Alt+M" FontFamily="{StaticResource MonoFont}" />
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <!-- Boş durum -->
+            <Border Grid.Column="1" Grid.ColumnSpan="2" Margin="40"
+                    Visibility="{Binding SelectedProfile, Converter={StaticResource NullToVis}, ConverterParameter=Inverse}">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock Text="Makro seçilmedi" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center" />
+                    <TextBlock Text="Soldan bir makro seçin veya yeni oluşturun." FontSize="13"
+                               Foreground="{StaticResource MutedBrush}" HorizontalAlignment="Center" Margin="0,8,0,0" />
+                    <Button Content="Yeni makro" Command="{Binding AddProfileCommand}" Style="{StaticResource BtnAccent}"
+                            HorizontalAlignment="Center" Margin="0,16,0,0" />
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Oynatma ilerleme -->
+        <ProgressBar Grid.Row="4" Height="3" Minimum="0" Maximum="100"
+                     Value="{Binding PlaybackProgress}"
+                     Visibility="{Binding IsPlaying, Converter={StaticResource BoolToVis}}"
+                     Background="{StaticResource BorderBrush}"
+                     Foreground="{StaticResource SuccessBrush}" BorderThickness="0" />
+
+        <!-- Status bar -->
+        <Border Grid.Row="5" Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource BorderBrush}"
+                BorderThickness="0,1,0,0" Padding="12,4" Height="24">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding StatusText}" FontSize="11" Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="1" FontSize="11" Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center"
+                           Text="F5 çalıştır · Esc durdur · Ctrl+S kaydet" />
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

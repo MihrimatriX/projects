@@ -1,0 +1,33 @@
+# --- .NET derleme ---
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+TestResults/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# --- Visual Studio ---
+.vs/
+
+# --- Dağıtım ---
+dist/
+publish/
+
+# --- IDE / OS ---
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
+
+# --- Ortam / gizli ---
+.env
+.env.*
+!.env.example
+
+# Kasa verisi (geliştirme sırasında yanlışlıkla eklenmesin)
+*.vaultbak
+test-vault/

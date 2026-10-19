@@ -1,0 +1,13 @@
+{
+  "id": "hizli-qr-kod-ve-barkod-olusturucu-okuyucu",
+  "name": "QR Kod & Barkod",
+  "version": "1.3.0",
+  "description": "URL, metin, Wi-Fi ve vCard için QR kod ile Code128/EAN-13 barkod üreten, görselden ve kameradan kod okuyan araç. Toplu ZIP üretimi dahildir; tüm işlemler çevrimdışı yapılır.",
+  "platform": "flutter",
+  "runScript": "run.ps1",
+  "icons": {
+    "png": "assets/branding/icon.png"
+  },
+  "tags": ["qr", "barkod", "code128", "ean13", "tarayıcı", "çevrimdışı"],
+  "category": "Verimlilik"
+}

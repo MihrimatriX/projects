@@ -1,0 +1,63 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Clip {
+  id             String      @id @default(uuid())
+  url            String      @unique
+  title          String
+  excerpt        String?
+  content        String?
+  domain         String?
+  readingMinutes Int?
+  parseStatus    String      @default("pending")
+  isRead         Boolean     @default(false)
+  isStarred      Boolean     @default(false)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  tags           ClipTag[]
+  highlights     Highlight[]
+}
+
+model Tag {
+  id    String    @id @default(uuid())
+  name  String    @unique
+  clips ClipTag[]
+}
+
+model ClipTag {
+  clipId String
+  tagId  String
+  clip   Clip   @relation(fields: [clipId], references: [id], onDelete: Cascade)
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([clipId, tagId])
+}
+
+model Highlight {
+  id        String   @id @default(uuid())
+  clipId    String
+  clip      Clip     @relation(fields: [clipId], references: [id], onDelete: Cascade)
+  text      String
+  note      String?
+  color     String   @default("yellow")
+  createdAt DateTime @default(now())
+}
+
+model Feed {
+  id          String    @id @default(uuid())
+  url         String    @unique
+  title       String?
+  lastFetched DateTime?
+  createdAt   DateTime  @default(now())
+}
+
+model Setting {
+  key   String @id
+  value String
+}

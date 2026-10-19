@@ -1,0 +1,9 @@
+{
+  "id": "yemek-tarifi-yoneticisi-ve-menu-planlayici",
+  "name": "Yemek Planlayıcı",
+  "description": "Tarif arşivi, haftalık menü planı ve alışveriş listesi",
+  "version": "1.2.0",
+  "icon": "assets/icons/app_icon.png",
+  "runScript": "run.ps1",
+  "defaultRoute": "/recipes"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "dosya-yeniden-adlandirici",
+  "name": "Dosya Yeniden Adlandırıcı",
+  "version": "1.5.0",
+  "description": "Kural zinciri ve canlı önizlemeyle toplu dosya yeniden adlandırma; çakışmaları engeller, hiçbir dosyanın üzerine yazmaz, kalıcı geri al / yinele sunar.",
+  "platform": "windows",
+  "runtime": "python",
+  "entry": "main.py",
+  "runScript": "run.ps1",
+  "icons": {
+    "png": "assets/icon.png"
+  },
+  "category": "Dosya ve Sistem",
+  "tags": ["toplu-adlandirma", "regex", "exif", "geri-al", "pyside6"]
+}

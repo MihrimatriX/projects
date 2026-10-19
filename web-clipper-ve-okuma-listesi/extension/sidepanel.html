@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kayıtlı Okuma</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <div id="list-view">
+    <header class="app-header">
+      <h1>Okuma listesi</h1>
+      <a class="icon-btn" href="options.html" title="Yedekle / içe aktar" aria-label="Ayarlar">⚙</a>
+    </header>
+
+    <div class="toolbar">
+      <input type="search" id="search" class="search-input" placeholder="Ara…" />
+      <button type="button" class="filter-btn active" data-filter="all">Tümü</button>
+      <button type="button" class="filter-btn" data-filter="unread">Okunmamış</button>
+      <button type="button" class="filter-btn" data-filter="starred">Yıldızlı</button>
+    </div>
+
+    <div class="tag-row" id="tags"></div>
+    <div class="clip-list" id="clips"></div>
+  </div>
+
+  <div id="reader-view" class="reader-view hidden">
+    <div class="reader-toolbar">
+      <button type="button" class="btn-text" id="back-btn">← Liste</button>
+      <button type="button" class="icon-btn" id="star-btn" title="Yıldızla">☆</button>
+      <button type="button" class="icon-btn" id="read-btn" title="Okundu">✓</button>
+      <button type="button" class="icon-btn danger" id="delete-btn" title="Sil">✕</button>
+      <span class="spacer"></span>
+      <a class="btn-text" id="open-original" target="_blank" rel="noopener">Kaynak ↗</a>
+    </div>
+    <article class="reader-body">
+      <div class="clip-domain" id="r-domain"></div>
+      <h1 id="r-title"></h1>
+      <div class="reader-meta" id="r-meta"></div>
+      <div class="reader-content" id="r-content"></div>
+      <div class="highlight-box hidden" id="r-highlights">
+        <strong>Vurgular</strong>
+        <div id="r-highlight-list"></div>
+      </div>
+    </article>
+  </div>
+
+  <script src="sidepanel.js"></script>
+</body>
+</html>

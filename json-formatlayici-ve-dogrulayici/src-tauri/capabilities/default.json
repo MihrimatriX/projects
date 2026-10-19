@@ -1,0 +1,18 @@
+{
+  "$schema": "https://schema.tauri.app/config/2/capability",
+  "identifier": "default",
+  "description": "Varsayılan yetkiler",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "shell:allow-open",
+    "dialog:default",
+    "fs:default",
+    "fs:allow-read-text-file",
+    "fs:allow-read-file",
+    "fs:allow-write-text-file",
+    "fs:allow-exists",
+    "fs:scope-app-recursive",
+    "fs:scope-home-recursive"
+  ]
+}

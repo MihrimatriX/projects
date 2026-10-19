@@ -1,0 +1,18 @@
+[project]
+name = "kodsuz-web-kaziyici-scraper"
+version = "1.0.0"
+description = "Kodsuz Web Kazıyıcı — PySide6 desktop scraper"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "PySide6>=6.7.0",
+    "beautifulsoup4>=4.12.0",
+    "openpyxl>=3.1.0",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["test"]

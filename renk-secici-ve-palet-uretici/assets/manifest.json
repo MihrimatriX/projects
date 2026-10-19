@@ -1,0 +1,26 @@
+{
+  "id": "renk-secici-ve-palet-uretici",
+  "name": "Renk Seçici ve Palet Üretici",
+  "version": "1.0.0",
+  "description": "Harmonik 5 renkli palet üretir, WCAG kontrastını gösterir; paleti CSS, SCSS, Tailwind veya JSON olarak dışa aktarır. Görselden palet ve tema çıkarabilir.",
+  "platform": "windows",
+  "runtime": "flutter",
+  "entry": "lib/main.dart",
+  "runScript": "run.ps1",
+  "icons": {
+    "svg": "assets/icon.svg",
+    "png": "assets/icon.png",
+    "ico": "assets/app.ico",
+    "android": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+    "web": "web/icons/Icon-512.png"
+  },
+  "tags": [
+    "renk",
+    "palet",
+    "wcag",
+    "kontrast",
+    "css",
+    "tailwind"
+  ],
+  "category": "Tasarım ve Görsel"
+}

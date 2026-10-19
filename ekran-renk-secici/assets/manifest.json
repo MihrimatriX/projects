@@ -1,0 +1,25 @@
+{
+  "id": "ekran-renk-secici",
+  "name": "Ekran Renk Seçici",
+  "version": "1.0.0",
+  "description": "Global kısayolla ekrandaki herhangi bir pikselin rengini büyüteçle yakalayıp HEX/RGB/HSL/OKLCH olarak panoya kopyalayan tepsi uygulaması; WCAG kontrast, palet ve token dışa aktarma içerir.",
+  "platform": "windows",
+  "runtime": "dotnet",
+  "entry": "EkranRenkSecici/EkranRenkSecici.csproj",
+  "runScript": "run.ps1",
+  "icons": {
+    "svg": "assets/icon.svg",
+    "png": "assets/icon.png",
+    "ico": "assets/app.ico"
+  },
+  "hotkey": "Ctrl+Shift+C",
+  "tags": [
+    "renk-seçici",
+    "eyedropper",
+    "wcag",
+    "tepsi",
+    "wpf",
+    "tasarım"
+  ],
+  "category": "Tasarım ve Görsel"
+}

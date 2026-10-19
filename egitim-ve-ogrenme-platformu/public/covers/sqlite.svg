@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" fill="none">
+  <rect width="640" height="360" fill="#ecfdf5"/>
+  <ellipse cx="320" cy="200" rx="160" ry="80" fill="#10b981" opacity="0.2"/>
+  <rect x="140" y="120" width="360" height="160" rx="16" fill="white" stroke="#10b981" stroke-width="4"/>
+  <text x="180" y="190" font-family="ui-monospace, monospace" font-size="28" font-weight="700" fill="#047857">SELECT *</text>
+  <text x="180" y="230" font-family="ui-monospace, monospace" font-size="28" font-weight="700" fill="#059669">FROM courses;</text>
+</svg>

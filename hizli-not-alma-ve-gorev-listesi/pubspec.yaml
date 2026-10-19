@@ -1,0 +1,31 @@
+name: hizli_not_alma_ve_gorev_listesi
+description: "Todoist/Things tarzı yerel-first görev ve hızlı not uygulaması."
+publish_to: 'none'
+version: 1.1.0+2
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^2.5.1
+  drift: ^2.20.0
+  sqlite3_flutter_libs: ^0.5.24
+  path_provider: ^2.1.3
+  path: ^1.9.0
+  intl: ^0.20.3
+  shared_preferences: ^2.2.3
+  google_fonts: ^8.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  drift_dev: ^2.20.0
+  build_runner: ^2.4.11
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icon/

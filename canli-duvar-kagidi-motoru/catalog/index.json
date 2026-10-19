@@ -1,0 +1,21 @@
+﻿{
+    "version":  "1.0.0",
+    "wallpapers":  [
+                       {
+                           "id":  "ornek-web",
+                           "title":  "Örnek Web Animasyonu",
+                           "type":  "web",
+                           "version":  "1.0.0",
+                           "description":  "HTML/CSS/JS ile basit animasyonlu duvar kağıdı.",
+                           "packageUrl":  "assets/ornek-web.zip"
+                       },
+                       {
+                           "id":  "ornek-gorsel",
+                           "title":  "Örnek Statik Görsel",
+                           "type":  "image",
+                           "version":  "1.0.0",
+                           "description":  "Koyu gradyan PNG görsel duvar kağıdı.",
+                           "packageUrl":  "assets/ornek-gorsel.zip"
+                       }
+                   ]
+}

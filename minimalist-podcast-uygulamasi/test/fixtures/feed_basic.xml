@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:psc="http://podlove.org/simple-chapters" xmlns:media="http://search.yahoo.com/mrss/">
+  <channel>
+    <title><![CDATA[Çay & Kod — Türkçe Yazılım Sohbetleri]]></title>
+    <link>https://ornek.test/</link>
+    <itunes:image href="https://ornek.test/kapak.jpg"/>
+    <item>
+      <title>Bölüm 3: Şimdiki zaman</title>
+      <pubDate>Wed, 06 Mar 2024 10:00 EST</pubDate>
+      <enclosure url="https://ornek.test/3.mp3" length="1" type="audio/mpeg"/>
+      <itunes:duration>45:10</itunes:duration>
+      <itunes:image href="https://ornek.test/bolum3.jpg"/>
+      <psc:chapters version="1.2">
+        <psc:chapter start="00:00:00.000" title="Giriş"/>
+        <psc:chapter start="00:01:02.500" title="Konu"/>
+        <psc:chapter start="90" title="Kapanış"/>
+      </psc:chapters>
+    </item>
+    <item>
+      <title>Bölüm 1: Başlangıç</title>
+      <description><![CDATA[<p>İlk bölüm</p>]]></description>
+      <pubDate>5 Mar 2024 08:00:00 GMT</pubDate>
+      <enclosure url="https://ornek.test/1.mp3" length="1" type="audio/mpeg"/>
+      <itunes:duration>1:02:03</itunes:duration>
+    </item>
+    <item>
+      <title>Bölüm 2: Ortası</title>
+      <pubDate>Tue, 05 Mar 2024 13:30:00 +0300</pubDate>
+      <media:content url="https://ornek.test/2.m4a" type="audio/mp4"/>
+      <itunes:duration>1834</itunes:duration>
+    </item>
+    <item>
+      <title>Yalnızca blog yazısı (ses yok)</title>
+      <link>https://ornek.test/blog</link>
+      <pubDate>Thu, 07 Mar 2024 09:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title></title>
+      <enclosure url="https://ornek.test/tarihsiz.mp3" type="audio/mpeg"/>
+      <pubDate>gecersiz tarih</pubDate>
+    </item>
+  </channel>
+</rss>

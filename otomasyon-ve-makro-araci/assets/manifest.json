@@ -1,0 +1,18 @@
+{
+  "id": "otomasyon-ve-makro-araci",
+  "name": "Otomasyon ve Makro Aracı",
+  "version": "2.0.0",
+  "description": "Fare ve klavye adımlarını kaydedip düzenleyen ve tekrar oynatan Windows makro aracı. Güvenli mod, riskli adım onayı, değişkenler, zamanlayıcı ve fiziksel Esc ile acil durdurma içerir.",
+  "category": "Verimlilik",
+  "platform": "windows",
+  "runtime": "dotnet10",
+  "entry": "OtomasyonMakro/OtomasyonMakro.csproj",
+  "runScript": "run.ps1",
+  "publishScript": "publish.ps1",
+  "tags": ["makro", "otomasyon", "kayıt-oynatma", "uiautomation", "zamanlayıcı", "wpf"],
+  "icons": {
+    "svg": "assets/icon.svg",
+    "png": "assets/icon.png",
+    "ico": "assets/app.ico"
+  }
+}

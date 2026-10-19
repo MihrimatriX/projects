@@ -1,0 +1,8 @@
+{
+  "id": "ornek-video",
+  "title": "Örnek Video",
+  "type": "video",
+  "entry": "wallpaper.mp4",
+  "version": "1.0.0",
+  "description": "Kısa döngülü video. wallpaper.mp4 dosyasını bu klasöre ekleyin."
+}

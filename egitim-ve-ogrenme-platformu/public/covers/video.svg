@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" fill="none">
+  <rect width="640" height="360" fill="#0f172a"/>
+  <rect x="100" y="70" width="440" height="220" rx="12" fill="#1e293b" stroke="#334155" stroke-width="3"/>
+  <polygon points="320,150 380,210 260,210" fill="#6366f1"/>
+  <rect x="140" y="250" width="360" height="6" rx="3" fill="#475569"/>
+  <rect x="140" y="250" width="200" height="6" rx="3" fill="#6366f1"/>
+  <text x="100" y="330" font-family="Segoe UI, system-ui, sans-serif" font-size="32" font-weight="700" fill="#94a3b8">Mux / HLS Video</text>
+</svg>

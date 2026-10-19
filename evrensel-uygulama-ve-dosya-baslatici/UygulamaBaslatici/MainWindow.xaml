@@ -1,0 +1,327 @@
+<Window x:Class="UygulamaBaslatici.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:UygulamaBaslatici.ViewModels"
+        Title="Komut Paleti"
+        Width="640"
+        SizeToContent="Height"
+        MaxHeight="480"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        ShowInTaskbar="False"
+        WindowStartupLocation="Manual"
+        PreviewKeyDown="Window_PreviewKeyDown"
+        Deactivated="Window_Deactivated">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolVis" />
+
+        <Style x:Key="ResultItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="AutomationProperties.Name" Value="{Binding Name}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="Row" Background="Transparent" BorderBrush="{StaticResource AccentBrush}"
+                                BorderThickness="3,0,0,0" Padding="17,10,20,10" MinHeight="44" SnapsToDevicePixels="True">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Row" Property="Background" Value="{StaticResource HoverBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Row" Property="Background" Value="{StaticResource SelectedBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ResultListStyle" TargetType="ListBox">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource ResultItemStyle}" />
+        </Style>
+    </Window.Resources>
+
+    <Border Background="{StaticResource PaletteBrush}" BorderBrush="{StaticResource BorderBrush}"
+            BorderThickness="1" CornerRadius="14">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="60" ShadowDepth="0" Color="Black" Opacity="0.55" />
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" MaxHeight="360" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Search -->
+            <Border Grid.Row="0" BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="0,0,0,1" Padding="20,16">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Viewbox Grid.Column="0" Width="20" Height="20" Margin="0,0,12,0" VerticalAlignment="Center">
+                        <Canvas Width="24" Height="24">
+                            <Ellipse Canvas.Left="2" Canvas.Top="2" Width="18" Height="18"
+                                     Stroke="{StaticResource MutedBrush}" StrokeThickness="1.6" />
+                            <Line X1="16" Y1="16" X2="22" Y2="22" Stroke="{StaticResource MutedBrush}" StrokeThickness="1.6" />
+                        </Canvas>
+                    </Viewbox>
+
+                    <Border Grid.Column="1" Margin="0,0,12,0" Padding="8,2" CornerRadius="6"
+                            Background="#26F59E0B" VerticalAlignment="Center"
+                            Visibility="{Binding IsShellMode, Converter={StaticResource BoolVis}}">
+                        <TextBlock Text="&gt;" FontWeight="SemiBold" FontSize="12" Foreground="{StaticResource ShellBrush}" />
+                    </Border>
+
+                    <TextBox x:Name="SearchBox" Grid.Column="2" AutomationProperties.Name="Uygulama, dosya yolu veya komut ara"
+                             Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                             Background="Transparent" BorderThickness="0"
+                             Foreground="{StaticResource TextBrush}" CaretBrush="{StaticResource TextBrush}"
+                             FontFamily="{StaticResource BodyFont}" FontSize="15"
+                             VerticalAlignment="Center" PreviewKeyDown="SearchBox_PreviewKeyDown">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TextBox">
+                                            <ScrollViewer x:Name="PART_ContentHost" Focusable="False"
+                                                          HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+
+                    <TextBlock Grid.Column="2" IsHitTestVisible="False" VerticalAlignment="Center"
+                               Foreground="{StaticResource MutedBrush}" FontSize="15"
+                               Text="Uygulama, dosya yolu veya komut ara…">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=SearchBox}" Value="">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <Button x:Name="WebSearchPill" Grid.Column="3" Command="{Binding LaunchWebSearchCommand}" AutomationProperties.Name="Web'de ara"
+                            Visibility="{Binding ShowEmptyState, Converter={StaticResource BoolVis}}"
+                            Background="#1F3B82F6" BorderBrush="#403B82F6" BorderThickness="1"
+                            Foreground="{StaticResource WebBrush}" FontSize="12" FontWeight="SemiBold"
+                            Padding="10,4" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="999"
+                                        Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                        Web'de ara
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- Indexing panel -->
+            <StackPanel Grid.Row="1" Grid.RowSpan="2" Margin="32,40"
+                        Visibility="{Binding IsScanning, Converter={StaticResource BoolVis}}">
+                <TextBlock x:Name="ScanTitle" Text="Uygulamalar taranıyor…" FontSize="16" FontWeight="SemiBold"
+                           Foreground="{StaticResource TextBrush}" HorizontalAlignment="Center" />
+                <TextBlock Text="Start Menu kısayolları indeksleniyor." FontSize="13"
+                           Foreground="{StaticResource MutedBrush}" HorizontalAlignment="Center" Margin="0,8,0,24" />
+                <Border Height="8" Background="{StaticResource BorderSubtleBrush}" CornerRadius="999" Margin="0,0,0,12">
+                    <Border x:Name="ProgressIndeterminate" Height="8" CornerRadius="999" HorizontalAlignment="Left"
+                            Width="120" Background="{StaticResource AccentBrush}" />
+                </Border>
+                <Grid>
+                    <TextBlock Text="{Binding ScanStatusText}" FontSize="12" Foreground="{StaticResource MutedBrush}" />
+                    <TextBlock HorizontalAlignment="Right" FontSize="12" Foreground="{StaticResource MutedBrush}">
+                        <Run Text="{Binding ScanFoundCount, Mode=OneWay}" />
+                        <Run Text="uygulama" />
+                    </TextBlock>
+                </Grid>
+            </StackPanel>
+
+            <!-- Empty state -->
+            <StackPanel Grid.Row="2" Margin="20,32" HorizontalAlignment="Center"
+                        Visibility="{Binding ShowEmptyState, Converter={StaticResource BoolVis}}">
+                <TextBlock x:Name="EmptyText" TextAlignment="Center" TextWrapping="Wrap" Foreground="{StaticResource MutedBrush}" FontSize="14" MaxWidth="360">
+                    <Run Text="Sonuç bulunamadı — " />
+                    <Run Text="{Binding EmptyQueryText, Mode=OneWay}" FontWeight="Medium" Foreground="{StaticResource SubTextBrush}" />
+                    <Run Text=" için yerel eşleşme yok." />
+                </TextBlock>
+                <Button x:Name="GoogleButton" Content="Google'da ara" Command="{Binding LaunchWebSearchCommand}"
+                        Margin="0,12,0,0" HorizontalAlignment="Center"
+                        Background="{StaticResource HoverBrush}" Foreground="{StaticResource SubTextBrush}"
+                        BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14,8" Cursor="Hand">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="1" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                                <ContentPresenter HorizontalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
+
+            <!-- Results -->
+            <ListBox x:Name="ResultsList" Grid.Row="2" AutomationProperties.Name="Sonuçlar"
+                     ItemsSource="{Binding ResultsView}" SelectedItem="{Binding SelectedItem}"
+                     MaxHeight="360" MouseDoubleClick="ResultsList_MouseDoubleClick">
+                <ListBox.Style>
+                    <Style TargetType="ListBox" BasedOn="{StaticResource ResultListStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsScanning}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ShowEmptyState}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.Style>
+                <ListBox.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Name}" Style="{StaticResource GroupHeaderStyle}" />
+                                                <ItemsPresenter />
+                                            </StackPanel>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+                </ListBox.GroupStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="32" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0" Width="32" Height="32">
+                                <Border CornerRadius="8" Background="#FF4B5563">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding HasCustomIcon}" Value="False">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <TextBlock Text="{Binding FallbackIcon}" FontSize="11" FontWeight="SemiBold"
+                                               Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                               FontFamily="{StaticResource MonoFont}" />
+                                </Border>
+                                <Image Source="{Binding Icon}" Stretch="Uniform" Width="32" Height="32">
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding HasCustomIcon}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+                            </Grid>
+
+                            <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="Medium"
+                                           Foreground="{StaticResource SubTextBrush}" />
+                                <TextBlock Text="{Binding Path}" FontSize="12" Foreground="{StaticResource MutedBrush}"
+                                           TextTrimming="CharacterEllipsis" Margin="0,2,0,0" />
+                            </StackPanel>
+
+                            <TextBlock Grid.Column="2" Text="{Binding MetaText}" FontSize="11"
+                                       Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center"
+                                       FontFamily="{StaticResource MonoFont}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding MetaText}" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsWebBadge}" Value="True">
+                                                <Setter Property="Foreground" Value="{StaticResource WebBrush}" />
+                                                <Setter Property="Background" Value="#263B82F6" />
+                                                <Setter Property="Padding" Value="8,2" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!-- Footer -->
+            <Border Grid.Row="3" Background="{StaticResource FooterBrush}"
+                    BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="0,1,0,0"
+                    Padding="20,10">
+                <StackPanel>
+                <TextBlock x:Name="HotkeyWarning" TextWrapping="Wrap" FontSize="12" Margin="0,0,0,8"
+                           Foreground="{StaticResource ShellBrush}"
+                           Visibility="{Binding HotkeyFailed, Converter={StaticResource BoolVis}}"
+                           Text="Alt+Space kısayolu kaydedilemedi (başka bir uygulama kullanıyor olabilir). Paleti açmak için KomutPaleti.exe'yi yeniden çalıştırın." />
+                <Grid>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock FontFamily="{StaticResource MonoFont}" FontSize="11" Foreground="{StaticResource HintBrush}">
+                            <Run Text="↑↓ seç  ·  Enter başlat  ·  Ctrl+Enter konum  ·  Esc kapat" />
+                        </TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <TextBlock x:Name="ResultCountText" FontFamily="{StaticResource MonoFont}" FontSize="11" Foreground="{StaticResource HintBrush}"
+                                   Margin="0,0,16,0">
+                            <Run Text="{Binding ResultCount, Mode=OneWay}" />
+                            <Run Text="sonuç" />
+                        </TextBlock>
+                        <Button x:Name="RescanButton" Content="Yeniden tara" Command="{Binding StartScanningCommand}"
+                                FontFamily="{StaticResource MonoFont}" FontSize="11"
+                                Foreground="{StaticResource AccentBrush}" Background="Transparent"
+                                BorderThickness="0" Padding="0" Cursor="Hand" />
+                    </StackPanel>
+                </Grid>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

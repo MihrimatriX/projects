@@ -1,0 +1,23 @@
+{
+  "id": "canli-duvar-kagidi-motoru",
+  "name": "Canlı Duvar Kağıdı Motoru",
+  "version": "1.1.0",
+  "description": "Windows masaüstüne görsel, video veya HTML/JS tabanlı canlı duvar kağıtları yerleştiren WinUI 3 uygulaması. Monitör başına ayrı duvar kağıdı, tam ekranda otomatik duraklatma ve self-host katalog desteği.",
+  "category": "Tasarım ve Görsel",
+  "platform": "windows",
+  "runtime": "dotnet",
+  "entry": "src/CanliDuvarKagidi.Shell/CanliDuvarKagidi.Shell.csproj",
+  "runScript": "run.ps1",
+  "icons": {
+    "png": "assets/icon.png",
+    "ico": "src/CanliDuvarKagidi.Shell/Assets/AppIcon.ico"
+  },
+  "tags": [
+    "duvar-kağıdı",
+    "masaüstü",
+    "çoklu-monitör",
+    "webview2",
+    "winui3",
+    "tepsi"
+  ]
+}

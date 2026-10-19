@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CanliDuvarKagidi.Shell (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "CanliDuvarKagidi.Shell (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

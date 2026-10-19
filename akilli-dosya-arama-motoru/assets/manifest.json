@@ -1,0 +1,13 @@
+{
+  "id": "akilli-dosya-arama-motoru",
+  "name": "Akıllı Dosya Arama",
+  "version": "3.1.0",
+  "description": "Ctrl+Space ile açılan Spotlight tarzı yerel dosya arama paleti. Dosya adı, içerik ve yazım hatasına dayanıklı arama; her şey cihazda kalır.",
+  "platform": "windows",
+  "runtime": "python",
+  "entry": "main.py",
+  "runScript": "run.ps1",
+  "hotkey": "Ctrl+Space",
+  "category": "Dosya ve Sistem",
+  "tags": ["dosya-arama", "spotlight", "tam-metin", "indeks", "pyside6", "tepsi"]
+}

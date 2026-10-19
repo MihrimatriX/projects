@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+:root {
+  --accent: #58a6ff;
+  --accent-hover: #79b8ff;
+  --bg-app: #0d1117;
+  --bg-editor: #161b22;
+  --bg-hover: #30363d;
+  --bg-selected: #388bfd26;
+  --bg-sidebar: #1c2128;
+  --bg-surface: #1c2128;
+  --bg-toolbar: #21262d;
+  --border: #30363d;
+  --border-focus: #58a6ff;
+  --code-accent: #ffa657;
+  --error: #f85149;
+  --error-bg: rgba(248, 81, 73, 0.12);
+  --focus-ring: 0 0 0 2px #58a6ff;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --font-ui: "Inter", system-ui, sans-serif;
+  --header-height: 48px;
+  --match-0: rgba(88, 166, 255, 0.35);
+  --match-1: rgba(63, 185, 80, 0.35);
+  --match-2: rgba(210, 153, 34, 0.35);
+  --match-3: rgba(248, 81, 73, 0.3);
+  --padding-panel: 12px;
+  --radius-btn: 6px;
+  --radius-chip: 4px;
+  --radius-panel: 8px;
+  --selection: color-mix(in srgb, var(--accent) 30%, transparent);
+  --sidebar-width: 320px;
+  --success: #3fb950;
+  --syntax-group: #ffa657;
+  --syntax-quant: #79c0ff;
+  --text-muted: #6e7681;
+  --text-primary: #e6edf3;
+  --text-secondary: #8b949e;
+  --transition-fast: 100ms ease;
+  --warning: #d29922;
+  --warning-bg: rgba(210, 153, 34, 0.12);
+}
+
+body {
+  font-family: var(--font-ui), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  background: var(--bg-app);
+  color: var(--text-primary);
+}
+
+::selection {
+  background: var(--selection);
+  color: var(--text-primary);
+}
+
+.font-mono,
+code,
+pre,
+.cm-scroller {
+  font-family: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
+}
+
+.grid-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(rgba(48, 54, 61, 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(48, 54, 61, 0.35) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent);
+  opacity: 0.45;
+  z-index: 0;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-editor);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-safe\:animate-spin {
+    animation: none;
+  }
+}

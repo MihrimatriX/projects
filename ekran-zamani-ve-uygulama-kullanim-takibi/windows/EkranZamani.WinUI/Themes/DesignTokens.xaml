@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- design/css/shared.css -->
+    <Color x:Key="BgAppColor">#F5F5F7</Color>
+    <Color x:Key="BgCardColor">#FFFFFF</Color>
+    <Color x:Key="BgHoverColor">#F2F2F7</Color>
+    <Color x:Key="BgSelectedColor">#E8F4FD</Color>
+    <Color x:Key="BorderColor">#E5E5EA</Color>
+    <Color x:Key="BorderSubtleColor">#F0F0F2</Color>
+    <Color x:Key="TextPrimaryColor">#1D1D1F</Color>
+    <Color x:Key="TextSecondaryColor">#86868B</Color>
+    <Color x:Key="TextMutedColor">#AEAEB2</Color>
+    <Color x:Key="AccentColor">#0071E3</Color>
+    <Color x:Key="CatProductiveColor">#34C759</Color>
+    <Color x:Key="CatDistractingColor">#FF3B30</Color>
+    <Color x:Key="CatNeutralColor">#8E8E93</Color>
+    <Color x:Key="CatCommunicationColor">#5856D6</Color>
+    <Color x:Key="GoalBehindColor">#FF9500</Color>
+    <Color x:Key="SuccessColor">#34C759</Color>
+    <Color x:Key="DangerColor">#FF3B30</Color>
+    <Color x:Key="TimelineBgColor">#F2F2F7</Color>
+    <Color x:Key="GoldColor">#FFD60A</Color>
+    <Color x:Key="SilverColor">#C0C0C0</Color>
+    <Color x:Key="BronzeColor">#CD7F32</Color>
+
+    <SolidColorBrush x:Key="BgAppBrush" Color="{StaticResource BgAppColor}" />
+    <SolidColorBrush x:Key="BgCardBrush" Color="{StaticResource BgCardColor}" />
+    <SolidColorBrush x:Key="BgHoverBrush" Color="{StaticResource BgHoverColor}" />
+    <SolidColorBrush x:Key="BgSelectedBrush" Color="{StaticResource BgSelectedColor}" />
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}" />
+    <SolidColorBrush x:Key="BorderSubtleBrush" Color="{StaticResource BorderSubtleColor}" />
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimaryColor}" />
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondaryColor}" />
+    <SolidColorBrush x:Key="TextMutedBrush" Color="{StaticResource TextMutedColor}" />
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}" />
+    <SolidColorBrush x:Key="CatProductiveBrush" Color="{StaticResource CatProductiveColor}" />
+    <SolidColorBrush x:Key="CatDistractingBrush" Color="{StaticResource CatDistractingColor}" />
+    <SolidColorBrush x:Key="CatNeutralBrush" Color="{StaticResource CatNeutralColor}" />
+    <SolidColorBrush x:Key="CatCommunicationBrush" Color="{StaticResource CatCommunicationColor}" />
+    <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}" />
+    <SolidColorBrush x:Key="DangerBrush" Color="{StaticResource DangerColor}" />
+    <SolidColorBrush x:Key="TimelineBgBrush" Color="{StaticResource TimelineBgColor}" />
+
+    <x:Double x:Key="CardRadius">16</x:Double>
+    <x:Double x:Key="SidebarWidth">240</x:Double>
+    <Thickness x:Key="CardPadding">20</Thickness>
+    <Thickness x:Key="SectionGap">0,0,0,24</Thickness>
+
+</ResourceDictionary>

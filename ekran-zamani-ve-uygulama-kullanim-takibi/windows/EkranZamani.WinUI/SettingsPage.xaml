@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="EkranZamani_WinUI.SettingsPage"
+    x:Name="SettingsRoot"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Background="{StaticResource BgAppBrush}">
+
+    <ScrollViewer Padding="24">
+        <StackPanel Spacing="24" MaxWidth="960">
+            <Border x:Name="SyncErrorBanner" Background="#1AFF9500" BorderBrush="#59FF9500"
+                    BorderThickness="1" CornerRadius="12" Padding="12,16"
+                    Visibility="{Binding ShowSyncError, Converter={StaticResource BoolToVisibility}}">
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                    <FontIcon Glyph="&#xE7BA;" Foreground="#FF9500" />
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Sync hatası" FontWeight="SemiBold" />
+                        <TextBlock Text="Yerel veri korunuyor. 127.0.0.1:47124 API yanıt vermiyor."
+                                   Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" />
+                    </StackPanel>
+                    <Button Grid.Column="2" Content="Yeniden dene" Style="{StaticResource SecondaryButtonStyle}"
+                            Command="{Binding RetrySyncCommand}" />
+                </Grid>
+            </Border>
+
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Spacing="6">
+                    <TextBlock Text="YEREL VERİ KONTROLÜ" Style="{StaticResource PageKickerStyle}" />
+                    <TextBlock Text="Ayarlar ve Gizlilik" Style="{StaticResource PageTitleStyle}" />
+                    <TextBlock Text="İzleme hassasiyeti, blacklist ve dışa aktarma seçenekleri bu cihazda tutulur."
+                               TextWrapping="Wrap" Foreground="{StaticResource TextSecondaryBrush}" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Spacing="8" VerticalAlignment="Top">
+                    <TextBlock Text="{Binding SaveStatus}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"
+                               HorizontalAlignment="Right" />
+                    <Button Content="Kaydet" Style="{StaticResource PrimaryButtonStyle}"
+                            IsEnabled="{Binding IsDirty}" Click="Save_Click" />
+                </StackPanel>
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel Spacing="8">
+                        <Ellipse Width="10" Height="10" Fill="{StaticResource CatProductiveBrush}" HorizontalAlignment="Left" />
+                        <TextBlock Text="Yerel-first" FontWeight="SemiBold" />
+                        <TextBlock Text="Ham kullanım kayıtları varsayılan olarak yalnızca bu bilgisayarda kalır."
+                                   TextWrapping="Wrap" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1" Style="{StaticResource CardStyle}">
+                    <StackPanel Spacing="8">
+                        <Ellipse Width="10" Height="10" Fill="{StaticResource CatCommunicationBrush}" HorizontalAlignment="Left" />
+                        <TextBlock Text="Başlık kontrolü" FontWeight="SemiBold" />
+                        <TextBlock Text="Pencere başlığı kaydı açık; hassas uygulamalar blacklist ile gizlenebilir."
+                                   TextWrapping="Wrap" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="2" Style="{StaticResource CardStyle}">
+                    <StackPanel Spacing="8">
+                        <Ellipse Width="10" Height="10" Fill="{StaticResource CatNeutralBrush}" HorizontalAlignment="Left" />
+                        <TextBlock Text="{Binding SyncSummaryTitle}" FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding SyncSummaryDesc}" TextWrapping="Wrap" FontSize="12"
+                                   Foreground="{StaticResource TextSecondaryBrush}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Grid ColumnDefinitions="*,360" RowDefinitions="Auto,Auto" ColumnSpacing="24" RowSpacing="24">
+                <Border Style="{StaticResource SettingsPanelStyle}">
+                    <StackPanel>
+                        <Grid Padding="20,18,20,16" BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="0,0,0,1">
+                            <TextBlock Text="İzleme" FontSize="17" FontWeight="SemiBold" />
+                            <Border Background="#2434C759" CornerRadius="999" Padding="9,3" HorizontalAlignment="Right">
+                                <TextBlock Text="Aktif" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource CatProductiveBrush}" />
+                            </Border>
+                        </Grid>
+                        <Grid Padding="20,16" ColumnDefinitions="*,Auto" ColumnSpacing="16">
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="Boşta eşiği" FontWeight="Medium" />
+                                <TextBlock Text="Bu süreden sonra oturum boşta sayılır." FontSize="13"
+                                           Foreground="{StaticResource TextSecondaryBrush}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                                <TextBox Width="72" Text="{Binding IdleThresholdMinutes, Mode=TwoWay}" />
+                                <TextBlock Text="dakika" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}" />
+                            </StackPanel>
+                        </Grid>
+                        <Grid Padding="20,16" ColumnDefinitions="*,Auto" ColumnSpacing="16"
+                              BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="0,1,0,0">
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="Veri saklama süresi" FontWeight="Medium" />
+                                <TextBlock Text="Bundan eski uygulama ve site kayıtları otomatik silinir (0 = süresiz)." FontSize="13"
+                                           TextWrapping="Wrap" Foreground="{StaticResource TextSecondaryBrush}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                                <TextBox Width="72" Text="{Binding RetentionDays, Mode=TwoWay}"
+                                         AutomationProperties.Name="Veri saklama süresi (gün)" />
+                                <TextBlock Text="gün" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}" />
+                            </StackPanel>
+                        </Grid>
+                        <Grid Padding="20,16" ColumnDefinitions="*,Auto" ColumnSpacing="16"
+                              BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="0,1,0,0">
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="Pencere başlığı kaydı" FontWeight="Medium" />
+                                <TextBlock Text="Aktif pencere başlığını yerel veritabanına yaz." FontSize="13"
+                                           Foreground="{StaticResource TextSecondaryBrush}" />
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1" IsOn="{Binding LogWindowTitles, Mode=TwoWay}" />
+                        </Grid>
+                        <Grid Padding="20,16" ColumnDefinitions="*,Auto" ColumnSpacing="16"
+                              BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="0,1,0,0">
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="Tarayıcı eklentisi" FontWeight="Medium" />
+                                <TextBlock Text="MV3 eklenti web sitelerini URL bazlı ayırır." FontSize="13"
+                                           Foreground="{StaticResource TextSecondaryBrush}" />
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1" IsOn="{Binding EnableBrowserExtension, Mode=TwoWay}" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="1" Style="{StaticResource SettingsPanelStyle}">
+                    <StackPanel>
+                        <Grid Padding="20,18,20,16" BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="0,0,0,1">
+                            <TextBlock Text="Kara liste" FontSize="17" FontWeight="SemiBold" />
+                            <TextBlock HorizontalAlignment="Right" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"
+                                       Text="{Binding BlacklistCountLabel}" />
+                        </Grid>
+                        <ItemsControl ItemsSource="{Binding BlacklistEntries}" Padding="0,8,0,0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Padding="20,12" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12"
+                                          BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="0,0,0,1">
+                                        <Border Width="32" Height="32" CornerRadius="6" Background="{StaticResource BgHoverBrush}">
+                                            <TextBlock Text="{Binding Initial}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                       FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" />
+                                        </Border>
+                                        <TextBlock Grid.Column="1" Text="{Binding Pattern}" FontFamily="Consolas" VerticalAlignment="Center" />
+                                        <Button Grid.Column="2" Content="Kaldır" Style="{StaticResource SecondaryButtonStyle}"
+                                                Command="{Binding DataContext.RemoveBlacklistEntryCommand, ElementName=SettingsRoot}"
+                                                CommandParameter="{Binding}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Grid Padding="20,16" ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                            <StackPanel Spacing="4">
+                                <TextBox PlaceholderText="uygulama.exe" Text="{Binding NewBlacklistEntry, Mode=TwoWay}" />
+                                <TextBlock Text="{Binding BlacklistError}" Foreground="{StaticResource DangerBrush}" FontSize="12" />
+                                <TextBlock Text="Örnek: slack.exe veya spotify.exe" FontSize="12"
+                                           Foreground="{StaticResource TextSecondaryBrush}" />
+                            </StackPanel>
+                            <Button Grid.Column="1" Content="Ekle" Style="{StaticResource SecondaryButtonStyle}"
+                                    VerticalAlignment="Top" Command="{Binding AddBlacklistEntryCommand}" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="1" Style="{StaticResource SettingsPanelStyle}">
+                    <StackPanel>
+                        <Grid Padding="20,18,20,16" BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="0,0,0,1">
+                            <TextBlock Text="Veri aktarımı" FontSize="17" FontWeight="SemiBold" />
+                        </Grid>
+                        <Grid Padding="20,16" ColumnDefinitions="*,Auto" ColumnSpacing="16">
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="ActivityWatch import" FontWeight="Medium" />
+                                <TextBlock Text="JSON bucket dosyasından geçmiş veri yükle." FontSize="13"
+                                           Foreground="{StaticResource TextSecondaryBrush}" />
+                            </StackPanel>
+                            <Button Grid.Column="1" Content="Dosya seç" Style="{StaticResource SecondaryButtonStyle}"
+                                    Command="{Binding ImportActivityWatchCommand}" />
+                        </Grid>
+                        <TextBlock Margin="20,0,20,12" Text="{Binding ImportStatus}" FontSize="12"
+                                   Foreground="{StaticResource TextSecondaryBrush}" />
+                        <Grid Padding="20,16" ColumnDefinitions="*,Auto" ColumnSpacing="16"
+                              BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="0,1,0,0">
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="CSV export" FontWeight="Medium" />
+                                <TextBlock Text="Bugünün kayıtlarını dışa aktar." FontSize="13"
+                                           Foreground="{StaticResource TextSecondaryBrush}" />
+                            </StackPanel>
+                            <Button Grid.Column="1" Content="Dışa aktar" Style="{StaticResource SecondaryButtonStyle}"
+                                    IsEnabled="{Binding CanExportCsv}" Command="{Binding ExportCsvCommand}" />
+                        </Grid>
+                        <Grid Padding="20,16" ColumnDefinitions="*,Auto" ColumnSpacing="16"
+                              BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="0,1,0,0">
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="Self-host sync" FontWeight="Medium" />
+                                <TextBlock Text="127.0.0.1:47124 yerel API köprüsü." FontSize="13"
+                                           Foreground="{StaticResource TextSecondaryBrush}" />
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1" IsOn="{Binding EnableSyncApi, Mode=TwoWay}" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource SettingsPanelStyle}" BorderBrush="#33FF3B30">
+                    <StackPanel>
+                        <Grid Padding="20,18,20,16" BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="0,0,0,1">
+                            <StackPanel>
+                                <TextBlock Text="KVKK" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource DangerBrush}" />
+                                <TextBlock Text="Gizlilik" FontSize="17" FontWeight="SemiBold" />
+                            </StackPanel>
+                            <Border Background="#1FFF3B30" CornerRadius="999" Padding="9,3" HorizontalAlignment="Right">
+                                <TextBlock Text="Geri alınamaz" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource DangerBrush}" />
+                            </Border>
+                        </Grid>
+                        <Grid Padding="20,16" ColumnDefinitions="*,Auto" ColumnSpacing="16">
+                            <StackPanel Spacing="2">
+                                <TextBlock Text="Tüm verileri sil" FontWeight="Medium" />
+                                <TextBlock Text="Yerel veritabanı, kurallar ve hedefler kalıcı olarak silinir."
+                                           FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" />
+                            </StackPanel>
+                            <Button Grid.Column="1" Content="Verileri sil" Style="{StaticResource DangerButtonStyle}"
+                                    Click="DeleteData_Click" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

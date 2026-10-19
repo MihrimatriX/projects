@@ -1,0 +1,18 @@
+{
+  "id": "metadata-temizleyici",
+  "name": "Metadata Temizleyici",
+  "version": "0.4.1",
+  "description": "Fotoğraf ve PDF'lerdeki EXIF/GPS/XMP/IPTC izlerini yerelde, yedekli ve toplu olarak temizler. Komut satırı aracı da içerir.",
+  "category": "Güvenlik ve Gizlilik",
+  "tags": ["gizlilik", "exif", "gps", "metadata", "toplu işlem", "cli"],
+  "platform": "windows",
+  "runtime": "python3.11",
+  "entry": "main.py",
+  "runScript": "run.ps1",
+  "publishScript": "publish.ps1",
+  "icons": {
+    "svg": "assets/icon.svg",
+    "png": "assets/icon.png",
+    "ico": "assets/app.ico"
+  }
+}

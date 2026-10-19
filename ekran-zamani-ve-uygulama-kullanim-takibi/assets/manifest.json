@@ -1,0 +1,18 @@
+{
+  "id": "ekran-zamani-ve-uygulama-kullanim-takibi",
+  "name": "Ekran Zamanı",
+  "version": "1.0.0",
+  "description": "Hangi uygulamada ne kadar vakit geçirdiğinizi ölçen, kategorilere ayıran ve yalnızca bu bilgisayarda saklayan WinUI 3 uygulaması. Günlük/haftalık özet, odak hedefleri ve isteğe bağlı tarayıcı eklentisi içerir.",
+  "category": "Verimlilik",
+  "platform": "windows",
+  "runtime": "winui3",
+  "entry": "windows/EkranZamani.WinUI/EkranZamani.WinUI.csproj",
+  "runScript": "run.ps1",
+  "icons": {
+    "svg": "assets/icon.svg",
+    "png": "assets/icon-256.png",
+    "ico": "assets/icon.ico"
+  },
+  "hotkey": "Ctrl+Shift+E",
+  "tags": ["ekran-zamanı", "kullanım-takibi", "verimlilik", "activitywatch", "winui", "yerel"]
+}

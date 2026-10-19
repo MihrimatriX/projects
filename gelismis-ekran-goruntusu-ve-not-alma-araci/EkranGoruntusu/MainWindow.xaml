@@ -1,0 +1,265 @@
+<Window x:Class="EkranGoruntusu.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:EkranGoruntusu.ViewModels"
+        xmlns:helpers="clr-namespace:EkranGoruntusu.Helpers"
+        Title="Gelişmiş Ekran Görüntüsü"
+        Height="720" Width="1050"
+        MinHeight="550" MinWidth="850"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource ShellBrush}"
+        WindowStyle="None"
+        ResizeMode="CanResize"
+        PreviewKeyDown="Window_PreviewKeyDown">
+
+    <Window.DataContext>
+        <vm:MainViewModel />
+    </Window.DataContext>
+
+    <Window.InputBindings>
+        <KeyBinding Key="N" Modifiers="Control" Command="{Binding StartCaptureCommand}" />
+        <KeyBinding Key="O" Modifiers="Control" Command="{Binding OpenImageCommand}" />
+        <KeyBinding Key="OemComma" Modifiers="Control" Command="{Binding OpenSettingsCommand}" />
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <helpers:NullToVisibilityConverter x:Key="NullToVis" />
+        <helpers:BoolToVisibilityConverter x:Key="BoolToVis" />
+    </Window.Resources>
+
+    <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Background="{StaticResource BgAppBrush}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="36" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Titlebar -->
+            <Border Grid.Row="0" Background="{StaticResource BgToolbarBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1"
+                    MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Grid Margin="12,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Content="Geçmiş" Tag="Active" Style="{StaticResource NavLinkStyle}" IsEnabled="False" />
+                        <Button Content="Ayarlar" Style="{StaticResource NavLinkStyle}" Command="{Binding OpenSettingsCommand}" Margin="4,0,0,0"
+                                AutomationProperties.AutomationId="SettingsButton" ToolTip="Ayarlar (Ctrl+,)" />
+                    </StackPanel>
+                    <TextBlock Text="Gelişmiş Ekran Görüntüsü" FontSize="13" FontWeight="SemiBold"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource TextPrimaryBrush}" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Button Content="—" Width="36" Height="28" Style="{StaticResource BtnGhost}" Padding="0" FontSize="11"
+                                Click="Minimize_Click" BorderThickness="0" Background="Transparent"
+                                AutomationProperties.Name="Simge durumuna küçült" ToolTip="Simge durumuna küçült" />
+                        <Button Content="□" Width="36" Height="28" Style="{StaticResource BtnGhost}" Padding="0" FontSize="11"
+                                Click="Maximize_Click" Margin="2,0" BorderThickness="0" Background="Transparent"
+                                AutomationProperties.AutomationId="MaximizeButton"
+                                AutomationProperties.Name="Ekranı kapla / geri yükle" ToolTip="Ekranı kapla / geri yükle" />
+                        <Button Content="×" Width="36" Height="28" Style="{StaticResource BtnGhost}" Padding="0" FontSize="11"
+                                Click="Close_Click" BorderThickness="0" Background="Transparent"
+                                AutomationProperties.AutomationId="CloseButton"
+                                AutomationProperties.Name="Kapat" ToolTip="Kapat" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- App header -->
+            <Grid Grid.Row="1" Margin="20,20,20,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Ekran Alıntısı" FontSize="22" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" />
+                    <Border Margin="12,0,0,0" Padding="10,4" CornerRadius="999" Background="{StaticResource BgPanelBrush}"
+                            BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" VerticalAlignment="Center">
+                        <TextBlock Text="YEREL OCR" FontSize="11" FontWeight="Medium" Foreground="{StaticResource TextSecondaryBrush}" />
+                    </Border>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button Content="Geçmişi temizle" Style="{StaticResource BtnGhost}" Command="{Binding ClearHistoryCommand}" Margin="0,0,8,0"
+                            AutomationProperties.AutomationId="ClearHistoryButton"
+                            IsEnabled="{Binding HasScreenshots}" ToolTip="Tüm kayıtları ve görsel dosyalarını sil" />
+                    <Button Content="Görsel aç" Style="{StaticResource BtnGhost}" Command="{Binding OpenImageCommand}" Margin="0,0,8,0"
+                            AutomationProperties.AutomationId="OpenImageButton" ToolTip="Var olan bir görseli düzenle / OCR uygula (Ctrl+O)" />
+                    <Button Content="Yeni yakalama" Style="{StaticResource BtnPrimary}" Command="{Binding StartCaptureCommand}"
+                            AutomationProperties.AutomationId="CaptureButton">
+                        <Button.ToolTip>
+                            <TextBlock Text="{Binding HotkeyDisplay, StringFormat='Ekranı yakala (Ctrl+N, her yerden {0})'}" />
+                        </Button.ToolTip>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <Border Grid.Row="1" VerticalAlignment="Bottom" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Height="1" Margin="0,0,0,-1" />
+
+            <!-- Main layout -->
+            <Grid Grid.Row="2" Margin="20,16,20,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="320" MinWidth="250" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Gallery -->
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid Margin="0,0,0,12">
+                        <TextBlock Text="Kayıtlı görüntüler" FontSize="14" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" />
+                        <Grid HorizontalAlignment="Right" Width="180">
+                            <TextBox x:Name="SearchBox" Style="{StaticResource SearchBoxStyle}"
+                                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                     AutomationProperties.AutomationId="SearchBox"
+                                     AutomationProperties.Name="OCR metni veya dosya adında ara"
+                                     ToolTip="OCR metni veya dosya adında ara (Ctrl+F, Esc temizler)" />
+                            <TextBlock Text="Ara… (Ctrl+F)" FontSize="12" Margin="12,0,0,0" VerticalAlignment="Center"
+                                       Foreground="{StaticResource TextMutedBrush}" IsHitTestVisible="False"
+                                       Visibility="{Binding SearchText, Converter={StaticResource NullToVis}, ConverterParameter=Inverse}" />
+                        </Grid>
+                    </Grid>
+
+                    <!-- Empty state -->
+                    <Border Grid.Row="1" Visibility="{Binding HasScreenshots, Converter={StaticResource BoolToVis}, ConverterParameter=Inverse}"
+                            Background="{StaticResource BgPanelBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="40,24">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Text="Henüz yakalama yok" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,0,0,8" />
+                            <TextBlock Text="{Binding HotkeyDisplay, StringFormat='{}{0} ile ilk ekran görüntünüzü alın ya da Görsel aç ile bir görseli düzenleyin'}" FontSize="13"
+                                       AutomationProperties.AutomationId="EmptyHint"
+                                       Foreground="{StaticResource TextMutedBrush}" TextAlignment="Center" TextWrapping="Wrap" MaxWidth="240" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Arama boş sonuç -->
+                    <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Panel.ZIndex="1"
+                                Visibility="{Binding IsSearchEmpty, Converter={StaticResource BoolToVis}}">
+                        <TextBlock Text="Eşleşen kayıt yok" FontSize="14" FontWeight="SemiBold" HorizontalAlignment="Center"
+                                   AutomationProperties.AutomationId="NoMatchText" />
+                        <Button Content="Aramayı temizle" Style="{StaticResource BtnSm}" Command="{Binding ClearSearchCommand}"
+                                AutomationProperties.AutomationId="ClearSearchButton" HorizontalAlignment="Center" Margin="0,10,0,0" />
+                    </StackPanel>
+
+                    <ListBox Grid.Row="1" ItemsSource="{Binding FilteredScreenshots}" SelectedItem="{Binding SelectedScreenshot}"
+                             AutomationProperties.AutomationId="HistoryList"
+                             AutomationProperties.Name="Kayıtlı görüntüler"
+                             Style="{StaticResource GalleryListBoxStyle}"
+                             Visibility="{Binding HasScreenshots, Converter={StaticResource BoolToVis}}">
+                        <ListBox.InputBindings>
+                            <KeyBinding Key="Delete" Command="{Binding DeleteScreenshotCommand}" CommandParameter="{Binding SelectedScreenshot}" />
+                            <KeyBinding Key="Enter" Command="{Binding EditScreenshotCommand}" CommandParameter="{Binding SelectedScreenshot}" />
+                        </ListBox.InputBindings>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border x:Name="Card" Background="{StaticResource BgPanelBrush}" BorderBrush="{StaticResource BorderBrush}"
+                                        BorderThickness="1" CornerRadius="8" Padding="10" Cursor="Hand">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="80" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0" Width="80" Height="55" CornerRadius="4" ClipToBounds="True"
+                                                BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Background="{StaticResource BgCanvasBrush}">
+                                            <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" />
+                                        </Border>
+                                        <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding FormattedDate}" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,4" />
+                                            <TextBlock Text="{Binding OcrPreviewText}" FontSize="11" Foreground="{StaticResource TextMutedBrush}"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                        <Setter TargetName="Card" Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+                                        <Setter TargetName="Card" Property="Background" Value="{StaticResource BgHoverBrush}" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+
+                <!-- Detail -->
+                <Grid Grid.Column="2" Visibility="{Binding SelectedScreenshot, Converter={StaticResource NullToVis}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid Margin="0,0,0,12">
+                        <TextBlock Text="Ekran alıntısı detayı" FontSize="14" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="Düzenle" Style="{StaticResource BtnGhost}"
+                                    AutomationProperties.AutomationId="EditButton" ToolTip="Düzenleyicide aç (Enter); kaydedince yeni kayıt olur"
+                                    Command="{Binding EditScreenshotCommand}" CommandParameter="{Binding SelectedScreenshot}" Margin="0,0,8,0" />
+                            <Button Content="Klasörde göster" Style="{StaticResource BtnGhost}"
+                                    AutomationProperties.AutomationId="ShowInFolderButton"
+                                    Command="{Binding ShowInFolderCommand}" CommandParameter="{Binding SelectedScreenshot}" Margin="0,0,8,0" />
+                            <Button Content="Görseli kopyala" Style="{StaticResource BtnGhost}"
+                                    AutomationProperties.AutomationId="CopyImageButton"
+                                    Command="{Binding CopyImageToClipboardCommand}" CommandParameter="{Binding SelectedScreenshot}" Margin="0,0,8,0" />
+                            <Button Content="Sil" Style="{StaticResource BtnDanger}"
+                                    AutomationProperties.AutomationId="DeleteButton" ToolTip="Kaydı ve görsel dosyasını sil (Delete)"
+                                    Command="{Binding DeleteScreenshotCommand}" CommandParameter="{Binding SelectedScreenshot}" />
+                        </StackPanel>
+                    </Grid>
+                    <Border Grid.Row="1" Background="{StaticResource BgPanelBrush}" BorderBrush="{StaticResource BorderBrush}"
+                            BorderThickness="1" CornerRadius="8" Padding="12">
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <Image Source="{Binding SelectedScreenshot.Preview}" Stretch="Uniform" MaxHeight="320" HorizontalAlignment="Center"
+                                   AutomationProperties.AutomationId="PreviewImage" AutomationProperties.Name="Seçili görüntünün önizlemesi" />
+                        </ScrollViewer>
+                    </Border>
+                    <Border Grid.Row="2" Margin="0,16,0,0" Background="{StaticResource BgPanelBrush}" BorderBrush="{StaticResource BorderBrush}"
+                            BorderThickness="1" CornerRadius="8" Padding="14" MaxHeight="200">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid Margin="0,0,0,8">
+                                <TextBlock Text="Çözümlenen OCR metni" FontSize="13" FontWeight="SemiBold"
+                                           Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" />
+                                <Button Content="Metni kopyala" Style="{StaticResource BtnSm}" HorizontalAlignment="Right"
+                                        AutomationProperties.AutomationId="CopyTextButton"
+                                        Command="{Binding CopyTextToClipboardCommand}" CommandParameter="{Binding SelectedScreenshot}"
+                                        Visibility="{Binding SelectedScreenshot.HasOcrText, Converter={StaticResource BoolToVis}}" />
+                            </Grid>
+                            <TextBox Grid.Row="1" Text="{Binding SelectedScreenshot.OcrText, Mode=OneWay}" IsReadOnly="True"
+                                     AutomationProperties.AutomationId="OcrText" AutomationProperties.Name="Çözümlenen OCR metni"
+                                     TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+                                     Background="{StaticResource BgAppBrush}" MinHeight="60" />
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!-- Placeholder -->
+                <Border Grid.Column="2" Visibility="{Binding SelectedScreenshot, Converter={StaticResource NullToVis}, ConverterParameter=Inverse}"
+                        Background="{StaticResource BgPanelBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="8" Padding="40">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="Görüntü seçilmedi" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,0,0,8" />
+                        <TextBlock Text="Detayları görmek için soldan bir kayıt seçin" FontSize="13"
+                                   Foreground="{StaticResource TextMutedBrush}" TextAlignment="Center" MaxWidth="260" TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Status bar -->
+            <Border Grid.Row="3" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0" Padding="20,12">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Ellipse Width="6" Height="6" Fill="{StaticResource SuccessBrush}" Margin="0,0,8,0" />
+                        <TextBlock Text="{Binding StatusMessage}" FontSize="11" Foreground="{StaticResource TextMutedBrush}"
+                                   AutomationProperties.AutomationId="StatusText" />
+                    </StackPanel>
+                    <TextBlock FontSize="11" Foreground="{StaticResource TextMutedBrush}" HorizontalAlignment="Right"
+                               Text="{Binding HotkeyDisplay, StringFormat='Yakala: {0} · Ctrl+N yeni · Ctrl+O görsel aç · v2.0.0'}" />
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

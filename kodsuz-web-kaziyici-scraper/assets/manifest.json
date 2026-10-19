@@ -1,0 +1,17 @@
+{
+  "id": "kodsuz-web-kaziyici-scraper",
+  "name": "Kodsuz Web Kazıyıcı",
+  "version": "1.0.0",
+  "description": "URL ve CSS seçici ile kod yazmadan web verisi çıkaran PySide6 uygulaması; gömülü tarayıcı, robots.txt uyumu ve CSV/JSON/Excel dışa aktarma sunar.",
+  "category": "Geliştirici Araçları",
+  "platform": "windows",
+  "runtime": "python3",
+  "entry": "main.py",
+  "runScript": "run.ps1",
+  "icons": {
+    "svg": "assets/icon.svg",
+    "png": "assets/icon.png",
+    "ico": "assets/app.ico"
+  },
+  "tags": ["web-kazima", "scraper", "css-secici", "robots-txt", "csv-excel", "pyside6"]
+}

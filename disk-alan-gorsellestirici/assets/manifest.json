@@ -1,0 +1,15 @@
+{
+  "id": "disk-alan-gorsellestirici",
+  "name": "Disk Alanı Görselleştirici",
+  "version": "1.1.0",
+  "description": "Disk kullanımını sunburst ve treemap grafikleriyle gösterir; büyük dosyaları, temizlenebilir önbellekleri ve zaman içindeki büyümeyi bulup çöpe taşımanızı sağlar.",
+  "platform": "windows",
+  "runtime": "python",
+  "entry": "main.py",
+  "runScript": "run.ps1",
+  "icons": {
+    "png": "assets/icon.png"
+  },
+  "category": "Dosya ve Sistem",
+  "tags": ["disk-analizi", "sunburst", "treemap", "temizlik", "pyside6"]
+}

@@ -1,0 +1,56 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Course {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  lessons     Lesson[]
+  quiz        Quiz?
+  createdAt   DateTime @default(now())
+}
+
+model Quiz {
+  id        String   @id @default(uuid())
+  courseId  String   @unique
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title     String
+  questions String   // JSON: [{ question, options: string[], correctIndex: number }]
+  attempts  QuizAttempt[]
+}
+
+model QuizAttempt {
+  id        String   @id @default(uuid())
+  quizId    String
+  quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  score     Int
+  total     Int
+  answers   String   // JSON: number[] selected indices
+  createdAt DateTime @default(now())
+}
+
+model Lesson {
+  id        String   @id @default(uuid())
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title     String
+  content   String
+  order     Int
+  progress  Progress[]
+}
+
+model Progress {
+  id        String   @id @default(uuid())
+  lessonId  String
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  completed Boolean  @default(false)
+  updatedAt DateTime @updatedAt
+
+  @@unique([lessonId])
+}

@@ -1,0 +1,13 @@
+{
+  "id": "aliskanlik-takipcisi",
+  "name": "Alışkanlık Takipçisi",
+  "version": "0.3.0",
+  "description": "Günlük ve haftalık alışkanlıkları seri sayacı, esnek seri ve 90 günlük ısı haritasıyla takip eden, verisini yalnızca cihazda tutan uygulama.",
+  "platform": "flutter",
+  "runScript": "run.ps1",
+  "icons": {
+    "png": "assets/branding/icon.png"
+  },
+  "tags": ["alışkanlık", "seri", "ısı haritası", "hatırlatıcı", "çevrimdışı", "flutter"],
+  "category": "Verimlilik"
+}

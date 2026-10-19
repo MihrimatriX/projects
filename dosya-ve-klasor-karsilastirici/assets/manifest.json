@@ -1,0 +1,16 @@
+{
+  "id": "dosya-ve-klasor-karsilastirici",
+  "name": "Dosya ve Klasör Karşılaştırıcı",
+  "version": "2.2.0",
+  "description": "İki dosyayı veya klasörü yan yana karşılaştıran, farkları birleştiren ve patch üreten yerel Electron uygulaması (Meld / WinMerge alternatifi).",
+  "category": "Dosya ve Sistem",
+  "platform": "windows",
+  "runtime": "electron",
+  "entry": "electron/main.ts",
+  "runScript": "run.ps1",
+  "icons": {
+    "png": "build/icon.png",
+    "ico": "build/icon.ico"
+  },
+  "tags": ["diff", "karşılaştırma", "birleştirme", "klasör", "monaco", "electron"]
+}

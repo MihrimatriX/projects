@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Yerel Teknoloji</title>
+    <link>https://ornek.test/teknoloji</link>
+    <description>Test fikstur beslemesi</description>
+    <item>
+      <title>Yapay zeka çipleri yerelleşiyor</title>
+      <link>https://ornek.test/teknoloji/cipler</link>
+      <guid>tek-1</guid>
+      <dc:creator>Ayşe Yılmaz</dc:creator>
+      <pubDate>Mon, 05 Oct 2026 08:00:00 GMT</pubDate>
+      <description>Yerli üretim çipler için yeni yatırım planı açıklandı.</description>
+      <content:encoded><![CDATA[<p>Yerli üretim <strong>çipler</strong> için yeni yatırım planı açıklandı.</p><script>alert(1)</script>]]></content:encoded>
+    </item>
+    <item>
+      <title>Açık kaynak tarayıcı motoru güncellendi</title>
+      <link>https://ornek.test/teknoloji/tarayici</link>
+      <guid>tek-2</guid>
+      <pubDate>Sun, 04 Oct 2026 10:00:00 GMT</pubDate>
+      <description>Yeni sürüm bellek kullanımını azaltıyor.</description>
+    </item>
+    <item>
+      <title>İstanbul'da veri merkezi açıldı</title>
+      <link>https://ornek.test/teknoloji/veri-merkezi</link>
+      <guid>tek-3</guid>
+      <pubDate>Sat, 03 Oct 2026 09:00:00 GMT</pubDate>
+      <description>Yeni tesis yenilenebilir enerjiyle çalışıyor.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,10 @@
+{
+  "id": "dosya-sifreleme-ve-dijital-kasa",
+  "name": "Dijital Kasa",
+  "version": "2.0.0",
+  "description": "Dosyaları parola korumalı yerel bir klasörde AES-256-GCM ve Argon2id ile şifreleyen, ekleme, kasaya taşıma, çıkarma ve otomatik kilit sunan WPF kasa.",
+  "launch": "run.ps1",
+  "platforms": ["windows"],
+  "tags": ["şifreleme", "güvenlik", "aes-gcm", "argon2", "wpf", "gizlilik"],
+  "category": "Güvenlik ve Gizlilik"
+}

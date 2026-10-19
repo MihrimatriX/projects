@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    paths:
+      - 'hizli-not-alma-ve-gorev-listesi/**'
+  pull_request:
+    paths:
+      - 'hizli-not-alma-ve-gorev-listesi/**'
+
+defaults:
+  run:
+    working-directory: hizli-not-alma-ve-gorev-listesi
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Dependencies
+        run: flutter pub get
+
+      - name: Code generation
+        run: dart run build_runner build
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Test
+        run: flutter test

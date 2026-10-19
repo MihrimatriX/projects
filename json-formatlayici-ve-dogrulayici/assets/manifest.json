@@ -1,0 +1,14 @@
+{
+  "id": "json-formatlayici-ve-dogrulayici",
+  "name": "JSON Formatlayıcı ve Doğrulayıcı",
+  "version": "1.4.0",
+  "description": "JSON'u yerelde formatlayan, doğrulayan, JSONPath/jq-lite ile sorgulayan ve iki JSON'u satır satır karşılaştıran araç. Şema doğrulama, ağaç görünümü ve TypeScript tipi üretimi içerir.",
+  "category": "Geliştirici Araçları",
+  "icon": "assets/icon.png",
+  "iconPng": "assets/icon.png",
+  "appIcon": "assets/app.ico",
+  "launch": "run.ps1",
+  "entry": "src/app/lab/page.tsx",
+  "platforms": ["windows", "web"],
+  "tags": ["json", "doğrulama", "jsonpath", "json-schema", "diff", "geliştirici"]
+}

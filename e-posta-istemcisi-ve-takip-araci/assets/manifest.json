@@ -1,0 +1,16 @@
+{
+  "id": "e-posta-istemcisi-ve-takip-araci",
+  "name": "E-posta İstemcisi ve Takip Aracı",
+  "version": "1.3.0",
+  "description": "IMAP/SMTP hesaplarını yerel SQLite önbelleğiyle yöneten masaüstü e-posta istemcisi. Yanıt takibi, erteleme, şablonlar ve geri al cihazda çalışır; şifreler OS güvenli depolamasında tutulur.",
+  "category": "İletişim ve Okuma",
+  "platform": "windows",
+  "runtime": "electron",
+  "entry": "electron/main.ts",
+  "runScript": "run.ps1",
+  "icons": {
+    "png": "build/icon.png",
+    "ico": "build/icon.ico"
+  },
+  "tags": ["e-posta", "imap", "smtp", "takip", "erteleme", "electron"]
+}

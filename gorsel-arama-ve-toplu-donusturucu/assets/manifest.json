@@ -1,0 +1,13 @@
+{
+  "id": "gorsel-arama-ve-toplu-donusturucu",
+  "name": "Görsel Arama ve Toplu Dönüştürücü",
+  "version": "1.1.0",
+  "description": "Görselleri kuyruğa toplayıp WebP, JPEG, PNG veya AVIF'e toplu dönüştürür, küçültür ve EXIF/GPS bilgisini temizler. Orijinalleri asla ezmez.",
+  "category": "Tasarım ve Görsel",
+  "icon": "assets/icon.ico",
+  "iconPng": "assets/icon.png",
+  "launch": "run.ps1",
+  "entry": "main.py",
+  "platforms": ["windows", "linux", "macos"],
+  "tags": ["görsel", "dönüştürücü", "toplu işlem", "webp", "avif", "sıkıştırma"]
+}

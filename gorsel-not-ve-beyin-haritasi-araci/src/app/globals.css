@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+:root {
+  --accent: #6366f1;
+  --accent-hover: #4f46e5;
+  --accent-soft: color-mix(in srgb, var(--accent) 15%, transparent);
+  --bg-canvas: #f8fafc;
+  --bg-error: #fee2e2;
+  --bg-hover: #f1f5f9;
+  --bg-saved: #dcfce7;
+  --bg-saving: #fef3c7;
+  --bg-selected: #e0e7ff;
+  --bg-ui: #ffffff;
+  --border: #e2e8f0;
+  --border-focus: #6366f1;
+  --danger: #ef4444;
+  --dur-fast: 120ms;
+  --dur-modal: 220ms;
+  --dur-ui: 180ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --focus-ring: 0 0 0 2px #6366f1;
+  --grid-dot: #cbd5e1;
+  --node-1: #fef3c7;
+  --node-2: #dbeafe;
+  --node-3: #dcfce7;
+  --page-padding: 24px;
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --radius-sm: 6px;
+  --selection: color-mix(in srgb, var(--accent) 25%, transparent);
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --shadow-ui: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --sidebar-width: 240px;
+  --stroke: #334155;
+  --text-muted: #94a3b8;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --toolbar-height: 48px;
+}
+
+body {
+  color: var(--text-primary);
+  background: var(--bg-canvas);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+
+::selection {
+  background: var(--selection);
+  color: var(--text-primary);
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes reveal-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes card-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes card-out {
+  to {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+@keyframes title-flash {
+  0%,
+  100% {
+    color: var(--text-primary);
+  }
+  35% {
+    color: var(--accent);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.canvas-dots {
+  background-color: var(--bg-canvas);
+  background-image: radial-gradient(circle, var(--grid-dot) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.page-dots {
+  min-height: 100dvh;
+  background-color: var(--bg-canvas);
+  background-image: radial-gradient(circle, var(--grid-dot) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.animate-reveal-in {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: reveal-in var(--dur-modal) var(--ease-out) forwards;
+}
+
+.animate-card-in {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: card-in var(--dur-modal) var(--ease-out) forwards;
+}
+
+.animate-card-out {
+  animation: card-out 200ms var(--ease-out) forwards;
+  pointer-events: none;
+}
+
+.animate-title-flash {
+  animation: title-flash 600ms var(--ease-out);
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}

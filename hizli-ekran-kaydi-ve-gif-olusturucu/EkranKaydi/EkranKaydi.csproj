@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <!-- Yalnızca .NET 10 runtime kurulu makinelerde de açılsın -->
+    <RollForward>Major</RollForward>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>..\assets\app.ico</ApplicationIcon>
+    <AssemblyName>EkranKaydi</AssemblyName>
+    <RootNamespace>EkranKaydi</RootNamespace>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="FFMpegCore" Version="5.5.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.12" />
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.13" />
+    <PackageReference Include="NHotkey.Wpf" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- ffmpeg\ alt klasörüne: publish çıktısının üst düzeyinde tek exe kalsın -->
+    <None Include="ffmpeg.exe" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" Link="ffmpeg\ffmpeg.exe" Condition="Exists('ffmpeg.exe')" />
+    <None Include="ffprobe.exe" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" Link="ffmpeg\ffprobe.exe" Condition="Exists('ffprobe.exe')" />
+    <InternalsVisibleTo Include="EkranKaydi.Tests" />
+    <Content Include="..\assets\app.ico" Link="assets\app.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\icon.png" Link="assets\icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\launcher.json" Link="assets\launcher.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

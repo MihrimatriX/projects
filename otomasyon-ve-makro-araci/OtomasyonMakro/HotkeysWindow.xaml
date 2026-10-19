@@ -1,0 +1,93 @@
+<Window x:Class="OtomasyonMakro.HotkeysWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:helpers="clr-namespace:OtomasyonMakro.Helpers"
+        Title="Hotkey ve Profiller"
+        Height="520" Width="720" MinWidth="600"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource PrimaryBrush}">
+
+    <Window.Resources>
+        <helpers:BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Window.Resources>
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Kısayol atamaları" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,16" />
+
+        <Border Grid.Row="1" Padding="12" CornerRadius="10" Background="{StaticResource SafeBgBrush}" Margin="0,0,0,16">
+            <TextBlock Text="Güvenli mod açıkken hotkey'ler yalnızca kayıtlı hedef pencerede tetiklenir."
+                       FontSize="13" Foreground="{StaticResource SuccessBrush}" TextWrapping="Wrap" />
+        </Border>
+
+        <Border Grid.Row="2" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="10"
+                Background="{StaticResource PanelBrush}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Border Background="{StaticResource HoverBrush}" Padding="12,10" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="1.4*" />
+                            <ColumnDefinition Width="120" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="TUŞ KOMBİNASYONU" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource MutedBrush}" />
+                        <TextBlock Grid.Column="1" Text="MAKRO" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource MutedBrush}" />
+                        <TextBlock Grid.Column="2" Text="EYLEM" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource MutedBrush}" />
+                    </Grid>
+                </Border>
+                <ListBox Grid.Row="1" ItemsSource="{Binding HotkeyAssignments}" Background="Transparent" BorderThickness="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="12,10" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding HasConflict}" Value="True">
+                                                <Setter Property="Background" Value="#20EF4444" />
+                                                <Setter Property="BorderThickness" Value="3,0,0,1" />
+                                                <Setter Property="BorderBrush" Value="{StaticResource DangerBrush}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="1.4*" />
+                                        <ColumnDefinition Width="120" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Key}" FontFamily="{StaticResource MonoFont}" FontWeight="Medium" />
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                        <TextBlock Text="{Binding MacroName}" />
+                                        <TextBlock Text=" çakışma" FontSize="10" FontWeight="Bold" Foreground="{StaticResource DangerBrush}"
+                                                   Visibility="{Binding HasConflict, Converter={StaticResource BoolToVis}}" Margin="6,0,0,0" />
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="2" Text="{Binding Action}" Foreground="{StaticResource MutedBrush}" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Border>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,16,0,0">
+            <Button Content="Çakışmayı çöz" Command="{Binding ResolveHotkeyConflictCommand}" Style="{StaticResource BtnAccent}" Margin="0,0,8,0" />
+            <Button Content="Kapat" Command="{Binding CloseHotkeysCommand}" Style="{StaticResource BtnBase}" />
+        </StackPanel>
+
+        <TextBlock Grid.Row="4" Margin="0,12,0,0" FontSize="11" Foreground="{StaticResource MutedBrush}"
+                   Text="{Binding HotkeyConflictCount, StringFormat='{}{0} çakışma tespit edildi'}" />
+    </Grid>
+</Window>

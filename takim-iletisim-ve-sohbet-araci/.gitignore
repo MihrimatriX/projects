@@ -1,0 +1,13 @@
+node_modules/
+.next/
+uploads/
+*.db
+*.db-journal
+.env
+.env.local
+dist/
+coverage/
+desktop/stage/
+desktop/out/
+test-results/
+playwright-report/

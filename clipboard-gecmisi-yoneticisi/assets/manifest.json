@@ -1,0 +1,10 @@
+{
+  "id": "clipboard-gecmisi-yoneticisi",
+  "name": "Pano Geçmişi Yöneticisi",
+  "version": "1.2.0",
+  "description": "Kopyalanan metin, bağlantı, kod, görsel ve dosya yollarını yerel SQLite'ta saklayan, global kısayolla açılan sistem tepsisi pano geçmişi aracı.",
+  "launch": "run.ps1",
+  "platforms": ["windows"],
+  "tags": ["pano", "clipboard", "wpf", "tepsi", "kısayol", "şifreleme"],
+  "category": "Verimlilik"
+}

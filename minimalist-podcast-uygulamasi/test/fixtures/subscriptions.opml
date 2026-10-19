@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="2.0">
+  <head><title>Abonelikler</title></head>
+  <body>
+    <outline text="Gruplu">
+      <outline type="rss" text="Bir" xmlUrl="https://ornek.test/bir.xml"/>
+      <outline type="RSS" text="Iki" xmlUrl="https://ornek.test/iki.xml"/>
+    </outline>
+    <outline text="Tipsiz" xmlUrl="https://ornek.test/uc.xml"/>
+    <outline type="rss" text="Bir tekrar" xmlUrl="https://ornek.test/bir.xml"/>
+  </body>
+</opml>

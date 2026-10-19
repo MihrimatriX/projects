@@ -1,0 +1,10 @@
+{
+  "id": "metin-donusturucu",
+  "name": "Metin Dönüştürücü",
+  "description": "DevUtils/CyberChef tarzı 29 metin aracı — Flutter masaüstü, çevrimdışı",
+  "version": "1.0.0",
+  "platform": "windows",
+  "runScript": "run.ps1",
+  "icon": "assets/icon.png",
+  "appIcon": "assets/app.ico"
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=320" />
+  <title>Kayıtlı Okuma</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header class="popup-header">
+    <span class="popup-title">Kayıtlı Okuma</span>
+    <button type="button" class="popup-settings" id="list-btn" aria-label="Okuma listesi" title="Okuma listesi">☰</button>
+  </header>
+
+  <main class="popup-body">
+    <div class="page-preview">
+      <div id="page-meta" class="page-domain"></div>
+      <h2 id="page-title" class="page-title">Yükleniyor…</h2>
+    </div>
+
+    <div>
+      <label for="tag-input" class="field-label">Etiketler</label>
+      <input id="tag-input" type="text" placeholder="virgülle ayırın" />
+      <div id="quick-tags" class="quick-tags"></div>
+    </div>
+
+    <p id="status" class="status" aria-live="polite"></p>
+  </main>
+
+  <footer class="popup-footer">
+    <button id="save-btn" class="btn-save" type="button">Kaydet</button>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

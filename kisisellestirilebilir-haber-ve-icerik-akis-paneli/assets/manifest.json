@@ -1,0 +1,25 @@
+{
+  "id": "kisisellestirilebilir-haber-ve-icerik-akis-paneli",
+  "name": "Haber Akış Paneli",
+  "version": "1.0.0",
+  "description": "RSS/Atom akışlarını yerel SQLite'ta toplayan üç sütunlu haber okuyucu. Klasörler, OPML içe/dışa aktarma, okundu/yıldız ve J/K klavye gezinmesi.",
+  "icon": "assets/icon.png",
+  "iconSvg": "assets/icon.svg",
+  "appIcon": "assets/app.ico",
+  "launch": "run.ps1",
+  "entry": "src/app/page.tsx",
+  "settings": "src/app/settings/page.tsx",
+  "platforms": [
+    "windows",
+    "web"
+  ],
+  "tags": [
+    "rss",
+    "haber",
+    "okuyucu",
+    "opml",
+    "nextjs",
+    "electron"
+  ],
+  "category": "İletişim ve Okuma"
+}

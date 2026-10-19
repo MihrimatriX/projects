@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DEV Projects</title>
+<meta name="description" content="Windows odaklı, verisini cihazda tutan 41 bağımsız masaüstü ve web uygulaması.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23111'/%3E%3Cpath d='M9 10h14M9 16h14M9 22h8' stroke='%23fff' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FBFBFA; --surface: #FFFFFF; --soft: #F7F6F3; --line: #EAEAEA;
+    --text: #2F3437; --strong: #111111; --muted: #787774;
+    --sans: 'Geist', 'Helvetica Neue', sans-serif;
+    --serif: 'Instrument Serif', 'Newsreader', serif;
+    --mono: 'Geist Mono', 'SF Mono', monospace;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #191919; --surface: #202020; --soft: #262626; --line: #2F2F2F;
+      --text: #D4D4D2; --strong: #F2F2F0; --muted: #8F8F8C;
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  img { display: block; max-width: 100%; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+  /* Hero */
+  header.wrap { padding-top: 96px; padding-bottom: 56px; }
+  .eyebrow { font: 500 12px/1 var(--mono); color: var(--muted); letter-spacing: .04em; }
+  h1 { font: 400 clamp(44px, 7vw, 76px)/1.05 var(--serif); letter-spacing: -0.03em; color: var(--strong); margin: 20px 0 20px; max-width: 14ch; }
+  .lead { font-size: 18px; color: var(--muted); max-width: 56ch; margin: 0 0 32px; }
+  .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 6px; font: 500 14px var(--sans); text-decoration: none; border: 1px solid var(--line); background: var(--surface); color: var(--strong); transition: background .2s, transform .1s; }
+  .btn:active { transform: scale(0.98); }
+  .btn.primary { background: var(--strong); color: var(--bg); border-color: var(--strong); }
+  .btn.primary:hover { opacity: .88; }
+  .stats { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); font: 13px var(--mono); color: var(--muted); }
+  .stats b { color: var(--strong); font-weight: 500; }
+
+  /* Filtreler */
+  .bar { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+  .bar .wrap { display: flex; gap: 16px; align-items: center; padding-top: 12px; padding-bottom: 12px; flex-wrap: wrap; }
+  .search { flex: 1 1 220px; max-width: 320px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--strong); font: 14px var(--sans); }
+  .search:focus { outline: 2px solid var(--strong); outline-offset: -1px; }
+  .chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+  .chip { flex: none; padding: 6px 12px; border: 1px solid var(--line); border-radius: 6px; background: transparent; color: var(--muted); font: 13px var(--sans); cursor: pointer; }
+  .chip:hover { color: var(--strong); }
+  .chip[aria-pressed="true"] { background: var(--strong); border-color: var(--strong); color: var(--bg); }
+  .chip small { font-family: var(--mono); opacity: .6; margin-left: 4px; }
+
+  /* Kartlar */
+  main.wrap { padding-top: 40px; padding-bottom: 96px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+  .card { display: flex; flex-direction: column; text-align: left; padding: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); overflow: hidden; cursor: pointer; color: inherit; font: inherit; transition: box-shadow .2s, border-color .2s; animation: rise .6s var(--ease) both; animation-delay: calc(min(var(--i), 12) * 40ms); }
+  .card:hover { box-shadow: 0 2px 12px rgba(0,0,0,.05); border-color: color-mix(in srgb, var(--line), var(--muted) 30%); }
+  .card:focus-visible { outline: 2px solid var(--strong); outline-offset: 2px; }
+  .shot { aspect-ratio: 16 / 10; width: 100%; height: auto; object-fit: cover; object-position: top; background: var(--soft); border-bottom: 1px solid var(--line); }
+  .body { padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .card h3 { margin: 0; font: 600 16px/1.3 var(--sans); color: var(--strong); flex: 1; }
+  .desc { margin: 0; color: var(--muted); font-size: 14px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .meta { margin-top: auto; padding-top: 8px; font: 12px var(--mono); color: var(--muted); }
+  .empty { padding: 64px 0; text-align: center; color: var(--muted); }
+  @keyframes rise { from { opacity: 0; transform: translateY(12px); } }
+
+  .badge { font: 500 10.5px/1 var(--sans); letter-spacing: .05em; text-transform: uppercase; padding: 5px 8px; border-radius: 999px; background: #F1F1EF; color: #5F5E5B; white-space: nowrap; }
+  .badge[data-s="Python"]   { background: #FBF3DB; color: #956400; }
+  .badge[data-s="Flutter"]  { background: #E1F3FE; color: #1F6C9F; }
+  .badge[data-s=".NET"]     { background: #F1EAF8; color: #6940A5; }
+  .badge[data-s="Electron"] { background: #EDF3EC; color: #346538; }
+  .badge[data-s="Next.js"], .badge[data-s="Node"] { background: #FDEBEC; color: #9F2F2D; }
+  kbd { font: 11.5px var(--mono); padding: 2px 6px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; background: var(--soft); color: var(--strong); }
+
+  /* Detay */
+  dialog { width: min(960px, calc(100vw - 32px)); max-height: calc(100vh - 48px); padding: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--text); }
+  dialog::backdrop { background: rgba(17,17,17,.35); backdrop-filter: blur(2px); }
+  dialog[open] { animation: rise .4s var(--ease); }
+  .d-head { display: flex; justify-content: space-between; align-items: start; gap: 16px; padding: 28px 32px 0; }
+  .d-head h2 { font: 400 40px/1.1 var(--serif); letter-spacing: -0.02em; color: var(--strong); margin: 8px 0 0; }
+  .close { border: 1px solid var(--line); background: var(--surface); color: var(--strong); border-radius: 6px; width: 32px; height: 32px; font-size: 18px; line-height: 1; cursor: pointer; flex: none; }
+  .d-body { padding: 20px 32px 32px; }
+  .viewer { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--soft); }
+  .viewer img { width: 100%; aspect-ratio: 16 / 10; object-fit: contain; }
+  .thumbs { display: flex; gap: 8px; margin-top: 10px; }
+  .thumbs button { padding: 0; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; width: 96px; cursor: pointer; opacity: .55; background: none; }
+  .thumbs button[aria-current="true"] { opacity: 1; border-color: var(--strong); }
+  .cols { display: grid; grid-template-columns: 1fr 260px; gap: 40px; margin-top: 28px; }
+  .cols h4 { font: 500 12px var(--mono); color: var(--muted); letter-spacing: .04em; text-transform: uppercase; margin: 0 0 12px; }
+  .features { margin: 0; padding: 0; list-style: none; }
+  .features li { padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+  .features li:first-child { padding-top: 0; }
+  dl { margin: 0 0 24px; display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; font-size: 13px; }
+  dt { color: var(--muted); }
+  dd { margin: 0; color: var(--strong); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+  .tags span { font: 12px var(--mono); color: var(--muted); }
+  .tags span::before { content: '#'; opacity: .5; }
+
+  /* Çalıştırma */
+  section.run { border-top: 1px solid var(--line); padding: 80px 0; }
+  section.run h2 { font: 400 40px/1.1 var(--serif); letter-spacing: -0.02em; color: var(--strong); margin: 0 0 12px; }
+  .run-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 32px; }
+  pre { margin: 0; padding: 20px 24px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); font: 13px/1.8 var(--mono); color: var(--strong); overflow-x: auto; }
+  pre .c { color: var(--muted); }
+  .note { border: 1px solid var(--line); border-radius: 12px; padding: 20px 24px; background: var(--surface); font-size: 14px; }
+  .note p { margin: 0 0 10px; }
+  .note p:last-child { margin: 0; }
+  footer { border-top: 1px solid var(--line); padding: 32px 0 48px; font: 12px var(--mono); color: var(--muted); }
+
+  @media (max-width: 760px) {
+    header.wrap { padding-top: 64px; padding-bottom: 40px; }
+    .cols, .run-grid { grid-template-columns: 1fr; gap: 28px; }
+    .grid { grid-template-columns: 1fr; }
+    .d-head, .d-body { padding-left: 20px; padding-right: 20px; }
+    .search { max-width: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, dialog[open] { animation: none !important; } }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="eyebrow" id="repo">github / projects</div>
+  <h1><span id="count">41</span> küçük, yerel ve sade uygulama.</h1>
+  <p class="lead">Windows odaklı masaüstü ve web araçları. Her klasör bağımsız bir proje; uygulamalar verilerini bilgisayarda tutar ve tek komutla çalışır.</p>
+  <div class="actions">
+    <a class="btn primary" id="gh" href="https://github.com/MihrimatriX/projects">GitHub'da incele</a>
+    <a class="btn" href="#calistirma">Nasıl çalıştırılır</a>
+  </div>
+  <div class="stats" id="stats"></div>
+</header>
+
+<div class="bar">
+  <div class="wrap">
+    <input class="search" id="q" type="search" placeholder="Ara: regex, pomodoro, şifreleme…" aria-label="Projelerde ara">
+    <div class="chips" id="chips" role="toolbar" aria-label="Kategori"></div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="grid" id="grid"></div>
+  <p class="empty" id="empty" hidden>Eşleşen proje yok.</p>
+</main>
+
+<section class="run" id="calistirma">
+  <div class="wrap">
+    <h2>Çalıştırma</h2>
+    <p class="lead" style="margin:0">Repoyu klonlayın; başlatıcı eksik araçları <code>winget</code> ile kurmayı önerir.</p>
+    <div class="run-grid">
+<pre><span class="c"># grafik başlatıcı</span>
+.\DevProjects.exe
+<span class="c"># konsol menüsü</span>
+.\launcher.cmd
+<span class="c"># isim parçasıyla doğrudan başlat</span>
+.\launcher.ps1 -Run regex
+<span class="c"># gerekli SDK'lar kurulu mu?</span>
+.\launcher.ps1 -Doctor
+<span class="c"># bağımsız exe üret (dist\&lt;proje&gt;\)</span>
+.\launcher.ps1 -Publish all</pre>
+      <div class="note">
+        <p><b>Gereksinimler:</b> .NET 10 SDK, Flutter 3.x, Python 3.11+, Node.js 22.12+. İsteğe bağlı: Rust, ffmpeg.</p>
+        <p>Her projenin <code>run.ps1</code> dosyası tek başına da çalışır; testler için <code>.\run.ps1 -Check</code>.</p>
+        <p>Flutter projelerinin Windows exe'si için Windows Geliştirici Modu açık olmalıdır.</p>
+        <p><code>run.ps1</code> açılmıyorsa: <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap" id="foot">DEV Projects</div></footer>
+
+<dialog id="detail" aria-labelledby="d-title">
+  <div class="d-head">
+    <div>
+      <div class="row" id="d-badges"></div>
+      <h2 id="d-title"></h2>
+    </div>
+    <button class="close" id="d-close" aria-label="Kapat">&times;</button>
+  </div>
+  <div class="d-body">
+    <div class="viewer"><img id="d-img" alt=""></div>
+    <div class="thumbs" id="d-thumbs"></div>
+    <div class="cols">
+      <div>
+        <p id="d-desc" style="margin:0 0 24px;font-size:16px;color:var(--strong)"></p>
+        <h4>Özellikler</h4>
+        <ul class="features" id="d-features"></ul>
+      </div>
+      <aside>
+        <h4>Bilgi</h4>
+        <dl id="d-info"></dl>
+        <div class="tags" id="d-tags"></div>
+        <a class="btn primary" id="d-link" target="_blank" rel="noopener">Kaynak ve README</a>
+      </aside>
+    </div>
+  </div>
+</dialog>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => `&#${c.charCodeAt(0)};`);
+let data, category = 'Tümü';
+
+// "Şifreleme" ve "sifreleme" aynı sonucu versin: tr küçük harf, aksanlar ve ı -> i.
+const fold = s => String(s ?? '').toLocaleLowerCase('tr').normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/ı/g, 'i');
+
+// Her kelime ad, açıklama, etiket, özellik, teknoloji veya kısayolda bir yerde geçmeli.
+function matches(p, q) {
+  p.hay ??= fold([p.name, p.description, p.stack, p.hotkey, p.id, ...p.tags, ...p.features].join(' '));
+  return fold(q).split(/\s+/).filter(Boolean).every(w => p.hay.includes(w));
+}
+
+function card(p, i) {
+  return `<button class="card" style="--i:${i}" data-id="${esc(p.id)}">
+    ${p.shots[0] ? `<img class="shot" src="${esc(p.shots[0])}" alt="" loading="lazy" width="1280" height="800">` : ''}
+    <div class="body">
+      <div class="row"><h3>${esc(p.name)}</h3><span class="badge" data-s="${esc(p.stack)}">${esc(p.stack)}</span></div>
+      <p class="desc">${esc(p.description)}</p>
+      <div class="meta row">${p.hotkey ? `<kbd>${esc(p.hotkey)}</kbd>` : ''}<span>v${esc(p.version)} · ${esc(p.category)}</span></div>
+    </div>
+  </button>`;
+}
+
+function render() {
+  const q = $('q').value.trim();
+  const list = data.projects.filter(p => (category === 'Tümü' || p.category === category) && matches(p, q));
+  $('grid').innerHTML = list.map(card).join('');
+  $('empty').hidden = list.length > 0;
+}
+
+function chips() {
+  const counts = {};
+  for (const p of data.projects) counts[p.category] = (counts[p.category] || 0) + 1;
+  const cats = [['Tümü', data.projects.length], ...Object.entries(counts).sort((a, b) => b[1] - a[1])];
+  $('chips').innerHTML = cats.map(([c, n]) =>
+    `<button class="chip" aria-pressed="${c === category}" data-c="${esc(c)}">${esc(c)}<small>${n}</small></button>`).join('');
+}
+
+function open(id) {
+  const p = data.projects.find(x => x.id === id);
+  if (!p) return;
+  $('d-title').textContent = p.name;
+  $('d-badges').innerHTML = `<span class="badge" data-s="${esc(p.stack)}">${esc(p.stack)}</span><span class="badge">${esc(p.category)}</span>`;
+  $('d-desc').textContent = p.description;
+  $('d-features').innerHTML = p.features.map(f => `<li>${esc(f)}</li>`).join('');
+  $('d-info').innerHTML = [
+    ['Sürüm', p.version], ['Teknoloji', p.stack], ['Kısayol', p.hotkey && `<kbd>${esc(p.hotkey)}</kbd>`], ['Klasör', `<code>${esc(p.id)}</code>`],
+  ].filter(r => r[1]).map(([k, v]) => `<dt>${k}</dt><dd>${k === 'Kısayol' || k === 'Klasör' ? v : esc(v)}</dd>`).join('');
+  $('d-tags').innerHTML = p.tags.map(t => `<span>${esc(t)}</span>`).join('');
+  $('d-link').href = `https://github.com/${data.repo}/tree/main/${p.id}`;
+  const show = i => {
+    $('d-img').src = p.shots[i] ?? '';
+    $('d-img').alt = `${p.name} ekran görüntüsü`;
+    [...$('d-thumbs').children].forEach((b, j) => b.setAttribute('aria-current', i === j));
+  };
+  $('d-thumbs').innerHTML = p.shots.length > 1
+    ? p.shots.map((s, i) => `<button data-i="${i}" aria-label="Görsel ${i + 1}"><img src="${esc(s)}" alt="" loading="lazy"></button>`).join('')
+    : '';
+  $('d-thumbs').onclick = e => { const b = e.target.closest('button'); if (b) show(+b.dataset.i); };
+  show(0);
+  if (location.hash !== '#' + id) history.replaceState(null, '', '#' + id);
+  if (!$('detail').open) $('detail').showModal();
+  $('detail').scrollTop = 0;
+}
+
+$('grid').onclick = e => { const c = e.target.closest('.card'); if (c) open(c.dataset.id); };
+$('chips').onclick = e => { const c = e.target.closest('.chip'); if (c) { category = c.dataset.c; chips(); render(); } };
+$('q').oninput = render;
+$('d-close').onclick = () => $('detail').close();
+$('detail').onclick = e => { if (e.target === $('detail')) $('detail').close(); };
+$('detail').onclose = () => history.replaceState(null, '', location.pathname);
+
+fetch('projects.json').then(r => r.json()).then(d => {
+  data = d;
+  const stacks = {};
+  for (const p of d.projects) stacks[p.stack] = (stacks[p.stack] || 0) + 1;
+  $('count').textContent = d.projects.length;
+  $('repo').textContent = d.repo.replace('/', ' / ');
+  $('gh').href = `https://github.com/${d.repo}`;
+  $('foot').textContent = `${d.repo} · ${d.projects.length} proje`;
+  $('stats').innerHTML = Object.entries(stacks).sort((a, b) => b[1] - a[1]).map(([s, n]) => `<span><b>${n}</b> ${esc(s)}</span>`).join('');
+  chips();
+  render();
+  if (location.hash.length > 1) open(decodeURIComponent(location.hash.slice(1)));
+});
+</script>
+</body>
+</html>

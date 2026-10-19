@@ -1,0 +1,268 @@
+<UserControl x:Class="DosyaSifreleme.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:DosyaSifreleme.ViewModels"
+             Background="{StaticResource BgAppBrush}"
+             AllowDrop="True"
+             DragOver="OnDragOver"
+             Drop="OnDrop"
+             Loaded="OnLoaded" Unloaded="OnUnloaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#0F4FC3F7" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="16,10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="ℹ" Foreground="{StaticResource AccentBrush}" Margin="0,0,8,0" />
+                <TextBlock Text="Verileriniz yalnızca cihazınızda işlenir"
+                           FontSize="13"
+                           Foreground="{StaticResource SubTextBrush}" />
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1" Background="{StaticResource BgVaultBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="16,8">
+            <Grid>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="+ Ekle" Command="{Binding AddFileCommand}" Style="{StaticResource SmallPrimaryButton}" Margin="0,0,8,0"
+                            AutomationProperties.AutomationId="AddButton" ToolTip="Kasaya dosya ekle (Ctrl+O)" />
+                    <Button Content="Çıkar" Command="{Binding RequestExportCommand}" Style="{StaticResource SmallGhostButton}" Margin="0,0,8,0"
+                            AutomationProperties.AutomationId="ExportButton" ToolTip="Seçili dosyayı deşifre ederek dışarı kaydet (Enter)"
+                            IsEnabled="{Binding SelectedFile, Converter={StaticResource NullToBoolConverter}}" />
+                    <Button Content="Tümünü çıkar" Command="{Binding ExportAllCommand}" Style="{StaticResource SmallGhostButton}" Margin="0,0,8,0"
+                            AutomationProperties.AutomationId="ExportAllButton" ToolTip="Tüm dosyaları seçilen klasöre deşifre et (yedek)"
+                            IsEnabled="{Binding Files.Count, Converter={StaticResource NullToBoolConverter}}" />
+                    <Button Content="Sil" Command="{Binding DeleteFileCommand}" Style="{StaticResource SmallGhostButton}" Margin="0,0,8,0"
+                            AutomationProperties.AutomationId="DeleteButton"
+                            ToolTip="Seçili dosyayı kasadan kalıcı olarak sil (Delete)"
+                            IsEnabled="{Binding SelectedFile, Converter={StaticResource NullToBoolConverter}}" />
+                    <Button Content="Kilitle" Command="{Binding LockVaultCommand}" Style="{StaticResource SmallGhostButton}"
+                            AutomationProperties.AutomationId="LockButton" ToolTip="Kasayı kilitle (Ctrl+L)" />
+                    <CheckBox Content="Ekledikten sonra orijinali sil" IsChecked="{Binding DeleteOriginalAfterAdd}"
+                              AutomationProperties.AutomationId="MoveCheckBox"
+                              Foreground="{StaticResource SubTextBrush}" FontSize="13" VerticalAlignment="Center" Margin="16,0,0,0"
+                              ToolTip="Şifreli kopya diske yazılıp doğrulandıktan sonra orijinal dosyanın üzerine yazılır ve silinir" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock Text="{Binding AutoLockText}"
+                               AutomationProperties.AutomationId="AutoLockText"
+                               FontSize="13"
+                               VerticalAlignment="Center"
+                               Margin="0,0,12,0"
+                               Foreground="{StaticResource SubTextBrush}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsAutoLockWarning}" Value="True">
+                                        <Setter Property="Foreground" Value="{StaticResource WarningBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <Grid Width="180" Height="32">
+                        <TextBox x:Name="SearchBox"
+                                 AutomationProperties.AutomationId="SearchBox"
+                                 AutomationProperties.Name="Dosya ara"
+                                 Style="{StaticResource VaultTextBox}"
+                                 FontSize="13"
+                                 Padding="10,0"
+                                 VerticalContentAlignment="Center"
+                                 ToolTip="Dosya adında ara (Ctrl+F, Esc temizler)"
+                                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Text="Ara… (Ctrl+F)" FontSize="13" Margin="13,0,0,0" VerticalAlignment="Center"
+                                   Foreground="{StaticResource MutedBrush}" IsHitTestVisible="False"
+                                   Visibility="{Binding SearchText, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}" />
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="240" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Background="{StaticResource BgVaultBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,1,0">
+                <StackPanel Margin="16,12">
+                    <TextBlock Text="KASA" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource MutedBrush}" Margin="0,0,0,10" />
+                    <TextBlock Text="{Binding VaultDisplayName}" AutomationProperties.AutomationId="VaultName"
+                               FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource TextBrush}" TextTrimming="CharacterEllipsis"
+                               ToolTip="{Binding VaultPath}" />
+                    <TextBlock Text="{Binding VaultPath}" FontSize="11" Foreground="{StaticResource MutedBrush}"
+                               TextTrimming="CharacterEllipsis" Margin="0,2,0,12" ToolTip="{Binding VaultPath}" />
+                    <Grid Margin="0,0,0,4">
+                        <TextBlock Text="Dosya" FontSize="13" Foreground="{StaticResource SubTextBrush}" />
+                        <TextBlock Text="{Binding Files.Count}" AutomationProperties.AutomationId="FileCount" FontSize="13"
+                                   Foreground="{StaticResource TextBrush}" HorizontalAlignment="Right" />
+                    </Grid>
+                    <Grid Margin="0,0,0,16">
+                        <TextBlock Text="Toplam boyut" FontSize="13" Foreground="{StaticResource SubTextBrush}" />
+                        <TextBlock Text="{Binding TotalSizeText}" AutomationProperties.AutomationId="TotalSize" FontSize="13"
+                                   Foreground="{StaticResource TextBrush}" HorizontalAlignment="Right" />
+                    </Grid>
+                    <TextBlock Text="OTOMATİK KİLİT" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource MutedBrush}" Margin="0,0,0,6" />
+                    <ComboBox ItemsSource="{Binding AutoLockChoices}" SelectedItem="{Binding AutoLockMinutes}"
+                              AutomationProperties.AutomationId="AutoLockCombo"
+                              AutomationProperties.Name="Otomatik kilit süresi (dakika)"
+                              ToolTip="Bu süre boyunca fare/klavye hareketi olmazsa kasa kilitlenir">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding StringFormat={}{0} dakika}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+            </Border>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <ListBox Grid.Row="0"
+                         x:Name="FileList"
+                         AutomationProperties.AutomationId="FileList"
+                         AutomationProperties.Name="Kasadaki dosyalar"
+                         ItemsSource="{Binding FilteredFiles}"
+                         SelectedItem="{Binding SelectedFile}"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         ItemContainerStyle="{StaticResource FileListItem}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Text="🔒" FontSize="12" VerticalAlignment="Center" Margin="0,0,12,0" />
+                                <TextBlock Grid.Column="1" Text="{Binding FileName}" FontSize="14" FontWeight="Medium"
+                                           VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                <Border Grid.Column="2" Margin="8,0"
+                                        Background="#1F66BB6A"
+                                        CornerRadius="10"
+                                        Padding="8,2"
+                                        VerticalAlignment="Center">
+                                    <TextBlock Text="Şifreli" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource AccentSecureBrush}" />
+                                </Border>
+                                <TextBlock Grid.Column="3" Text="{Binding DisplaySize}" FontSize="12"
+                                           Foreground="{StaticResource MutedBrush}"
+                                           VerticalAlignment="Center"
+                                           MinWidth="64"
+                                           TextAlignment="Right"
+                                           Margin="0,0,8,0" />
+                                <StackPanel Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Button Content="Çıkar"
+                                            Style="{StaticResource SmallGhostButton}"
+                                            AutomationProperties.Name="{Binding FileName, StringFormat='Çıkar: {0}'}"
+                                            Margin="0,0,4,0"
+                                            Command="{Binding DataContext.RequestExportCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}" />
+                                    <Button Content="Bilgi"
+                                            Style="{StaticResource SmallGhostButton}"
+                                            AutomationProperties.Name="{Binding FileName, StringFormat='Bilgi: {0}'}"
+                                            Command="{Binding DataContext.ShowFileInfoCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}" />
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <StackPanel Grid.Row="0"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Visibility="{Binding IsSearchEmpty, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="Eşleşen dosya yok" AutomationProperties.AutomationId="NoMatchText"
+                               FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource TextBrush}" HorizontalAlignment="Center" />
+                    <Button Content="Aramayı temizle" Command="{Binding ClearSearchCommand}" Style="{StaticResource SmallGhostButton}"
+                            AutomationProperties.AutomationId="ClearSearchButton"
+                            HorizontalAlignment="Center" Margin="0,12,0,0" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="0"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Visibility="{Binding Files.Count, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}">
+                    <TextBlock Text="⬆" FontSize="32" Foreground="{StaticResource BorderSecureBrush}" HorizontalAlignment="Center" Margin="0,0,0,12" />
+                    <TextBlock Text="Kasa boş" AutomationProperties.AutomationId="EmptyText" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource TextBrush}" HorizontalAlignment="Center" />
+                    <TextBlock Text="Dosyaları buraya sürükleyin veya Ekle ile kasaya şifreli dosya ekleyin."
+                               FontSize="14" Foreground="{StaticResource SubTextBrush}"
+                               TextWrapping="Wrap" MaxWidth="320" TextAlignment="Center" Margin="0,8,0,16" />
+                    <Button Content="Dosya ekle" Command="{Binding AddFileCommand}" Style="{StaticResource SmallPrimaryButton}" HorizontalAlignment="Center" />
+                </StackPanel>
+
+                <Border Grid.Row="1" Background="{StaticResource BgVaultBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0" Padding="16,6">
+                    <Grid>
+                        <ProgressBar IsIndeterminate="True" Height="2" Margin="-16,-6,-16,0" VerticalAlignment="Top"
+                                     Foreground="{StaticResource AccentBrush}" Background="Transparent" BorderThickness="0"
+                                     AutomationProperties.AutomationId="BusyBar"
+                                     Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <TextBlock Text="{Binding FileCountText}" AutomationProperties.AutomationId="FileCountText" FontSize="12" Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding StatusMessage}" FontSize="12" Foreground="{StaticResource SubTextBrush}"
+                                   AutomationProperties.AutomationId="StatusText"
+                                   TextTrimming="CharacterEllipsis" Margin="150,0,260,0"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   Visibility="{Binding StatusMessage, Converter={StaticResource NullToVisibilityConverter}}" />
+                        <TextBlock Text="Ctrl+O ekle · Enter çıkar · Del sil · Ctrl+L kilitle" FontSize="12" Foreground="{StaticResource MutedBrush}"
+                                   HorizontalAlignment="Right" VerticalAlignment="Center" FontFamily="Consolas" />
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <Border Grid.RowSpan="3"
+                AutomationProperties.AutomationId="ExportOverlay"
+                Background="#B8080B10"
+                Visibility="{Binding IsExportDialogOpen, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Border Width="440" Padding="24"
+                    VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Background="{StaticResource BgVaultBrush}"
+                    BorderBrush="{StaticResource BorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="12">
+                <StackPanel>
+                    <TextBlock Text="⚠" FontSize="28" Foreground="{StaticResource WarningBrush}" Margin="0,0,0,16" />
+                    <TextBlock Text="Dosyayı çıkar" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource TextBrush}" Margin="0,0,0,8" />
+                    <TextBlock TextWrapping="Wrap" FontSize="14" Foreground="{StaticResource SubTextBrush}" Margin="0,0,0,20">
+                        <Run Text="{Binding ExportTarget.FileName, Mode=OneWay}" FontWeight="SemiBold" />
+                        <Run Text=" kasadan çıkarılacak ve geçici olarak deşifre edilecek. Devam etmek istediğinize emin misiniz?" />
+                    </TextBlock>
+
+                    <StackPanel Visibility="{Binding IsExporting, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,0,0,12">
+                        <ProgressBar IsIndeterminate="True" Height="4" Margin="0,0,0,8" />
+                        <TextBlock Text="Deşifre ediliyor…" FontSize="13" Foreground="{StaticResource SubTextBrush}" HorizontalAlignment="Center" />
+                    </StackPanel>
+
+                    <TextBlock Text="{Binding ExportError}"
+                               AutomationProperties.AutomationId="ExportError"
+                               TextWrapping="Wrap"
+                               FontSize="13"
+                               Foreground="{StaticResource DangerBrush}"
+                               Margin="0,0,0,12"
+                               Visibility="{Binding ExportError, Converter={StaticResource NullToVisibilityConverter}}" />
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="İptal" Command="{Binding CancelExportCommand}" Style="{StaticResource GhostButton}" Margin="0,0,8,0"
+                                AutomationProperties.AutomationId="CancelExportButton"
+                                Visibility="{Binding IsExporting, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}" />
+                        <Button Content="Çıkar ve deşifrele" Command="{Binding ConfirmExportCommand}" Style="{StaticResource PrimaryButton}"
+                                AutomationProperties.AutomationId="ConfirmExportButton"
+                                Visibility="{Binding IsExporting, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverse}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Border>
+    </Grid>
+</UserControl>
