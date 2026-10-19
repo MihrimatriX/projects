@@ -20,11 +20,6 @@ packaging/certs/
 packaging/layout/
 *.pfx
 
-# --- macOS Swift (Xcode) ---
-macos/**/DerivedData/
-macos/**/.build/
-macos/**/xcuserdata/
-*.xcuserstate
 
 # --- IDE / OS ---
 .idea/
