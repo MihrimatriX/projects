@@ -1,6 +1,6 @@
 {
   "id": "yerel-webhook-test-araci",
-  "name": "HookYerel — Yerel Webhook Test Aracı",
+  "name": "HookYerel: Yerel Webhook Test Aracı",
   "version": "1.1.0",
   "description": "Webhook isteklerini internete açmadan 127.0.0.1 üzerinde yakalayan, mock yanıt veren ve Stripe/GitHub/Shopify imzalarını doğrulayan masaüstü aracı.",
   "category": "Geliştirici Araçları",

@@ -1,6 +1,6 @@
 {
   "id": "zaman-takip-ve-pomodoro-araci",
-  "name": "Odaklanma — Zaman Takip ve Pomodoro",
+  "name": "Odaklanma: Zaman Takip ve Pomodoro",
   "version": "1.0.0",
   "description": "Proje bazlı süre kaydı, günlük rapor ve Pomodoro sayacı sunan Windows masaüstü uygulaması. Veriler yerel SQLite'ta tutulur.",
   "platform": "windows",

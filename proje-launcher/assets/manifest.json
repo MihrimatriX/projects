@@ -6,5 +6,5 @@
   "launch": "run.ps1",
   "platforms": ["windows"],
   "tags": ["launcher", "wpf", "fluent", "galeri", "monorepo"],
-  "category": "Geliştirici araçları"
+  "category": "Geliştirici Araçları"
 }
